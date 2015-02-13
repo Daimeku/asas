@@ -7,7 +7,7 @@
  */
 
 use Illuminate\Database\Seeder;
-
+use App\Models\User;
 
 class UsersTableSeeder extends Seeder {
 
@@ -18,11 +18,13 @@ class UsersTableSeeder extends Seeder {
 
 
         DB::table('user_types')->insert([
+            ['type' => 'admin'],
             ['type' => 'teacher'],
             ['type' => 'student']
+
         ]);
 
-        \App\User::create([
+        User::create([
             'name' => 'mohamed',
             'email' => 'email@gmail.com',
             'password' => bcrypt('password'),
