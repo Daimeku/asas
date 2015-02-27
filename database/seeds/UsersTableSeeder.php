@@ -21,6 +21,11 @@ class UsersTableSeeder extends Seeder {
             ['type' => 'teacher'],
             ['type' => 'student']
         ]);
+		
+		DB::table('assessment_types')->insert([
+			['type' => 'assignment'],
+			['type' => 'test']
+		]);
 
         \App\User::create([
             'name' => 'mohamed',
