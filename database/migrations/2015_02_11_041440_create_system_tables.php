@@ -5,14 +5,19 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSystemTables extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
         Schema::create('user_types', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('type');
+        });
+
+        Schema::create('assessment_types', function(Blueprint $table) {
             $table->increments('id');
             $table->string('type');
         });
@@ -43,7 +48,7 @@ class CreateSystemTables extends Migration {
             $table->foreign('faculty_id')->references('id')->on('faculties');
         });
 
-		Schema::create('courses', function(Blueprint $table){
+        Schema::create('courses', function(Blueprint $table){
             $table->increments('id');
             $table->text('description');
             $table->string('code', 10);
@@ -52,23 +57,33 @@ class CreateSystemTables extends Migration {
             $table->foreign('school_id')->references('id')->on('schools');
         });
 
-        Schema::create('assignments', function(Blueprint $table){
-           $table->increments('id');
+        Schema::create('assessments', function(Blueprint $table){
+            $table->increments('id');
             $table->string('title');
             $table->longText('description');
             $table->text('filepath');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->unsignedInteger('assessment_type');
+            $table->foreign('assessment_type')->references('id')->on('assessment_types');
             $table->unsignedInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
         });
 
+        Schema::create('assessment_instances', function(Blueprint $table){
+            $table->increments('id');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->unsignedInteger('assessment_id');
+            $table->foreign('assessment_id')->references('id')->on('assessments');
+        });
+
         Schema::create('submissions', function(Blueprint $table){
-           $table->increments('id');
+            $table->increments('id');
             $table->text('filepath');
             $table->dateTime('time');
-            $table->unsignedInteger('assignment_id');
-            $table->foreign('assignment_id')->references('id')->on('assignments');
+            $table->unsignedInteger('assessment_id');
+            $table->foreign('assessment_id')->references('id')->on('assessment');
         });
 
         Schema::create('user_submissions', function(Blueprint $table){
@@ -88,24 +103,25 @@ class CreateSystemTables extends Migration {
         });
 
 
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::drop('users');
         Schema::drop('user_types');
+        Schema::drop('assessment_types');
         Schema::drop('faculties');
         Schema::drop('schools');
-		Schema::drop('courses');
-        Schema::drop('assignments');
+        Schema::drop('courses');
+        Schema::drop('assessment');
         Schema::drop('submissions');
         Schema::drop('user_submissions');
         Schema::drop('user_courses');
-	}
+    }
 
 }
