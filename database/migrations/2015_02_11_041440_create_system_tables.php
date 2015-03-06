@@ -83,7 +83,7 @@ class CreateSystemTables extends Migration {
             $table->text('filepath');
             $table->dateTime('time');
             $table->unsignedInteger('assessment_id');
-            $table->foreign('assessment_id')->references('id')->on('assessment');
+            $table->foreign('assessment_id')->references('id')->on('assessments');
         });
 
         Schema::create('user_submissions', function(Blueprint $table){
