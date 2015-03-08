@@ -112,16 +112,30 @@ class CreateSystemTables extends Migration {
      */
     public function down()
     {
+
+
+        Schema::drop('user_submissions');
+        Schema::drop('submissions');
+
+        Schema::drop('assessment_instances');
+        Schema::drop('assessments');
+        Schema::drop('assessment_types');
+
+        Schema::drop('user_courses');
+
+        Schema::drop('courses');
+
+
+
+
+        Schema::drop('schools');
+        Schema::drop('faculties');
+
+
+
         Schema::drop('users');
         Schema::drop('user_types');
-        Schema::drop('assessment_types');
-        Schema::drop('faculties');
-        Schema::drop('schools');
-        Schema::drop('courses');
-        Schema::drop('assessment');
-        Schema::drop('submissions');
-        Schema::drop('user_submissions');
-        Schema::drop('user_courses');
+
     }
 
 }
