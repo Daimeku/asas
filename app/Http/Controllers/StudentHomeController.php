@@ -2,12 +2,10 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models;
-use App\Models\Course;
 
 use Illuminate\Http\Request;
 
-class CoursesController extends Controller {
+class StudentHomeController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -17,8 +15,6 @@ class CoursesController extends Controller {
 	public function index()
 	{
 		//
-        $courses = Course::all();
-        return $courses;
 	}
 
 	/**
@@ -29,9 +25,6 @@ class CoursesController extends Controller {
 	public function create()
 	{
 		//
-        $course = Course::create([
-
-        ]);
 	}
 
 	/**

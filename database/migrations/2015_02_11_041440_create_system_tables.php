@@ -48,6 +48,7 @@ class CreateSystemTables extends Migration {
             $table->foreign('faculty_id')->references('id')->on('faculties');
         });
 
+
         Schema::create('courses', function(Blueprint $table){
             $table->increments('id');
             $table->text('description');
@@ -55,6 +56,14 @@ class CreateSystemTables extends Migration {
             $table->string('name');
             $table->unsignedInteger('school_id');
             $table->foreign('school_id')->references('id')->on('schools');
+        });
+
+
+        Schema::create('occurences', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('code');
+            $table->unsignedInteger('course_id');
+            $table->foreign('course_id')->references('id')->on('courses');
         });
 
         Schema::create('assessments', function(Blueprint $table){
@@ -78,10 +87,20 @@ class CreateSystemTables extends Migration {
             $table->foreign('assessment_id')->references('id')->on('assessments');
         });
 
+        Schema::create('submission_types', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('type');
+            // $table->unsignedInteger('submission_id');
+            // $table->foreign('submission_id')->references('id')->on('submissions');
+        });
+
         Schema::create('submissions', function(Blueprint $table){
             $table->increments('id');
             $table->text('filepath');
             $table->dateTime('time');
+            $table->boolean('accepted');
+            $table->unsignedInteger('submission_type');
+            $table->foreign('submission_type')->references('id')->on('submission_types');
             $table->unsignedInteger('assessment_id');
             $table->foreign('assessment_id')->references('id')->on('assessments');
         });
@@ -122,7 +141,7 @@ class CreateSystemTables extends Migration {
         Schema::drop('assessment_types');
 
         Schema::drop('user_courses');
-
+        Schema::drop('occurences');
         Schema::drop('courses');
 
 
