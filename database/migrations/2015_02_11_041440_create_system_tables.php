@@ -79,20 +79,6 @@ class CreateSystemTables extends Migration {
             $table->foreign('course_id')->references('id')->on('courses');
         });
 
-        Schema::create('assessment_instances', function(Blueprint $table){
-            $table->increments('id');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
-            $table->unsignedInteger('assessment_id');
-            $table->foreign('assessment_id')->references('id')->on('assessments');
-        });
-
-        Schema::create('submission_types', function(Blueprint $table){
-            $table->increments('id');
-            $table->string('type');
-            // $table->unsignedInteger('submission_id');
-            // $table->foreign('submission_id')->references('id')->on('submissions');
-        });
 
         Schema::create('submissions', function(Blueprint $table){
             $table->increments('id');
@@ -110,6 +96,8 @@ class CreateSystemTables extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedInteger('submission_id');
             $table->foreign('submission_id')->references('id')->on('submissions');
+            $table->integer('entered_test'); 
+            $table->integer('paper_collected');
         });
 
         Schema::create('user_courses', function(Blueprint $table){
@@ -136,7 +124,7 @@ class CreateSystemTables extends Migration {
         Schema::drop('user_submissions');
         Schema::drop('submissions');
 
-        Schema::drop('assessment_instances');
+       
         Schema::drop('assessments');
         Schema::drop('assessment_types');
 
