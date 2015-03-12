@@ -22,6 +22,12 @@ class CreateSystemTables extends Migration {
             $table->string('type');
         });
 
+        Schema::create('submission_types', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('type');
+        });
+
+
         Schema::create('users', function(Blueprint $table)
         {
             $table->increments('id');
@@ -38,6 +44,7 @@ class CreateSystemTables extends Migration {
             $table->increments('id');
             $table->string('name');
             $table->string('code', 10);
+            $table->timestamps();
         });
 
         Schema::create('schools', function(Blueprint $table){
@@ -46,6 +53,7 @@ class CreateSystemTables extends Migration {
             $table->string('code', 10);
             $table->unsignedInteger('faculty_id');
             $table->foreign('faculty_id')->references('id')->on('faculties');
+            $table->timestamps();
         });
 
 
@@ -56,6 +64,7 @@ class CreateSystemTables extends Migration {
             $table->string('name');
             $table->unsignedInteger('school_id');
             $table->foreign('school_id')->references('id')->on('schools');
+            $table->timestamps();
         });
 
 
@@ -64,6 +73,7 @@ class CreateSystemTables extends Migration {
             $table->string('code');
             $table->unsignedInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
+            $table->timestamps();
         });
 
         Schema::create('assessments', function(Blueprint $table){
@@ -77,6 +87,7 @@ class CreateSystemTables extends Migration {
             $table->foreign('assessment_type')->references('id')->on('assessment_types');
             $table->unsignedInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
+            $table->timestamps();
         });
 
 
@@ -89,6 +100,7 @@ class CreateSystemTables extends Migration {
             $table->foreign('submission_type')->references('id')->on('submission_types');
             $table->unsignedInteger('assessment_id');
             $table->foreign('assessment_id')->references('id')->on('assessments');
+            $table->timestamps();
         });
 
         Schema::create('user_submissions', function(Blueprint $table){
@@ -98,6 +110,7 @@ class CreateSystemTables extends Migration {
             $table->foreign('submission_id')->references('id')->on('submissions');
             $table->integer('entered_test'); 
             $table->integer('paper_collected');
+            $table->timestamps();
         });
 
         Schema::create('user_courses', function(Blueprint $table){
@@ -107,6 +120,7 @@ class CreateSystemTables extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
+            $table->timestamps();
         });
 
 

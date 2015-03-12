@@ -4,8 +4,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Auth;
+use DB;
+use App\Models\Course;
 
-class StudentHomeController extends Controller {
+class StudentsController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -15,6 +18,17 @@ class StudentHomeController extends Controller {
 	public function index()
 	{
 		//
+		if (\Auth::user()->user_type != 1) {
+			$data = "unauthorized access";
+			return view('error', $data);
+		}
+
+		$data = [
+			'user' => Auth::user(),
+			'courses' => DB::table('user_courses')->where('user_id', Auth::user()->id)
+		];
+
+		return view('students/home', $data);
 	}
 
 	/**

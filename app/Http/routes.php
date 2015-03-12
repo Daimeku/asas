@@ -32,3 +32,8 @@ Route::get('login',[
 Route::post('login',[
     'uses' => 'Auth\AuthController@login'
 ]);
+
+Route::get('students/{id}/home', [
+	'as' => 'students/home',
+	'uses' => 'StudentsController@index'
+]);
