@@ -73,6 +73,9 @@ class CreateSystemTables extends Migration {
             $table->string('code');
             $table->unsignedInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
+            $table->string('location');
+            $table->string('day');
+            $table->time('time');
             $table->timestamps();
         });
 
@@ -120,6 +123,8 @@ class CreateSystemTables extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
+            $table->unsignedInteger('occurence_id');
+            $table->foreign('occurence_id')->references('id')->on('occurences');
             $table->timestamps();
         });
 
@@ -137,7 +142,8 @@ class CreateSystemTables extends Migration {
 
         Schema::drop('user_submissions');
         Schema::drop('submissions');
-
+        Schema::drop('submission_types');
+        Schema::drop('user_courses');
        
         Schema::drop('assessments');
         Schema::drop('assessment_types');
@@ -156,6 +162,8 @@ class CreateSystemTables extends Migration {
 
         Schema::drop('users');
         Schema::drop('user_types');
+        
+
 
     }
 

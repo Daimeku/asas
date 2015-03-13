@@ -17,16 +17,22 @@ class StudentsController extends Controller {
 	 */
 	public function index()
 	{
-		//
-		if (\Auth::user()->user_type != 1) {
+		// if user isnt a student then display an error
+		if (\Auth::user()->user_type != 2) {
 			$data = "unauthorized access";
 			return view('error', $data);
 		}
 
 		$data = [
-			'user' => Auth::user(),
-			'courses' => DB::table('user_courses')->where('user_id', Auth::user()->id)
+
+			'user' => Auth::user(),		//returning user object			
+
+			'current_courses' => DB::table('user_courses')		//get courses user is currently	
+					->where('user_id', '=', Auth::user()->id)	//registered for.
+					->where('end_date',  '>', date('Y-m-d H:i:s'))->get()
 		];
+
+		// dd($data['current_courses']);
 
 		return view('students/home', $data);
 	}
