@@ -28,10 +28,7 @@ class UsersTableSeeder extends Seeder {
 			['type' => 'test']
 		]);
 
-        DB::table('assessment_types')->insert([
-            ['type' => 'assignment'],
-            ['type' => 'test']
-        ]);
+       
 
         User::create([
             'name' => 'mohamed',
@@ -40,5 +37,14 @@ class UsersTableSeeder extends Seeder {
             'user_type' => 1,
 
         ]);
+
+        User::create([
+            'name' => 'ashani',
+            'email' => 'student@gmail.com',
+            'password' => bcrypt('password'),
+            'user_type' => 2,
+
+        ]);
+
     }
 } 
