@@ -40,19 +40,19 @@ class CreateSystemTables extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('faculties', function( Blueprint $table){
+        Schema::create('faculties_collages_schools', function( Blueprint $table){
             $table->increments('id');
             $table->string('name');
             $table->string('code', 10);
+            $table->unsignedInteger('type_id');
+             $table->foreign('type_id')->references('id')->on('school_types');
             $table->timestamps();
         });
 
-        Schema::create('schools', function(Blueprint $table){
+        Schema::create('school_types', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
             $table->string('code', 10);
-            $table->unsignedInteger('faculty_id');
-            $table->foreign('faculty_id')->references('id')->on('faculties');
             $table->timestamps();
         });
 
@@ -63,7 +63,7 @@ class CreateSystemTables extends Migration {
             $table->string('code', 10);
             $table->string('name');
             $table->unsignedInteger('school_id');
-            $table->foreign('school_id')->references('id')->on('schools');
+            $table->foreign('school_id')->references('id')->on('faculties_collages_schools');
             $table->timestamps();
         });
 
