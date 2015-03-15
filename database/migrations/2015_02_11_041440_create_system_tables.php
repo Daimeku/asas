@@ -40,19 +40,19 @@ class CreateSystemTables extends Migration {
             $table->timestamps();
         });
 
+        Schema::create('school_types', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('name');
+            $table->string('code', 10);
+            $table->timestamps();
+        });
+
         Schema::create('faculties_collages_schools', function( Blueprint $table){
             $table->increments('id');
             $table->string('name');
             $table->string('code', 10);
             $table->unsignedInteger('type_id');
              $table->foreign('type_id')->references('id')->on('school_types');
-            $table->timestamps();
-        });
-
-        Schema::create('school_types', function(Blueprint $table){
-            $table->increments('id');
-            $table->string('name');
-            $table->string('code', 10);
             $table->timestamps();
         });
 
@@ -71,8 +71,8 @@ class CreateSystemTables extends Migration {
         Schema::create('occurences', function(Blueprint $table){
             $table->increments('id');
             $table->string('code');
-            $table->unsignedInteger('course_id');
-            $table->foreign('course_id')->references('id')->on('courses');
+            //$table->unsignedInteger('course_id');
+            //$table->foreign('course_id')->references('id')->on('courses');
             $table->string('location');
             $table->string('day');
             $table->time('time');
@@ -155,8 +155,8 @@ class CreateSystemTables extends Migration {
 
 
 
-        Schema::drop('schools');
-        Schema::drop('faculties');
+        Schema::drop('faculties_collages_schools');
+        Schema::drop('school_types');
 
 
 
