@@ -1,0 +1,200 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:700,400);
+
+/* Navbar */
+.navbar-default {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.navbar-brand {
+    margin-top: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 50px;    
+}
+
+.navbar-default .navbar-brand{
+  color: #044F67;
+  transition: color 1s; 
+  -moz-transition: color 1s;
+  -webkit-transition: color 1s;
+  -o-transition: color 1s;     
+}
+
+.navbar-default .navbar-brand:hover{
+    color: #058eb7;    
+}
+
+/* Nav Brand*/
+.brand-display{   
+   font-size: 14px;
+   font-weight: 700;
+   color: #10576E; 
+   position: absolute; 
+   top: 60px;
+   left: 160px;
+   visibility: hidden;
+   transition: all 2s; 
+   -moz-transition: all 2s;
+   -webkit-transition: all 2s;
+   -o-transition: all 2s;     
+}
+
+@media (min-width: 767px){
+    .brand-display-animate{
+       visibility: visible;
+       color: #058EB7;
+       font-weight: 900;
+      -moz-transform: scale(1) translateY(-30px);
+      -webkit-transform: scale(1) translateY(-30px);
+      -o-transform: scale(1) translateY(-30px);
+      -ms-transform: scale(1) translateY(-30px);
+       transform: scale(1) translateY(-30px);
+    }
+}
+
+/* Jumbotron */
+.jumbotron{
+   margin-top: 10px;
+   height: 570px; 
+   background:   
+
+   linear-gradient(
+      rgba(4, 79, 103, 0.95), 
+      rgba(4, 79, 103, 0.95)
+    ), 
+
+    url("../../img/login-bg.jpg");
+    background-size: cover;
+}
+
+.icon{
+  position: absolute;
+  font-size: 210px;
+  top: 142px;
+  left: 120px;
+  color: white;
+}
+
+/* Login group*/
+#login-form{ 
+    margin-top: 30px;
+    text-align: center;    
+}
+
+.logo{
+     position: absolute;    
+}
+
+/* Text */
+#signIn{
+  text-align: center;    
+  color:  #fff;
+  font: 40px 'Open Sans', sans-serif;
+  font-weight: 700
+}
+
+/*Textboxes */
+#txtUsername,
+#txtPassword{ 
+   margin: auto;
+   margin-top: 40px;
+   display: block;
+   text-align: center;
+   padding: 10px 15px;
+   width: 246px;    
+   border-radius: 12px;
+   font-family: 'Open Sans', sans-serif;
+   font-weight: 400;
+   color: #264348;
+   background-color: #fff;
+   transition: all 1s;
+   -moz-transition: all 1s;
+   -webkit-transition: all 1s;
+   -o-transition: all 1s;
+}
+
+#txtPassword{
+  margin-top: 15px;
+}
+
+#txtPassword:focus{
+  margin-top: 20px;
+}
+
+/*Texbox Errors */
+.no-error{
+    border: 1.5px #70DBDB solid; 
+}
+
+.error{
+    border: 1.5px #F21741 solid;
+}
+
+/* Button*/
+.btn-default{
+  margin-top: 35px;
+  padding: 9px 65px;
+  border: 2px #26C281 solid;
+  border-radius: 40px;
+  background-color: transparent;
+  font-size: 16px;
+  color: #26C281;
+   transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+}
+
+.btn-default:hover,
+.btn-default:focus{
+    color: #89C4F4; 
+    border-color: #89C4F4;
+    background-color: transparent;
+}
+
+/* Placeholders */
+::-webkit-input-placeholder{
+   color: #206F7C;
+   text-transform: uppercase;
+   font-size: 12px;   
+}
+
+:-moz-placeholder { /* Firefox 18- ;*/
+   color: #206F7C;
+   text-transform: uppercase;
+   font-size: 12px;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: #206F7C;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+:-ms-input-placeholder {  
+   color: #206F7C; 
+   text-transform: uppercase;
+   font-size: 12px;
+}
+
+/* Footer */
+.login-footer{
+  margin-top: 60px;
+  text-align: center;
+  font-size: 14px;  
+}
+
+a, a:link,a:visited{
+ color: #26C281;
+ text-decoration: none;
+ transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -webkit-transition: color 0.5s;
+  -o-transition: color 0.5s;
+}
+
+a:hover{
+    color: #89C4F4;
+}
+
