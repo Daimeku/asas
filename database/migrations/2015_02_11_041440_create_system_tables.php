@@ -40,19 +40,19 @@ class CreateSystemTables extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('school_types', function(Blueprint $table){
+        Schema::create('faculties_collages', function( Blueprint $table){
             $table->increments('id');
             $table->string('name');
             $table->string('code', 10);
             $table->timestamps();
         });
 
-        Schema::create('faculties_collages_schools', function( Blueprint $table){
+        Schema::create('schools', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
             $table->string('code', 10);
-            $table->unsignedInteger('type_id');
-             $table->foreign('type_id')->references('id')->on('school_types');
+            $table->unsignedInteger('faculty_or_collage_id');
+            $table->foreign('faculty_id')->references('id')->on('faculties_collages');
             $table->timestamps();
         });
 
@@ -63,7 +63,7 @@ class CreateSystemTables extends Migration {
             $table->string('code', 10);
             $table->string('name');
             $table->unsignedInteger('school_id');
-            $table->foreign('school_id')->references('id')->on('faculties_collages_schools');
+            $table->foreign('school_id')->references('id')->on('schools');
             $table->timestamps();
         });
 
@@ -71,11 +71,8 @@ class CreateSystemTables extends Migration {
         Schema::create('occurences', function(Blueprint $table){
             $table->increments('id');
             $table->string('code');
-            //$table->unsignedInteger('course_id');
-            //$table->foreign('course_id')->references('id')->on('courses');
-            $table->string('location');
-            $table->string('day');
-            $table->time('time');
+            $table->unsignedInteger('course_id');
+            $table->foreign('course_id')->references('id')->on('courses');
             $table->timestamps();
         });
 
@@ -111,8 +108,8 @@ class CreateSystemTables extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedInteger('submission_id');
             $table->foreign('submission_id')->references('id')->on('submissions');
-            $table->integer('entered_test'); 
-            $table->integer('paper_collected');
+            $table->boolean('entered_test'); 
+            $table->boolean('paper_collected');
             $table->timestamps();
         });
 
@@ -121,8 +118,6 @@ class CreateSystemTables extends Migration {
             $table->dateTime('end_date');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedInteger('course_id');
-            $table->foreign('course_id')->references('id')->on('courses');
             $table->unsignedInteger('occurence_id');
             $table->foreign('occurence_id')->references('id')->on('occurences');
             $table->timestamps();
@@ -142,8 +137,7 @@ class CreateSystemTables extends Migration {
 
         Schema::drop('user_submissions');
         Schema::drop('submissions');
-        Schema::drop('submission_types');
-        Schema::drop('user_courses');
+
        
         Schema::drop('assessments');
         Schema::drop('assessment_types');
@@ -155,15 +149,13 @@ class CreateSystemTables extends Migration {
 
 
 
-        Schema::drop('faculties_collages_schools');
-        Schema::drop('school_types');
+        Schema::drop('schools');
+        Schema::drop('faculties');
 
 
 
         Schema::drop('users');
         Schema::drop('user_types');
-        
-
 
     }
 
