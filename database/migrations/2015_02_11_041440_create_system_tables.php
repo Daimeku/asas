@@ -52,7 +52,7 @@ class CreateSystemTables extends Migration {
             $table->string('name');
             $table->string('code', 10);
             $table->unsignedInteger('faculty_or_collage_id');
-            $table->foreign('faculty_id')->references('id')->on('faculties_collages');
+            $table->foreign('faculty_or_collage_id')->references('id')->on('faculties_collages');
             $table->timestamps();
         });
 
@@ -150,7 +150,7 @@ class CreateSystemTables extends Migration {
 
 
         Schema::drop('schools');
-        Schema::drop('faculties');
+        Schema::drop('faculties_collages');
 
 
 
