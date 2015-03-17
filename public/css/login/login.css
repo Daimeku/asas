@@ -181,6 +181,7 @@
 /* Footer */
 .login-footer{
   margin-top: 60px;
+  margin-bottom: 20px;
   text-align: center;
   font-size: 14px;  
 }
@@ -198,3 +199,33 @@ a:hover{
     color: #89C4F4;
 }
 
+.alert{
+   padding: 4px;
+   border-radius: 10px;
+   width: 35%;
+   margin: auto;
+}
+
+.jumbotron .alert p{
+  padding-bottom: 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+@media screen and (max-width: 1000px){
+  .alert{ 
+     width: 50%;
+   }
+}
+
+@media screen and (max-width: 700px){
+  .alert{  
+     width: 60%;    
+  }
+}
+
+@media screen and (max-width: 450px){
+  .alert{  
+     width: 100%;    
+  }
+}

@@ -32,18 +32,7 @@
                      <div class="icon">
                        <i class="fa fa-cloud-upload hidden-xs hidden-sm animated pulse infinite"></i>
                      </div>
-                     <div id="login-form">  
-
-                         @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                     <div id="login-form">       
 
                          <h4 id=signIn> Sign in </h4>
                          <form   role="form" method="POST" action="/auth/login">
@@ -53,14 +42,26 @@
                              <input id="txtPassword"  name="password" type="password" class="no-error" placeholder="Password">                               
                              <button id="#btnLogin"  type="button submit" class="btn btn-default">Login</button>
                         </form>
-                    </div>
+                    </div>                    
                 </div>
                <div class="container">
                     <div class="login-footer">
                         <a href="#">Password Policy</a>                   
                     </div>      
-                </div>
-              </div>              
+                </div>             
+                @if (count($errors) > 0)
+                    <div class="container">             
+                       <div class=" animated bounceIn alert alert-danger">
+                            <p><strong>Whoops!</strong> There were some problems with your input.</p>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                  <li>{{ $error }}</li>
+                                @endforeach
+                             </ul>
+                        </div>
+                     </div> 
+                @endif            
+            </div>     <!-- End Jombotron --> 
      </body>
     
     <script src="/js/essentials/jquery-2.1.3.min.js"></script>
