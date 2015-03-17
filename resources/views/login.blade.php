@@ -32,11 +32,27 @@
                      <div class="icon">
                        <i class="fa fa-cloud-upload hidden-xs hidden-sm animated pulse infinite"></i>
                      </div>
-                     <div id="login-form">       
-                          <h4 id=signIn>Sign in</h4> 
-                         <input id="txtUsername" type="text" class="no-error" placeholder="Id Number">  
-                         <input id="txtPassword" type="password" class="no-error" placeholder="Password">                               
-                         <button id="#btnLogin" type="button" class="btn btn-default">Login</button>
+                     <div id="login-form">  
+
+                         @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                         <h4 id=signIn> Sign in </h4>
+                         <form   role="form" method="POST" action="/auth/login">
+
+                             <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
+                             <input id="txtUsername" name="id" type="text" class="no-error" placeholder="Id Number">  
+                             <input id="txtPassword"  name="password" type="password" class="no-error" placeholder="Password">                               
+                             <button id="#btnLogin"  type="button submit" class="btn btn-default">Login</button>
+                        </form>
                     </div>
                 </div>
                <div class="container">
