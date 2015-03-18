@@ -13,7 +13,9 @@
         <link rel="stylesheet" href="/css/animate.css">    
         <link rel="stylesheet" href="/css/icons/css/font-awesome.min.css">      
         <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">      
-        <link rel="stylesheet" href="/css/master.css">     
+        <link rel="stylesheet" href="/css/master.css"> 
+        @yield('head') 
+
         <title>ASAS | Student</title>
     </head>
     
@@ -45,14 +47,13 @@
        </nav> 
 
 
-        <div class="container-fluid">
+        <div class="container">
            @yield('content')
         </div>
 
 
     </body>
-    <footer>
-      <div class="container-fluid">
+    <footer>      
          <div id="footer">       
            <div class="row">
                 <div class="col-md-3"><a href="#" id="brand">ASAS</a></div>
@@ -85,8 +86,7 @@
                    </ul>
                    </div>
                 </div>
-            </div
-          </div>
+            </div>          
       </div>
     </footer>
     
