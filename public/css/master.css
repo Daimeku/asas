@@ -1,0 +1,82 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:700,400);
+
+/* Navbar */
+.navbar-default {
+  background-color: #1B728E;
+  border-color: #1B728E;
+}
+
+.navbar-brand {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;  
+}
+
+.navbar-default .navbar-brand{
+  color: #fff;
+  font-size: 35px
+
+}
+
+.navbar-default .navbar-brand:hover{
+    color: #fff;    
+}
+
+.navbar-default .navbar-nav>li>a{
+  color: #fff;
+
+}
+
+.navbar-default .navbar-nav>li>a:hover{
+  color: #fff;
+}
+
+.nav>li>a{
+    padding: 15px 35px;  
+}
+
+@media (min-width: 768px){
+.navbar {
+  border-radius: 0px;
+ }
+}
+
+/*Footer*/
+#footer {
+  background: #175E74;
+  color: #fff;
+  width:100%;
+  height:150px;
+  position:absolute;
+  bottom:0;
+  left:0;
+}
+
+#brand{
+    position: absolute;
+    margin-top: 25px;
+    margin-left: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700; 
+    font-size: 50px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.row{
+ margin-top: 10px;
+}
+
+#footer li{
+  font-size: 14px;
+  padding: 2px;
+}
+
+#footer li>a{
+  color: #D3D3D3;
+  text-decoration: none;
+}
+
+#footer h4{
+  font-size: 15px;
+  color: rgb(142, 206, 226);
+}

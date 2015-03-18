@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="/css/icons/css/font-awesome.min.css">      
         <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">        
         <link rel="stylesheet" href="/css/login/login.css">
+        <title>ASAS | Sign In</title>
     </head>
     
     <body>
