@@ -6,7 +6,7 @@
 
 @section('content')
 	<div class="section-heading">
-   		<h2 id="heading">Overview</h2>
+   		<h1 id="heading">Overview</h1>
    		<hr/>
  	</div>
 
