@@ -57,7 +57,7 @@
          <div id="footer">       
            <div class="row">
                 <div class="col-md-3"><a href="#" id="brand">ASAS</a></div>
-                <div class="hidden-sm hidden-xs">
+                 <div class="hidden-sm hidden-xs">
                   <div class="col-md-3">
                     <h4>My Courses<h4>
                     <ul>
