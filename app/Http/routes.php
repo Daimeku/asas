@@ -32,3 +32,11 @@ Route::get('login',[
 Route::post('login',[
     'uses' => 'Auth\AuthController@login'
 ]);
+
+Route::get('courses',[
+    'uses'  => 'CoursesController@index'
+]);
+
+Route::get('faculties',[
+    'uses' => 'FacultiesController@index'
+]);
