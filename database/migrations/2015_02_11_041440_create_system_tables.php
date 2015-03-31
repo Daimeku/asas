@@ -64,6 +64,8 @@ class CreateSystemTables extends Migration {
             $table->string('name');
             $table->unsignedInteger('school_id');
             $table->foreign('school_id')->references('id')->on('schools');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
 
@@ -77,14 +79,14 @@ class CreateSystemTables extends Migration {
             $table->string('activity');
         });
 
-         Schema::create('days', function(Blueprint $table){
-            $table->increments('id');
-            $table->string('day');
-        });
-
         Schema::create('locations', function(Blueprint $table){
             $table->increments('id');
             $table->string('location');
+        });
+
+        Schema::create('days', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('day');
         });
 
         Schema::create('occurences', function(Blueprint $table){
@@ -95,8 +97,8 @@ class CreateSystemTables extends Migration {
             $table->foreign('activity_id')->references('id')->on('activities');
             $table->unsignedInteger('day_id');
             $table->foreign('day_id')->references('id')->on('days');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->unsignedInteger('location_id');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->unsignedInteger('course_id');
