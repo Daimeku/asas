@@ -165,7 +165,7 @@ class CreateSystemTables extends Migration {
 
         Schema::drop('user_submissions');
         Schema::drop('submissions');
-
+        Schema::drop('submission_types');
        
         Schema::drop('assessments');
         Schema::drop('assessment_types');
