@@ -66,7 +66,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
         //3
@@ -75,7 +75,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
         //4
@@ -84,7 +84,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
         //5
@@ -93,7 +93,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
         //6
@@ -111,7 +111,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
         //8
@@ -140,7 +140,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //11
@@ -149,7 +149,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //12
@@ -158,7 +158,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //13
@@ -167,7 +167,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //14
@@ -176,7 +176,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //15
@@ -185,7 +185,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //16
@@ -194,7 +194,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //17
@@ -203,7 +203,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //18
@@ -212,7 +212,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //19
@@ -221,7 +221,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //20
@@ -230,7 +230,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                  //21
@@ -239,7 +239,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //22
@@ -248,7 +248,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //23
@@ -257,7 +257,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //24
@@ -266,7 +266,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //25
@@ -275,7 +275,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                  //26
@@ -284,7 +284,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //27
@@ -293,7 +293,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //28
@@ -302,7 +302,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //29
@@ -311,7 +311,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //30
@@ -320,7 +320,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                  //31
@@ -329,7 +329,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //32
@@ -338,7 +338,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
                 //33
@@ -347,7 +347,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => 
+            'image_file_path' => '../oastas/database/files/'
         ]);
 
         //34
@@ -365,7 +365,7 @@ class UsersTableSeeder extends Seeder {
             'email' => '@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 1,
-            'image_file_path' => 
+            'image_file_path' => '' 
         ]);
     }
 } 
