@@ -37,3 +37,7 @@ Route::get('students/{id}/home', [
 	'as' => 'students/home',
 	'uses' => 'StudentsController@index'
 ]);
+
+Route::get('students/{id}/assignments', function(){
+    return view('students/assignments');
+});

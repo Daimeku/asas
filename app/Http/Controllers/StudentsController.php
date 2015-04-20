@@ -34,7 +34,7 @@ class StudentsController extends Controller {
 
 		// dd($data['current_courses']);
 
-		return view('students/home', $data);
+		return view('students/overview', $data);
 	}
 
 	/**
