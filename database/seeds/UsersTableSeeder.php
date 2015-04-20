@@ -54,64 +54,64 @@ class UsersTableSeeder extends Seeder {
         //1
         User::create([
             'name' => 'mohamed',
-            'email' => 'email@gmail.com',
+            'email' => 'mohamed@gmail.com',
             'password' => bcrypt('password'),
-            'user_type' => 1,
-            'image_file_path' => 
+            'user_type' => 1
+            //'image_file_path' => '' 
         ]);
 
         //2
         User::create([
             'name' => 'ashani',
-            'email' => 'student@gmail.com',
+            'email' => 'ashani@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/ashani.jpg'
         ]);
 
         //3
         User::create([
             'name' => 'romario',
-            'email' => 'student@gmail.com',
+            'email' => 'romario@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/ro.jpg'
         ]);
 
         //4
         User::create([
             'name' => 'shenique',
-            'email' => 'student@gmail.com',
+            'email' => 'shenique@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/shen.jpg'
         ]);
 
         //5
         User::create([
             'name' => 'shantel',
-            'email' => 'student@gmail.com',
+            'email' => 'shantel@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/shan.jpg'
         ]);
 
         //6
         User::create([
             'name' => 'tyron',
-            'email' => '@gmail.com',
+            'email' => 'tyron@gmail.com',
             'password' => bcrypt('password'),
-            'user_type' => 1,
-            'image_file_path' => 
+            'user_type' => 1
+            //'image_file_path' => 
         ]);
 
         //7
         User::create([
             'name' => 'andrew',
-            'email' => 'student@gmail.com',
+            'email' => 'andrew@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/andrew.jpg'
         ]);
 
         //8
@@ -119,8 +119,8 @@ class UsersTableSeeder extends Seeder {
             'name' => 'tanisha',
             'email' => 'tanisha@utech.edu.jm',
             'password' => bcrypt('password'),
-            'user_type' => 3,
-            'image_file_path' => 
+            'user_type' => 3
+            //'image_file_path' => '' 
         ]);
 
         //9
@@ -128,244 +128,244 @@ class UsersTableSeeder extends Seeder {
             'name' => 'john',
             'email' => 'john@utech.edu.jm',
             'password' => bcrypt('password'),
-            'user_type' => 4,
-            'image_file_path' => 
+            'user_type' => 4
+            //'image_file_path' => '' 
         ]);
 
 
 
                 //10
         User::create([
-            'name' => 'corie',
-            'email' => 'student@gmail.com',
+            'name' => 'bob',
+            'email' => 'bob@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/bob.jpg'
         ]);
 
                 //11
         User::create([
-            'name' => 'paul',
-            'email' => 'student@gmail.com',
+            'name' => 'usain',
+            'email' => 'bolt@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/bolt.jpg'
         ]);
 
                 //12
         User::create([
-            'name' => 'fred',
-            'email' => 'student@gmail.com',
+            'name' => 'christopher',
+            'email' => 'christopher@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/christopher.jpg'
         ]);
 
                 //13
         User::create([
-            'name' => 'dyan',
-            'email' => 'student@gmail.com',
+            'name' => 'lisa',
+            'email' => 'lisa@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/lisa.jpg'
         ]);
 
                 //14
         User::create([
-            'name' => 'donna',
-            'email' => 'student@gmail.com',
+            'name' => 'veronica',
+            'email' => 'vcb@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/veronica.jpg'
         ]);
 
                 //15
         User::create([
-            'name' => 'chris',
-            'email' => 'student@gmail.com',
+            'name' => 'gavin',
+            'email' => 'gavin@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/gavs.jpg'
         ]);
 
                 //16
         User::create([
-            'name' => 'rick',
-            'email' => 'student@gmail.com',
+            'name' => 'asafa',
+            'email' => 'asafa@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/asafa.jpg'
         ]);
 
                 //17
         User::create([
-            'name' => 'rachel',
-            'email' => 'student@gmail.com',
+            'name' => 'shelly',
+            'email' => 'pocketrocket@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/shelly.jpg'
         ]);
 
                 //18
         User::create([
-            'name' => 'chantol',
-            'email' => 'student@gmail.com',
+            'name' => 'tessanne',
+            'email' => 'tessanne@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/tessanne.jpg'
         ]);
 
                 //19
         User::create([
-            'name' => 'andrea',
-            'email' => 'student@gmail.com',
+            'name' => 'yendi',
+            'email' => 'yendi@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/yendi.jpg'
         ]);
 
                 //20
         User::create([
-            'name' => 'edna',
-            'email' => 'student@gmail.com',
+            'name' => 'etana',
+            'email' => 'etana@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/etana.jpg'
         ]);
 
                  //21
         User::create([
-            'name' => 'andre',
-            'email' => 'student@gmail.com',
+            'name' => 'alfred',
+            'email' => 'alfred@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/alfred.jpg'
         ]);
 
                 //22
         User::create([
-            'name' => 'rachel',
-            'email' => 'student@gmail.com',
+            'name' => 'alia',
+            'email' => 'alia@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/alia.jpg'
         ]);
 
                 //23
         User::create([
-            'name' => 'hally',
-            'email' => 'student@gmail.com',
+            'name' => 'merlene',
+            'email' => 'merlene@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/merlene.jpg'
         ]);
 
                 //24
         User::create([
-            'name' => 'desrene',
-            'email' => 'student@gmail.com',
+            'name' => 'brigitte',
+            'email' => 'brigitte@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/brigitte.jpg'
         ]);
 
                 //25
         User::create([
-            'name' => 'phill',
-            'email' => 'student@gmail.com',
+            'name' => 'yohan',
+            'email' => 'beast@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/yohan.jpg'
         ]);
 
                  //26
         User::create([
-            'name' => 'phillip',
-            'email' => 'student@gmail.com',
+            'name' => 'nicholas',
+            'email' => 'axeman@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/nicholas.JPG'
         ]);
 
                 //27
         User::create([
-            'name' => 'dan',
-            'email' => 'student@gmail.com',
+            'name' => 'michael',
+            'email' => 'michael@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/michael.jpg'
         ]);
 
                 //28
         User::create([
-            'name' => 'annie',
-            'email' => 'student@gmail.com',
+            'name' => 'melaine',
+            'email' => 'melaine@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/melaine.jpg'
         ]);
 
                 //29
         User::create([
-            'name' => 'ashely',
-            'email' => 'student@gmail.com',
+            'name' => 'kerron',
+            'email' => 'kerron@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/kerron.jpg'
         ]);
 
                 //30
         User::create([
-            'name' => 'danielle',
-            'email' => 'student@gmail.com',
+            'name' => 'sherone',
+            'email' => 'sherone@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/sherone.jpg'
         ]);
 
                  //31
         User::create([
-            'name' => 'dan',
-            'email' => 'student@gmail.com',
+            'name' => 'warren',
+            'email' => 'warren@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/warren.jpg'
         ]);
 
                 //32
         User::create([
-            'name' => 'annie',
-            'email' => 'student@gmail.com',
+            'name' => 'novlene',
+            'email' => 'novlene@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/novlene.jpg'
         ]);
 
                 //33
         User::create([
-            'name' => 'ashely',
-            'email' => 'student@gmail.com',
+            'name' => 'christine',
+            'email' => 'christine@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../oastas/database/files/'
+            'image_file_path' => '../files/christine.jpg'
         ]);
 
         //34
         User::create([
             'name' => 'david',
-            'email' => '@gmail.com',
+            'email' => 'david@gmail.com',
             'password' => bcrypt('password'),
-            'user_type' => 1,
-            'image_file_path' => 
+            'user_type' => 1
+            //'image_file_path' => '' 
         ]);
 
         //35
         User::create([
             'name' => 'denise',
-            'email' => '@gmail.com',
+            'email' => 'denise@gmail.com',
             'password' => bcrypt('password'),
-            'user_type' => 1,
-            'image_file_path' => '' 
+            'user_type' => 1
+            //'image_file_path' => '' 
         ]);
     }
 } 

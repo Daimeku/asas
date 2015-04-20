@@ -35,7 +35,7 @@ class CreateSystemTables extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password', 60);
-            $table->string('image_file_path')->unique();
+            $table->string('image_file_path')->unique()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -558,8 +558,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 4,
 			 	'activity_id' => 2,
 			 	'day_id' => 4,
-			 	'start_date' => '12:00:00',
-			 	'end_date' => '13:00:00',
+			 	'start_time' => '12:00:00',
+			 	'end_time' => '13:00:00',
 			 	'location_id' => 3,
 			 	'course_id' => 4			 	
 			]
@@ -571,8 +571,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 3,
 			 	'activity_id' => 1,
 			 	'day_id' => 3,
-			 	'start_date' => '10:00:00',
-			 	'end_date' => '12:00:00',
+			 	'start_time' => '10:00:00',
+			 	'end_time' => '12:00:00',
 			 	'location_id' => 10,
 			 	'course_id' => 10			 	
 			]
@@ -584,8 +584,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 7,
 			 	'activity_id' => 1,
 			 	'day_id' => 5,
-			 	'start_date' => '16:00:00',
-			 	'end_date' => '18:00:00',
+			 	'start_time' => '16:00:00',
+			 	'end_time' => '18:00:00',
 			 	'location_id' => 9,
 			 	'course_id' => 21			 	
 			]
@@ -597,8 +597,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 1,
 			 	'activity_id' => 3,
 			 	'day_id' => 6,
-			 	'start_date' => '08:00:00',
-			 	'end_date' => '11:00:00',
+			 	'start_time' => '08:00:00',
+			 	'end_time' => '11:00:00',
 			 	'location_id' => 14,
 			 	'course_id' => 6			 	
 			]
@@ -610,8 +610,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 5,
 			 	'activity_id' => 3,
 			 	'day_id' => 2,
-			 	'start_date' => '15:00:00',
-			 	'end_date' => '17:00:00',
+			 	'start_time' => '15:00:00',
+			 	'end_time' => '17:00:00',
 			 	'location_id' => 13,
 			 	'course_id' => 7			 	
 			]
@@ -623,8 +623,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 6,
 			 	'activity_id' => 2,
 			 	'day_id' => 2,
-			 	'start_date' => '16:00:00',
-			 	'end_date' => '17:00:00',
+			 	'start_time' => '16:00:00',
+			 	'end_time' => '17:00:00',
 			 	'location_id' => 4,
 			 	'course_id' => 3			 	
 			]
@@ -637,8 +637,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 4,
 			 	'activity_id' => 2,
 			 	'day_id' => 3,
-			 	'start_date' => '13:00:00',
-			 	'end_date' => '14:00:00',
+			 	'start_time' => '13:00:00',
+			 	'end_time' => '14:00:00',
 			 	'location_id' => 6,
 			 	'course_id' => 13			 	
 			]
@@ -650,8 +650,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 5,
 			 	'activity_id' => 3,
 			 	'day_id' => 2,
-			 	'start_date' => '14:00:00',
-			 	'end_date' => '17:00:00',
+			 	'start_time' => '14:00:00',
+			 	'end_time' => '17:00:00',
 			 	'location_id' => 14,
 			 	'course_id' => 9 			 	
 			]
@@ -664,8 +664,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 4,
 			 	'activity_id' => 1,
 			 	'day_id' => 5,
-			 	'start_date' => '12:00:00',
-			 	'end_date' => '13:00:00',
+			 	'start_time' => '12:00:00',
+			 	'end_time' => '13:00:00',
 			 	'location_id' => 9,
 			 	'course_id' => 6 			 	
 			]
@@ -677,8 +677,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 4,
 			 	'activity_id' => 3,
 			 	'day_id' => 6,
-			 	'start_date' => '12:00:00',
-			 	'end_date' => '15:00:00',
+			 	'start_time' => '12:00:00',
+			 	'end_time' => '15:00:00',
 			 	'location_id' => 14,
 			 	'course_id' => 6			 	
 			]
@@ -690,8 +690,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 4,
 			 	'activity_id' => 3,
 			 	'day_id' => 4,
-			 	'start_date' => '12:00:00',
-			 	'end_date' => '15:00:00',
+			 	'start_time' => '12:00:00',
+			 	'end_time' => '15:00:00',
 			 	'location_id' => 12,
 			 	'course_id' => 6			 	
 			]
@@ -703,8 +703,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 3,
 			 	'activity_id' => 2,
 			 	'day_id' => 6,
-			 	'start_date' => '10:00:00',
-			 	'end_date' => '11:00:00',
+			 	'start_time' => '10:00:00',
+			 	'end_time' => '11:00:00',
 			 	'location_id' => 7,
 			 	'course_id' => 4			 	
 			]
@@ -716,8 +716,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 5,
 			 	'activity_id' => 3,
 			 	'day_id' => 4,
-			 	'start_date' => '12:00:00',
-			 	'end_date' => '15:00:00',
+			 	'start_time' => '12:00:00',
+			 	'end_time' => '15:00:00',
 			 	'location_id' => 8,
 			 	'course_id' => 4			 	
 			]
@@ -729,8 +729,8 @@ Class UserCoursesSeeder extends Seeder {
 			 	'code_id' => 1,
 			 	'activity_id' => 1,
 			 	'day_id' => 4,
-			 	'start_date' => '08:00:00',
-			 	'end_date' => '10:00:00',
+			 	'start_time' => '08:00:00',
+			 	'end_time' => '10:00:00',
 			 	'location_id' => 10,
 			 	'course_id' => 2			 	
 			]
