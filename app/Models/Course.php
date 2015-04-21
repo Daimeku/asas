@@ -2,12 +2,12 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class course extends Model {
+class Course extends Model {
 
 	//
 
     protected $table = 'courses';
 
-    protected $fillable = ['description', 'code', 'name', 'school_id'];
+    protected $fillable = ['description', 'code', 'name', 'school_id', 'start_date', 'end_date'];
 
 }

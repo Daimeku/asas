@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\Registrar;
 use App\Http\Controllers\Auth\AuthAndRegisterUsers;
 //use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Validator;
+use App\Models\User;
+use App\Http\Controllers\Auth;
 
 class AuthController extends Controller {
 
@@ -20,9 +22,10 @@ class AuthController extends Controller {
 	|
 	*/
 
+
 	use AuthAndRegisterUsers;
 
-	/**
+	/*
 	 * Create a new authentication controller instance.
 	 *
 	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
@@ -54,7 +57,8 @@ class AuthController extends Controller {
 
         if($validator->passes() )
         {
-            return redirect($this->redirectPath());
+        	dd("controller   "+Auth::user());
+         return redirect($this->redirectPath());
         }
         else
         {

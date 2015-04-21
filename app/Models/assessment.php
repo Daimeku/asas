@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Assignment extends Model {
+class Assessment extends Model {
 
-	protected $table = 'assignments';
+	protected $table = 'assessments';
 
     protected $fillable = ['title', 'description', 'filepath', 'start_date', 'end_date', 'course_id'];
 
