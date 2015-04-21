@@ -6,6 +6,6 @@ class Submission extends Model {
 
 	protected $table = 'submissions';
 
-    protected $fillable = ['filepath', 'time', 'assignment_id'];
+    protected $fillable = ['file_path', 'time', 'assignment_id'];
 
 }

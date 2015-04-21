@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Faculty;
 use App\Models\School;
 use App\Models\Course;
+use App\Models\Assessment;
 
 Class UserCoursesSeeder extends Seeder {
 	public function run()
@@ -334,6 +335,17 @@ Class UserCoursesSeeder extends Seeder {
 			'start_date' => '2015-9-23',
 			'end_date' => '2015-12-10'
 		]);
+
+        Assessment::create([
+            'title' => 'first assessment- project',
+            'description' => 'the first data structures assessment',
+            'filepath' => '../files/bolt.jpg',
+            'start_date' => date('Y-m-d H:i:s'),
+            'end_date' => '2015-10-3 12:00:00',
+            'assessment_type' => 1,
+            'course_id' => 9
+
+        ]);
 
 		//13
 		Course::create([

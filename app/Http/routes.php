@@ -41,3 +41,13 @@ Route::get('students/{id}/home', [
 Route::get('students/{id}/assignments', function(){
     return view('students/assignments');
 });
+
+Route::get('students/{id}/assessments/{assessment_id}/upload', [
+    'as' => 'students/uploadAssignment',
+    'uses' => 'StudentsController@uploadAssignment'
+]);
+
+Route::post('students/{student_id}/assessments/{assessment_id}/upload',[
+    'as' => 'students/upload',
+    'uses' => 'StudentsController@upload'
+]);

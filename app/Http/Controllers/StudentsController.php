@@ -1,9 +1,10 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
+//use App\Http\Requests;
+use App\Models\Submission;
+use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use Auth;
 use DB;
 use App\Models\Course;
@@ -100,5 +101,51 @@ class StudentsController extends Controller {
 	{
 		//
 	}
+
+    public function uploadAssignment($id){
+
+        return view('students/upload');
+
+    }
+
+    public function upload(){
+        $file = Request::file('assessment');
+
+        if($file->isValid()){
+            echo $file->getClientOriginalName();
+
+
+            $filePath = base_path()."/database/files/submissions/";
+            $file->move($filePath,"submission");
+
+            // create an entry in the submissions table
+            $submission = new Submission;
+            $submission->file_path = $filePath . "submission";
+            $submission->time = date('Y-m-d H:i:s');
+            $submission->accepted = true;
+            $submission->submission_type = 2;
+            $submission->assessment_id = Request::input('assessment_id');
+            $submission->save();
+
+
+            // create an entry in the user_submissions table
+
+            DB::table('user_submissions')->insert([
+               'submission_id' => $submission->id,
+                'user_id' => Request::input('user_id')
+            ]);
+
+        }
+
+
+//        $user = Auth::user();
+//        $occurences = $user->occurences;
+//        $courses = Auth::user()->findCourses($occurences);
+//        dd($courses);
+    }
+
+    public function getFilePath($file, $id){
+
+    }
 
 }
