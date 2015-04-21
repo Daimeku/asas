@@ -33,6 +33,7 @@ Route::post('login',[
     'uses' => 'Auth\AuthController@login'
 ]);
 
+
 Route::get('students/{id}/home', [
 	'as' => 'students/home',
 	'uses' => 'StudentsController@index'
@@ -51,3 +52,7 @@ Route::post('students/{student_id}/assessments/{assessment_id}/upload',[
     'as' => 'students/upload',
     'uses' => 'StudentsController@upload'
 ]);
+Route::get('courses',[
+    'uses'  => 'CoursesController@index'
+]);
+
