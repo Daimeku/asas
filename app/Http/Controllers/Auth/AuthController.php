@@ -3,7 +3,8 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use App\Http\Controllers\Auth\AuthAndRegisterUsers;
+//use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Validator;
 use App\Models\User;
 use App\Http\Controllers\Auth;
@@ -20,9 +21,11 @@ class AuthController extends Controller {
 	| a simple trait to add these behaviors. Why don't you explore it?
 	|
 	*/
-	use AuthenticatesAndRegistersUsers;
 
-	/**
+
+	use AuthAndRegisterUsers;
+
+	/*
 	 * Create a new authentication controller instance.
 	 *
 	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
@@ -39,7 +42,7 @@ class AuthController extends Controller {
 
     public function showLogin()
     {
-        return view('auth.login');
+        return view('login');
     }
 
     public function login($credentials)
@@ -59,7 +62,7 @@ class AuthController extends Controller {
         }
         else
         {
-            return view('auth.login')->withErrors($validator);
+            return view('login')->withErrors($validator);
         }
     }
 }

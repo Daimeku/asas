@@ -55,4 +55,3 @@ Route::post('students/{student_id}/assessments/{assessment_id}/upload',[
 Route::get('courses',[
     'uses'  => 'CoursesController@index'
 ]);
-
