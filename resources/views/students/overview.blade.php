@@ -75,12 +75,12 @@
 		<div id="notes">   
            <div class="row">                              
                   <div class="col-md-4">
-                    <h3>Assignment Due</h3>
+                    <h3>Assignments Due</h3>
                     <ul>
-                      <li><a href="#">Assign. #1</a></li>
-                      <li><a href="#">Assign. #2</a></li>
-                      <li><a href="#">Assign. #3</a></li>
-                      <li><a href="#">Assign. #4</a></li>
+                        @foreach($assignments as $assignment)
+                            <li><a href="#">{{$assignment->title}}</a></li>
+                        @endforeach
+
                    </ul>                 
                   </div>
                   <div class="col-md-4">

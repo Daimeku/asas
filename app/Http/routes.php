@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+//Route::get('/', 'WelcomeController@index');
 
-Route::get('home', 'HomeController@index');
+Route::get('/', 'HomeController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
@@ -29,9 +29,9 @@ Route::get('login',[
     'uses' => 'Auth\AuthController@showLogin'
 ]);
 
-Route::post('login',[
-    'uses' => 'Auth\AuthController@login'
-]);
+//Route::post('login',[
+//    'uses' => 'Auth\AuthController@login'
+//]);
 
 
 Route::get('students/{id}/home', [

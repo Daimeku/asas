@@ -24,16 +24,30 @@ class StudentsController extends Controller {
 			return view('error', $data);
 		}
 
+                $user = Auth::user();
+        $occurences = $user->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+
+        $assignments = collect();
+        $tests = collect();
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $assignments->push($assessment);
+            }
+            else if($assessment->assessment_type === 2){
+                $tests->push($assessment);
+            }
+        }
 		$data = [
 
-			'user' => Auth::user(),		//returning user object			
+			'user' => Auth::user(),	//returning user object
+            'assignments' => $assignments,
+            'tests' => $tests
 
-			'current_courses' => DB::table('user_courses')		//get courses user is currently	
-					->where('user_id', '=', Auth::user()->id)	//registered for.
-					->where('end_date',  '>', date('Y-m-d H:i:s'))->get()
+
 		];
-
-		// dd($data['current_courses']);
+//        dd($data);
 
 		return view('students/overview', $data);
 	}
@@ -138,10 +152,7 @@ class StudentsController extends Controller {
         }
 
 
-//        $user = Auth::user();
-//        $occurences = $user->occurences;
-//        $courses = Auth::user()->findCourses($occurences);
-//        dd($courses);
+
     }
 
     public function getFilePath($file, $id){

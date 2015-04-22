@@ -337,7 +337,7 @@ Class UserCoursesSeeder extends Seeder {
 		]);
 
         Assessment::create([
-            'title' => 'first assessment- project',
+            'title' => 'data structures assignment 1',
             'description' => 'the first data structures assessment',
             'filepath' => '../files/bolt.jpg',
             'start_date' => date('Y-m-d H:i:s'),

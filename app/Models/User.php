@@ -5,7 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Collection;
 use App\Models\Occurence;
+use App\Models\Assessment;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -54,6 +56,29 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         }
 
         return $courses;
+    }
+
+    /*
+     * accepts a list of courses and returns a list of active assessments for that course
+     */
+
+    public function findActiveAssessments($courses){
+        $assessments = collect();
+
+        /*
+         * loops through the courses and finds assignments with that course id and end_date greater than the current date
+         */
+
+        foreach($courses as $course){
+            $courseAssessments =  Assessment::where('course_id', $course->id)->where('end_date', '>=', date("Y-m-d H:i:s"))->take(500)->get(); //->where('end_date', '>=', date("Y-m-d H:i:s"));
+
+            if(! $courseAssessments->isEmpty()){
+
+               $assessments= $assessments->merge($courseAssessments);
+            }
+        }
+
+        return $assessments;
     }
 
 }

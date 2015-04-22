@@ -40,7 +40,7 @@
                 <li><a href="#"><i class="fa fa-file-text"></i>     Tests</a></li>              
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                 <li><a href="#">Sign Out</a></li>                          
+                 <li><a href="/auth/logout">Sign Out</a></li>
             </ul>
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
