@@ -6,6 +6,11 @@ class Submission extends Model {
 
 	protected $table = 'submissions';
 
-    protected $fillable = ['file_path', 'time', 'assignment_id'];
+    protected $fillable = ['file_path', 'time', 'assessment_id'];
+
+    public function assessment(){
+        return $this->belongsTo('App\Models\Assessment');
+
+    }
 
 }

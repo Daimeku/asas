@@ -34,21 +34,28 @@ Route::get('login',[
 //]);
 
 
-Route::get('students/{id}/home', [
+Route::get('students/home', [
 	'as' => 'students/home',
 	'uses' => 'StudentsController@index'
 ]);
 
-Route::get('students/{id}/assignments', function(){
-    return view('students/assignments');
-});
+Route::get('students/assignments', [
+    'as' => 'students/assignments',
+    'uses' => 'studentsController@assignments'
+]);
 
-Route::get('students/{id}/assessments/{assessment_id}/upload', [
+Route::get('students/assignments/{assessment_id}', [
+    'as' => 'students/assignment',
+    'uses' => 'studentsController@assignment'
+]);
+
+
+Route::get('students/assessments/{assessment_id}/upload', [
     'as' => 'students/uploadAssignment',
     'uses' => 'StudentsController@uploadAssignment'
 ]);
 
-Route::post('students/{student_id}/assessments/{assessment_id}/upload',[
+Route::post('students/assessments/{assessment_id}/upload',[
     'as' => 'students/upload',
     'uses' => 'StudentsController@upload'
 ]);

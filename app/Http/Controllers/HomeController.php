@@ -31,10 +31,16 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+        if(Auth::user()->user_type === 1){
+            // return teacher home
+        }
+
         if(Auth::user()->user_type === 2)   // if user is a student then return them to student home
         {
-            return redirect()->route('students/home',['id'=>Auth::user()->id]);
+            return redirect()->route('students/home');
         }
+
+
 
         //if user isnt either type display welcome page
 		return view('welcome');

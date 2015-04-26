@@ -144,12 +144,12 @@ return [
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
-        'Illuminate\Html\HtmlServiceProvider'
+        'Illuminate\Html\HtmlServiceProvider',
 
 		/*
 		* Developer service providers
 		*/
-//		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider'
+		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider'
 
 	],
 

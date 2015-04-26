@@ -8,8 +8,13 @@ use App\Http\Controllers\Controller;
 use Auth;
 use DB;
 use App\Models\Course;
+use App\Models\Assessment;
 
 class StudentsController extends Controller {
+
+    public function __construct(){
+        $this->middleware("student");
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -28,9 +33,17 @@ class StudentsController extends Controller {
         $occurences = $user->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
+        $pastAssessments = Auth::user()->findPastAssessments($courses);
 
+        $submissionAssessments = collect();
         $assignments = collect();
         $tests = collect();
+
+            $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();
+        foreach($submissions as $submission){
+            $submissionAssessments->push($submission->assessment);
+        }
+
         foreach($assessments as $assessment){
             if($assessment->assessment_type === 1){
                 $assignments->push($assessment);
@@ -43,7 +56,11 @@ class StudentsController extends Controller {
 
 			'user' => Auth::user(),	//returning user object
             'assignments' => $assignments,
-            'tests' => $tests
+            'tests' => $tests,
+            'courses' => $courses,
+            'pastAssessments' => $pastAssessments,
+            'submissions' => $submissions,
+            'submissionAssessments' => $submissionAssessments
 
 
 		];
@@ -51,6 +68,35 @@ class StudentsController extends Controller {
 
 		return view('students/overview', $data);
 	}
+
+    public function assignments($id){
+
+            return view('students/assignment');
+
+    }
+
+    public function assignment($assignment_id){
+
+        $assignment = Assessment::find($assignment_id);
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $course = $assignment->course;
+        $submissionAssessments = collect();
+        $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();
+        foreach($submissions as $submission){
+            $submissionAssessments->push($submission->assessment);
+        }
+
+        $data = [
+            'user' => Auth::user(),
+          'assignment' => $assignment,
+          'course' => $course,
+          'courses' => $courses,
+            'submissionAssessments' => $submissionAssessments
+        ];
+        return view('students/assignment',$data);
+
+    }
 
 	/**
 	 * Show the form for creating a new resource.

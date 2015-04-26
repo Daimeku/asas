@@ -337,15 +337,27 @@ Class UserCoursesSeeder extends Seeder {
 		]);
 
         Assessment::create([
-            'title' => 'data structures assignment 1',
+        'title' => 'data structures assignment 2',
+        'description' => 'the second data structures assignment',
+        'filepath' => '../files/bolt.jpg',
+        'start_date' => date('Y-m-d H:i:s'),
+        'end_date' => '2015-10-3 12:00:00',
+        'assessment_type' => 1,
+        'course_id' => 9
+
+        ]);
+        Assessment::create([
+            'title' => 'data structuresfirst assignment',
             'description' => 'the first data structures assessment',
             'filepath' => '../files/bolt.jpg',
-            'start_date' => date('Y-m-d H:i:s'),
-            'end_date' => '2015-10-3 12:00:00',
+            'start_date' => date('2015-01-3 12:00:00'),
+            'end_date' => '2015-04-3 12:00:00',
             'assessment_type' => 1,
             'course_id' => 9
 
         ]);
+
+
 
 		//13
 		Course::create([

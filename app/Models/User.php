@@ -42,19 +42,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 	return $this->belongsToMany('App\Models\Occurence', 'user_courses','user_id','occurence_id');
 	 }
 
+    public function submissions(){
+        return $this->belongsToMany('App\Models\Submission','user_submissions');
+    }
+
     /*
      * accepts a list of occurences and returns the courses they belong to
      */
 
     public function findCourses($occurences){
-        $courses =[];
+        $courses = collect();
 
         foreach($occurences as $occurence){
 
             $course = Course::find($occurence->course_id);
-            array_push($courses, $course);
-        }
+            $courses->push($course);
 
+        }
         return $courses;
     }
 
@@ -75,6 +79,29 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             if(! $courseAssessments->isEmpty()){
 
                $assessments= $assessments->merge($courseAssessments);
+            }
+        }
+
+        return $assessments;
+    }
+
+    /*
+     * finds all past assessments
+     */
+
+    public function findPastAssessments($courses){
+        $assessments = collect();
+
+        /*
+         * loops through the courses and finds assignments with that course id and end_date greater than the current date
+         */
+
+        foreach($courses as $course){
+            $courseAssessments =  Assessment::where('course_id', $course->id)->where('end_date', '<', date("Y-m-d H:i:s"))->take(500)->get(); //->where('end_date', '>=', date("Y-m-d H:i:s"));
+
+            if(! $courseAssessments->isEmpty()){
+
+                $assessments= $assessments->merge($courseAssessments);
             }
         }
 

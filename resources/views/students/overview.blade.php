@@ -22,7 +22,7 @@
 		                <!-- /col -->
 		                <!-- col -->
 		                <div class="col-xs-8">
-		                    <p class="text-elg text-strong mb-0">4</p> <span class="topic">Assignments Due</span> </div>
+		                    <p class="text-elg text-strong mb-0">{{count($assignments)}}</p> <span class="topic">Assignments Due</span> </div>
 		                <!-- /col -->
 		            </div>
 		            <!-- /row -->
@@ -41,7 +41,7 @@
 		                <!-- /col -->
 		                <!-- col -->
 		                <div class="col-xs-8">
-		                    <p class="text-elg text-strong mb-0">2</p> <span class="topic">Upcoming Tests</span> </div>
+		                    <p class="text-elg text-strong mb-0">{{count($tests)}}</p> <span class="topic">Upcoming Tests</span> </div>
 		                <!-- /col -->
 		            </div>
 		            <!-- /row -->
@@ -61,7 +61,7 @@
 		                <!-- /col -->
 		                <!-- col -->
 		                <div class="col-xs-8">
-		                    <p class="text-elg text-strong mb-0">5</p> <span>Submissions in 30 days</span> </div>
+		                    <p class="text-elg text-strong mb-0">{{count($submissions)}}</p> <span>Recent Submissions </span> </div>
 		                <!-- /col -->
 		            </div>
 		            <!-- /row -->
@@ -78,26 +78,28 @@
                     <h3>Assignments Due</h3>
                     <ul>
                         @foreach($assignments as $assignment)
-                            <li><a href="#">{{$assignment->title}}</a></li>
+                            <li><a href="{{{route('students/assignment',['assessment_id'=>$assignment->id]) }}}">{{$assignment->title}}</a></li>
                         @endforeach
 
-                   </ul>                 
+                   </ul>
                   </div>
                   <div class="col-md-4">
                     <h3>Upcoming Tests</h3>
                       <ul>
-                        <li><a href="#">Test 1</a></li>
-                        <li><a href="#">Test 2</a></li>
+                          @foreach($tests as $test)
+                          <li><a href="#">{{$test->title}}</a></li>
+
+                          @endforeach
                     </ul>       
                   </div>
                   <div class="col-md-4">
-                  <h3>Past Submissions</h3>
+                  <h3>Recent Submissions</h3>
                     <ul>
-                      <li><a href="#">Assign. #1</a></li>
-                      <li><a href="#">Assign. #2</a></li>
-                      <li><a href="#">Assign. #3</a></li>
-                      <li><a href="#">Assign. #4</a></li>
-                      <li><a href="#">Assign. #5</a></li>
+                        @foreach($submissionAssessments as $assessment)
+                            <li><a href="#">{{$assessment->title}}</a></li>
+
+                        @endforeach
+
                    </ul>               
                 </div>         
           </div>
