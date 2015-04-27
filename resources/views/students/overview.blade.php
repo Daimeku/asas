@@ -78,7 +78,7 @@
                     <h3>Assignments Due</h3>
                     <ul>
                         @foreach($assignments as $assignment)
-                            <li><a href="{{{route('students/assignment',['assessment_id'=>$assignment->id]) }}}">{{$assignment->title}}</a></li>
+                            <li><a href="#">{{$assignment->title}}</a></li>
                         @endforeach
 
                    </ul>
@@ -95,7 +95,8 @@
                   <div class="col-md-4">
                   <h3>Recent Submissions</h3>
                     <ul>
-                        @foreach($submissionAssessments as $assessment)
+                        @foreach($submissions as $submission)
+                            <?php $assessment = $submission->assessment ?>
                             <li><a href="#">{{$assessment->title}}</a></li>
 
                         @endforeach

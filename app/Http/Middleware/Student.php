@@ -16,6 +16,9 @@ class Student {
 	public function handle($request, Closure $next)
 	{
 //        dd(Request::input('user_id'));
+        if(! Auth::check()){
+            return "USER NOT LOGGED IN";
+        }
 
         if(Auth::user()->user_type != 2){
             return redirect('/');

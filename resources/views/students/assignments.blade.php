@@ -9,9 +9,11 @@
    		<h1 id="heading">Assignments</h1>
    		<hr/>
  	</div>
+@foreach($assignments as $assignment)
  	<div class="main-content">
  		<div class="row">
 			<div class="col-md-8">
+                <?php $course = $assignment->course;?>
 				<h2>{{$course->name}}</h2>
 				<h4><em>{{$assignment->title}}</em></h4>
 			</div>
@@ -41,4 +43,5 @@
 		</div>
 		<hr/>
  	</div>
+@endforeach
  @stop

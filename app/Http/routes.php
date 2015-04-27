@@ -59,6 +59,12 @@ Route::post('students/assessments/{assessment_id}/upload',[
     'as' => 'students/upload',
     'uses' => 'StudentsController@upload'
 ]);
+
+Route::get('students/submissions', [
+    'as' => 'students/submissions',
+    'uses' => 'studentsController@submissions'
+]);
+
 Route::get('courses',[
     'uses'  => 'CoursesController@index'
 ]);

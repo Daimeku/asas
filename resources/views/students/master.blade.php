@@ -35,7 +35,7 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li><a href="#"><i class="fa fa-tasks"></i>     Assignments</a></li>
+                <li><a href="{{{route('students/assignments') }}}"><i class="fa fa-tasks"></i>     Assignments</a></li>
                 <li><a href="#"><i class="fa fa-upload"></i>     Submissions</a></li>
                 <li><a href="#"><i class="fa fa-file-text"></i>     Tests</a></li>              
               </ul>
@@ -62,7 +62,7 @@
                     <h4>My Courses<h4>
                     <ul>
                         @for($i=0;$i<4;$i++)
-                            <li><a href="#">{{$courses->pull($i)->name}}</a></li>
+                            <li><a href="#">{{$footerData['courses']->pull($i)->name}}</a></li>
 
                         @endfor
 
@@ -72,7 +72,7 @@
                     <h4>Recent Submissions <h4>
                       <ul>
                           @for($i=0;$i<4;$i++)
-                          <li><a href="#">{{$submissionAssessments->pull($i)->title}}</a></li>
+                          <li><a href="#">{{$footerData['assessments']->pull($i)->title}}</a></li>
 
                           @endfor
 

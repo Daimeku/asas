@@ -17,32 +17,24 @@ class StudentsController extends Controller {
     }
 
 	/**
-	 * Display a listing of the resource.
+	 * loads relevent data and returns the student overview page
 	 *
 	 * @return Response
 	 */
 	public function index()
-	{
-		// if user isnt a student then display an error
-		if (\Auth::user()->user_type != 2) {
-			$data = "unauthorized access";
-			return view('error', $data);
-		}
-
-                $user = Auth::user();
+    {
+        $user = Auth::user();
         $occurences = $user->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $pastAssessments = Auth::user()->findPastAssessments($courses);
 
-        $submissionAssessments = collect();
-        $assignments = collect();
-        $tests = collect();
+        $assignments = collect();   // stores upcoming assignments
+        $tests = collect();         // stores upcoming tests
 
-            $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();
-        foreach($submissions as $submission){
-            $submissionAssessments->push($submission->assessment);
-        }
+        $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();  //get all submissions, eager load assessments
+
+        //loops through list of assessments and separate tests from assignments
 
         foreach($assessments as $assessment){
             if($assessment->assessment_type === 1){
@@ -52,6 +44,8 @@ class StudentsController extends Controller {
                 $tests->push($assessment);
             }
         }
+
+        $footerData = $this->getFooterData();
 		$data = [
 
 			'user' => Auth::user(),	//returning user object
@@ -60,42 +54,101 @@ class StudentsController extends Controller {
             'courses' => $courses,
             'pastAssessments' => $pastAssessments,
             'submissions' => $submissions,
-            'submissionAssessments' => $submissionAssessments
+            'footerData' => $footerData
 
 
 		];
-//        dd($data);
 
 		return view('students/overview', $data);
 	}
 
-    public function assignments($id){
-
-            return view('students/assignment');
-
-    }
-
-    public function assignment($assignment_id){
-
-        $assignment = Assessment::find($assignment_id);
+    public function getFooterData(){
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
-        $course = $assignment->course;
+        $assessments = collect();
+        $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
+
+        foreach($submissions as $submission){
+            $assessments->push($submission->assessment);
+        }
+
+        $footerData = [
+            'courses' => $courses,
+            'assessments' => $assessments
+        ];
+
+        return $footerData;
+    }
+
+
+    public function assignments(){
+
+
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+
+
         $submissionAssessments = collect();
         $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();
+
+        $assignments = collect();
+        $tests = collect();
+
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $assignments->push($assessment);
+            }
+            else if($assessment->assessment_type === 2){
+                $tests->push($assessment);
+            }
+        }
+
         foreach($submissions as $submission){
             $submissionAssessments->push($submission->assessment);
         }
 
+
         $data = [
             'user' => Auth::user(),
-          'assignment' => $assignment,
-          'course' => $course,
+          'assignments' => $assignments,
           'courses' => $courses,
             'submissionAssessments' => $submissionAssessments
         ];
-        return view('students/assignment',$data);
 
+        return view('students/assignments',$data);
+
+    }
+
+    public function submissions(){
+
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+        $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
+
+        $submissionGroups = collect();
+
+        foreach($submissions as $submission){
+            $assessment = $submission->assessment;
+            $course = $assessment->course;
+
+            $group = [
+                'submission' => $submission,
+                'course' => $course,
+                'assessment' => $assessment
+            ];
+            $submissionGroups->push($group);
+        }
+
+        $data = [
+            'submissions' => $submissions,
+            'courses' => $courses,
+            'submissionGroups' => $submissionGroups,
+            'submissionAssessments' => []
+        ];
+
+        return view('students/submissions', $data);
     }
 
 	/**
