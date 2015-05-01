@@ -29,10 +29,9 @@ Route::get('login',[
     'uses' => 'Auth\AuthController@showLogin'
 ]);
 
-//Route::post('login',[
-//    'uses' => 'Auth\AuthController@login'
-//]);
-
+/*
+ * STUDENT ROUTES
+ */
 
 Route::get('students/home', [
 	'as' => 'students/home',
@@ -65,6 +64,26 @@ Route::get('students/submissions', [
     'uses' => 'studentsController@submissions'
 ]);
 
-Route::get('courses',[
-    'uses'  => 'CoursesController@index'
+/*
+ * TEACHER ROUTES
+ */
+
+Route::get('teachers/home', [
+    'as' => 'teachers/home',
+    'uses' => 'TeachersController@index'
+]);
+
+Route::get('teachers/assignments', [
+    'as' => 'teachers/assignments',
+    'uses' => 'TeachersController@assignments'
+]);
+
+Route::get('teachers/uploadAssignment',[
+    'as' => 'teachers/uploadAssignment',
+    'uses' => 'TeachersController@uploadAssignment'
+]);
+
+Route::post('teachers/createAssignment',[
+    'as' => 'teachers/create',
+    'uses' => 'TeachersController@createAssessment'
 ]);

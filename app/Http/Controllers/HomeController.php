@@ -32,7 +32,7 @@ class HomeController extends Controller {
 	public function index()
 	{
         if(Auth::user()->user_type === 1){
-            // return teacher home
+            return redirect()->route('teachers/home');
         }
 
         if(Auth::user()->user_type === 2)   // if user is a student then return them to student home

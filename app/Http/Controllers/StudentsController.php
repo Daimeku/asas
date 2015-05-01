@@ -58,27 +58,11 @@ class StudentsController extends Controller {
 
 
 		];
-
+//        dd($data);
 		return view('students/overview', $data);
 	}
 
-    public function getFooterData(){
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
-        $assessments = collect();
-        $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
 
-        foreach($submissions as $submission){
-            $assessments->push($submission->assessment);
-        }
-
-        $footerData = [
-            'courses' => $courses,
-            'assessments' => $assessments
-        ];
-
-        return $footerData;
-    }
 
 
     public function assignments(){
@@ -108,12 +92,13 @@ class StudentsController extends Controller {
             $submissionAssessments->push($submission->assessment);
         }
 
+        $footerData = $this->getFooterData();
 
         $data = [
             'user' => Auth::user(),
           'assignments' => $assignments,
           'courses' => $courses,
-            'submissionAssessments' => $submissionAssessments
+            'footerData' => $footerData
         ];
 
         return view('students/assignments',$data);
@@ -124,7 +109,6 @@ class StudentsController extends Controller {
 
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
-        $assessments = Auth::user()->findActiveAssessments($courses);
         $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
 
         $submissionGroups = collect();
@@ -140,80 +124,37 @@ class StudentsController extends Controller {
             ];
             $submissionGroups->push($group);
         }
+        $footerData = $this->getFooterData();
 
         $data = [
             'submissions' => $submissions,
             'courses' => $courses,
             'submissionGroups' => $submissionGroups,
-            'submissionAssessments' => []
+            'footerData' => $footerData
         ];
 
         return view('students/submissions', $data);
     }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
+    public function getFooterData(){
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = collect();
+        $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+        foreach($submissions as $submission){
+            $assessments->push($submission->assessment);
+        }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+        $footerData = [
+            'courses' => $courses,
+            'assessments' => $assessments
+        ];
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
+        return $footerData;
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
 
     public function uploadAssignment($id){
 
@@ -249,13 +190,13 @@ class StudentsController extends Controller {
             ]);
 
         }
+        else{
+            return "FILE NOT VALID";
+        }
 
 
 
     }
 
-    public function getFilePath($file, $id){
-
-    }
 
 }

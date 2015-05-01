@@ -10,4 +10,8 @@ class Course extends Model {
 
     protected $fillable = ['description', 'code', 'name', 'school_id', 'start_date', 'end_date'];
 
+    public function assessments(){
+
+        return $this->hasMany('App\Models\Assessment');
+    }
 }

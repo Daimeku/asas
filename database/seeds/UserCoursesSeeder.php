@@ -572,7 +572,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '08:00:00',
 			 	'end_time' => '10:00:00',
 			 	'location_id' => 9,
-			 	'course_id' => 2			 	
+			 	'course_id' => 2,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -585,7 +587,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '12:00:00',
 			 	'end_time' => '13:00:00',
 			 	'location_id' => 3,
-			 	'course_id' => 4			 	
+			 	'course_id' => 4,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -598,7 +602,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '10:00:00',
 			 	'end_time' => '12:00:00',
 			 	'location_id' => 10,
-			 	'course_id' => 10			 	
+			 	'course_id' => 10,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -611,7 +617,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '16:00:00',
 			 	'end_time' => '18:00:00',
 			 	'location_id' => 9,
-			 	'course_id' => 21			 	
+			 	'course_id' => 21,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -624,7 +632,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '08:00:00',
 			 	'end_time' => '11:00:00',
 			 	'location_id' => 14,
-			 	'course_id' => 6			 	
+			 	'course_id' => 6,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -637,7 +647,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '15:00:00',
 			 	'end_time' => '17:00:00',
 			 	'location_id' => 13,
-			 	'course_id' => 7			 	
+			 	'course_id' => 7,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -650,7 +662,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '16:00:00',
 			 	'end_time' => '17:00:00',
 			 	'location_id' => 4,
-			 	'course_id' => 3			 	
+			 	'course_id' => 3,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -664,7 +678,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '13:00:00',
 			 	'end_time' => '14:00:00',
 			 	'location_id' => 6,
-			 	'course_id' => 13			 	
+			 	'course_id' => 13,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -677,7 +693,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '14:00:00',
 			 	'end_time' => '17:00:00',
 			 	'location_id' => 14,
-			 	'course_id' => 9 			 	
+			 	'course_id' => 9,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -691,7 +709,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '12:00:00',
 			 	'end_time' => '13:00:00',
 			 	'location_id' => 9,
-			 	'course_id' => 6 			 	
+			 	'course_id' => 6,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -704,7 +724,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '12:00:00',
 			 	'end_time' => '15:00:00',
 			 	'location_id' => 14,
-			 	'course_id' => 6			 	
+			 	'course_id' => 6,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -717,7 +739,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '12:00:00',
 			 	'end_time' => '15:00:00',
 			 	'location_id' => 12,
-			 	'course_id' => 6			 	
+			 	'course_id' => 6,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -730,7 +754,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '10:00:00',
 			 	'end_time' => '11:00:00',
 			 	'location_id' => 7,
-			 	'course_id' => 4			 	
+			 	'course_id' => 4,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -743,7 +769,9 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '12:00:00',
 			 	'end_time' => '15:00:00',
 			 	'location_id' => 8,
-			 	'course_id' => 4			 	
+			 	'course_id' => 4,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
@@ -756,14 +784,23 @@ Class UserCoursesSeeder extends Seeder {
 			 	'start_time' => '08:00:00',
 			 	'end_time' => '10:00:00',
 			 	'location_id' => 10,
-			 	'course_id' => 2			 	
+			 	'course_id' => 2,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
 			]
 		);
 
 		//'time'	=> date('D:H:i:s'),
 
 		//**************************Users and Occ************************************************************************
-		
+
+        DB::table('user_courses')->insert(
+            [
+                'user_id' =>1,
+                'occurence_id' =>1
+
+            ]
+        );
 		//1 ashani -------------------------------
 		DB::table('user_courses')->insert(
 			[

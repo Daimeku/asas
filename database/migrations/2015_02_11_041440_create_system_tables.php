@@ -99,6 +99,8 @@ class CreateSystemTables extends Migration {
             $table->foreign('day_id')->references('id')->on('days');
             $table->time('start_time');
             $table->time('end_time');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->unsignedInteger('location_id');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->unsignedInteger('course_id');

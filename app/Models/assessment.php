@@ -16,4 +16,14 @@ class Assessment extends Model {
         return $this->hasMany('App\Models\Submission');
     }
 
+    public function getDates()
+    {
+        return [
+            'created_at',
+            'updated_at',
+            'start_date',
+            'end_date'
+        ];
+    }
+
 }
