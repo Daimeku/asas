@@ -12,62 +12,68 @@
 
  	<div class="row">
 		<!-- col -->
-		<div class="card-container col-lg-4 col-sm-6 col-sm-12">
-		    <div class="card">
-		        <div class="front bg-greensea">
-		            <!-- row -->
-		            <div class="row">
-		                <!-- col -->
-		                <div class="col-xs-4"> <i class="fa fa-users fa-4x"></i> </div>
-		                <!-- /col -->
-		                <!-- col -->
-		                <div class="col-xs-8">
-		                    <p class="text-elg text-strong mb-0">{{count($assignments)}}</p> <span class="topic">Assignments Due</span> </div>
-		                <!-- /col -->
-		            </div>
-		            <!-- /row -->
-		        </div>		        
-		    </div>
-		</div>
+        <a href="{{{route('students/assignments') }}}">
+            <div class="card-container col-lg-4 col-sm-6 col-sm-12">
+                <div class="card">
+                    <div class="front bg-greensea">
+                        <!-- row -->
+                        <div class="row">
+                            <!-- col -->
+                            <div class="col-xs-4"> <i class="fa fa-users fa-4x"></i> </div>
+                            <!-- /col -->
+                            <!-- col -->
+                            <div class="col-xs-8">
+                                <p class="text-elg text-strong mb-0">{{count($assignments)}}</p> <span class="topic">Assignments Due</span> </div>
+                            <!-- /col -->
+                        </div>
+                        <!-- /row -->
+                    </div>
+                </div>
+            </div>
+        </a>
 		<!-- /col -->
 		<!-- col -->
-		<div class="card-container col-lg-4 col-sm-6 col-sm-12">
-		    <div class="card">
-		        <div class="front bg-lightred">
-		            <!-- row -->
-		            <div class="row">
-		                <!-- col -->
-		                <div class="col-xs-4"> <i class="fa fa-clock-o fa-4x"></i> </div>
-		                <!-- /col -->
-		                <!-- col -->
-		                <div class="col-xs-8">
-		                    <p class="text-elg text-strong mb-0">{{count($tests)}}</p> <span class="topic">Upcoming Tests</span> </div>
-		                <!-- /col -->
-		            </div>
-		            <!-- /row -->
-		        </div>
+        <a href="{{{route('students/tests') }}}">
+            <div class="card-container col-lg-4 col-sm-6 col-sm-12">
+                <div class="card">
+                    <div class="front bg-lightred">
+                        <!-- row -->
+                        <div class="row">
+                            <!-- col -->
+                            <div class="col-xs-4"> <i class="fa fa-clock-o fa-4x"></i> </div>
+                            <!-- /col -->
+                            <!-- col -->
+                            <div class="col-xs-8">
+                                <p class="text-elg text-strong mb-0">{{count($tests)}}</p> <span class="topic">Upcoming Tests</span> </div>
+                            <!-- /col -->
+                        </div>
+                        <!-- /row -->
+                    </div>
 
-		    </div>
-		</div>
+                </div>
+            </div>
+        </a>
 		<!-- /col -->
 		<!-- col -->
-		<div class="card-container col-lg-4 col-sm-6 col-sm-12">
-		    <div class="card">
-		        <div class="front bg-slategray">
-		            <!-- row -->
-		            <div class="row">
-		                <!-- col -->
-		                <div class="col-xs-4"> <i class="fa fa-eye fa-4x"></i> </div>
-		                <!-- /col -->
-		                <!-- col -->
-		                <div class="col-xs-8">
-		                    <p class="text-elg text-strong mb-0">{{count($submissions)}}</p> <span>Recent Submissions </span> </div>
-		                <!-- /col -->
-		            </div>
-		            <!-- /row -->
-		        </div>
-		    </div>
-		</div>
+        <a href="{{{route('students/submissions') }}}">
+            <div class="card-container col-lg-4 col-sm-6 col-sm-12">
+                <div class="card">
+                    <div class="front bg-slategray">
+                        <!-- row -->
+                        <div class="row">
+                            <!-- col -->
+                            <div class="col-xs-4"> <i class="fa fa-eye fa-4x"></i> </div>
+                            <!-- /col -->
+                            <!-- col -->
+                            <div class="col-xs-8">
+                                <p class="text-elg text-strong mb-0">{{count($submissions)}}</p> <span>Recent Submissions </span> </div>
+                            <!-- /col -->
+                        </div>
+                        <!-- /row -->
+                    </div>
+                </div>
+            </div>
+        </a>
 <!-- /col -->
 </div>
 
