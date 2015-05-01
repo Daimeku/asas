@@ -72,9 +72,11 @@ class StudentsController extends Controller {
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
 
-
         $submissionAssessments = collect();
-        $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();
+        $submissions = Auth::user()->submissions()->with('assessment')->get();
+        //remove assessments that are already submitted
+        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);
+
 
         $assignments = collect();
         $tests = collect();
@@ -104,7 +106,59 @@ class StudentsController extends Controller {
         return view('students/assignments',$data);
 
     }
+    /*
+     * loops through assessments and submissions and builds a list of assessments that havent been submitted by this user
+     */
 
+    public function checkSubmittedAssessments($assessments, $submissions){
+        $newAssessments = collect();
+        foreach($assessments as $assessment){
+            $conf = false;
+            foreach($submissions as $submission){
+                if((intval($submission->assessment_id) === intval($assessment->id)) ){
+                    $conf=false;
+                    break;
+                }else{
+
+                    $conf = true;
+                }
+            }
+
+            if($conf === true){
+                $newAssessments->push($assessment);
+            }
+
+        }
+        $assessments = $newAssessments;
+        return $assessments;
+    }
+
+    public function tests(){
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+        $tests = collect();
+
+        foreach($assessments as $assessment){
+
+           if($assessment->assessment_type === 2){
+                $tests->push($assessment);
+            }
+        }
+
+        $footerData = $this->getFooterData();
+
+        $data = [
+            'user' => Auth::user(),
+            'tests' => $tests,
+            'courses' => $courses,
+            'footerData' => $footerData
+        ];
+
+
+        dd($data);
+
+    }
     public function submissions(){
 
         $occurences = Auth::user()->occurences;
@@ -156,10 +210,58 @@ class StudentsController extends Controller {
     }
 
 
-    public function uploadAssignment($id){
+    public function uploadAssignment($assessment_id){
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+        $submissions = Auth::user()->submissions;
 
-        return view('students/upload');
+        //checks if the user is assigned to the current assessment
+        if(!($this->checkAssessmentBelongs($assessments,$assessment_id)) ){
+            return "ASSIGNMENT NOT ASSIGNED TO THIS USER";
+        }
 
+        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);
+
+        //checks to make sure that the user has permission to upload the chocsen assessment
+        //scans list of assessments and finds one with an id matching the assessment_id param
+        $currentAssessment = null;
+        $conf = false;
+        foreach($assessments as $assessment){
+            if(intval($assessment_id) === $assessment->id){
+                $currentAssessment = $assessment;
+                $conf=true;
+                break;
+            }
+        }
+
+
+        if($conf!=true){
+            return "ASSIGNMENT NOT FOUND FOR THIS USER. Possible duplicate submission.";
+        }
+        if($currentAssessment->assessment_type !=1){
+            return "YOU ARE ATTEMPTING TO UPLOAD A TEST. ONLY ASSIGNMENTS CAN BE UPLOADED.";
+        }
+
+
+
+        $data = [
+            'user' => Auth::user(),
+            'assessment' => $currentAssessment,
+        ];
+
+        return view('students/upload', $data);
+
+    }
+
+    public function checkAssessmentBelongs($assessments, $assessment_id){
+        $conf = false;
+        foreach($assessments as $assessment){
+            if(intval($assessment_id) === $assessment->id){
+                $conf = true;
+            }
+        }
+        return $conf;
     }
 
     public function upload(){

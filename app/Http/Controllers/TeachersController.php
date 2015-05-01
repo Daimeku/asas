@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Request;
 
 use Auth;
 use DB;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Course;
 use App\Models\Assessment;
 use App\Models\Occurence;
@@ -59,6 +60,7 @@ class TeachersController extends Controller {
         dd($data);
 	}
 
+
     public function uploadAssignment(){
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
@@ -77,7 +79,8 @@ class TeachersController extends Controller {
 
     public function createAssessment(){
 
-        $this->validate(Request::instance(),[
+        //create validator and check for correct user input
+        $val = Validator::make(Request::all(),[
             'title' => 'Required',
             'description' => 'required|',
             'filepath' => '',
@@ -87,18 +90,16 @@ class TeachersController extends Controller {
             'course_id' => 'required|numeric'
 
         ]);
+        // if validation fails return to the previous page with the validator errors
+        if($val->fails()){
+            return redirect()->back()->withInput()->withErrors($val->errors()->all());
+        }
 
         // check if teacher is assigned to a course with a matching course_id
-        $occurences = Auth::user()->occurences;
-        foreach($occurences as $occurence){
-
-            if($occurence->course_id == intval(Request::input('course_id'))){
-
-                if($occurence->end_date > date('Y-m-d H:i:s')){
-                    echo("course assigned");
-                }
-            }
+        if(!$this->checkCourseID(Request::input('course_id')) ){
+            return redirect()->back()->withErrors(['error', 'you do not currently have access to that course'])->withInput();
         }
+
         $start_date = new Carbon(Request::input('start_date'));
         $end_date = new Carbon(Request::input('end_date'));
 
@@ -118,6 +119,29 @@ class TeachersController extends Controller {
         dd($data);
     }
 
+    public function submissions(){
+
+
+    }
+
+    /**
+     * checks if the course_id matches a course the teacher has access to
+     */
+    public function checkCourseID($course_id)
+    {
+        $occurences = Auth::user()->occurences;
+        $conf = false;
+        foreach ($occurences as $occurence) {
+
+            if ($occurence->course_id === intval($course_id)) {
+
+                if ($occurence->end_date > date('Y-m-d H:i:s')) {
+                    $conf = true;
+                }
+            }
+        }
+        return $conf;
+    }
 
 
 }

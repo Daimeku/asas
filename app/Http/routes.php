@@ -40,12 +40,17 @@ Route::get('students/home', [
 
 Route::get('students/assignments', [
     'as' => 'students/assignments',
-    'uses' => 'studentsController@assignments'
+    'uses' => 'StudentsController@assignments'
+]);
+
+Route::get('students/tests',[
+    'as' => 'students/tests',
+    'uses' => 'StudentsController@tests'
 ]);
 
 Route::get('students/assignments/{assessment_id}', [
     'as' => 'students/assignment',
-    'uses' => 'studentsController@assignment'
+    'uses' => 'StudentsController@assignment'
 ]);
 
 
