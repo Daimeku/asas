@@ -36,8 +36,8 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                 <li><a href="{{{route('students/assignments') }}}"><i class="fa fa-tasks"></i>     Assignments</a></li>
-                <li><a href="{{{route('students/submissions')}}}"><i class="fa fa-upload"></i>     Submissions</a></li>
-                <li><a href="#"><i class="fa fa-file-text"></i>     Tests</a></li>              
+                <li><a href="{{{route('students/submissions') }}}"><i class="fa fa-upload"></i>     Submissions</a></li>
+                <li><a href="{{{route('students/tests') }}}"><i class="fa fa-file-text"></i>     Tests</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                  <li><a href="/auth/logout">Sign Out</a></li>
