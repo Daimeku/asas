@@ -92,3 +92,8 @@ Route::post('teachers/createAssignment',[
     'as' => 'teachers/create',
     'uses' => 'TeachersController@createAssessment'
 ]);
+
+Route::get('teachers/submissions',[
+    'as' => 'teachers/submissions',
+    'uses' => 'teachersController@submissions'
+]);

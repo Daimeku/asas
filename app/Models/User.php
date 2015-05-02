@@ -108,4 +108,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $assessments;
     }
 
+    public function sanitize(){
+        $user = [
+            'id' => $this->id,
+            'user_type' => $this->user_type,
+            'name' => $this->name,
+            'email' => $this->email,
+            'image' => $this->image_file_path
+
+        ];
+        return $user;
+    }
+
 }

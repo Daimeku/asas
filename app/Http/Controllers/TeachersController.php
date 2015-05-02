@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Course;
 use App\Models\Assessment;
 use App\Models\Occurence;
+use App\Models\Submission;
 
 class TeachersController extends Controller {
 
@@ -120,10 +121,79 @@ class TeachersController extends Controller {
     }
 
     public function submissions(){
-
+        $this->findSubmissions();
 
     }
 
+    /*
+     * find submissions for courses the user is currently assigned to
+     * organizes the submissions by course and returns an
+     * array of accepted & unaccepted submissions
+     */
+
+    public function findSubmissions(){
+        $this->findSubmission(1);
+        // get list of assessments
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+
+        $acceptedSubmissions = [];  // submissions that have already been accepted (accepted=true)
+        $unacceptedSubmissions = []; // submissions that haven't been accepted (accepted=false)
+
+        //initialize an array key for each course and set the value to an empty collection
+        foreach($assessments as $assessment){
+            $course = Course::find($assessment->course_id);
+            $acceptedSubmissions[$course->name] = collect();
+            $unacceptedSubmissions[$course->name] = collect();
+
+        }
+
+        //loop through assessments and retrieves accepted & unnacepted submissions
+        foreach($assessments as $assessment){
+
+            $tempUASubmissions = Submission::where('assessment_id',$assessment->id)->where('accepted',false)->with('users')->get(); // get all unaccepted submissions
+            $tempASubmissions = Submission::where('assessment_id',$assessment->id)->where('accepted',true)->with('users')->get(); // get all accepted submissions
+            $course = Course::find($assessment->course_id);
+
+            //loops through UASubmissions and adds each submission to the collection
+            foreach($tempUASubmissions as $sub){
+                $sub->userList = $sub->users; // list of all users that submitted this assignment
+                $unacceptedSubmissions[$course->name]->push($sub);
+            }
+            //loops through ASubmissions and adds each submission to the collection
+            foreach($tempASubmissions as $sub){
+                $sub->userList = $sub->users;   // list of all users that submitted this assignment
+                $acceptedSubmissions[$course->name]->push($sub);
+            }
+
+        }
+
+        //the final array containing both accepted and unnaccepted submissions will be returned
+        $submissions = [
+            'accepted' => $acceptedSubmissions,
+            'unaccepted' => $unacceptedSubmissions
+        ];
+
+        return $submissions;
+    }
+
+    /*
+     * accepts an id and returns a single submission that belongs to a course the user has access to
+     */
+    public function findSubmission($id){
+
+        $submission = Submission::find($id);
+        if($submission === null){
+            return "ERROR SUBMISSION NOT FOUND";
+        }
+
+        if (!$this->checkCourseID($submission->assessment->course->id)){
+            return "ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THAT COURSE";
+        }
+        return $submission;
+
+    }
     /**
      * checks if the course_id matches a course the teacher has access to
      */

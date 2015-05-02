@@ -48,7 +48,7 @@ class StudentsController extends Controller {
         $footerData = $this->getFooterData();
 		$data = [
 
-			'user' => Auth::user(),	//returning user object
+			'user' => Auth::user()->sanitize(),	//returning user object
             'assignments' => $assignments,
             'tests' => $tests,
             'courses' => $courses,
@@ -65,39 +65,41 @@ class StudentsController extends Controller {
 
 
 
-    public function assignments(){
+    public function assignments()
+    {
 
-
+//      load occurrences, courses and finally assessments
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
 
-        $submissionAssessments = collect();
-        $submissions = Auth::user()->submissions()->with('assessment')->get();
-        //remove assessments that are already submitted
-        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);
+        $submissions = Auth::user()->submissions()->with('assessment')->get();      // get submissions from user model
+        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);        //remove assessments that are already submitted
 
 
-        $assignments = collect();
-        $tests = collect();
 
+        $assignments = collect();   // stores assignments
+        $tests = collect();         // stores tests
+        //loop through assessments and separate assignments from tests
         foreach($assessments as $assessment){
-            if($assessment->assessment_type === 1){
+            if($assessment->assessment_type === 1){ // if assessment type is 1 then it is an assignment
                 $assignments->push($assessment);
             }
-            else if($assessment->assessment_type === 2){
+            else if($assessment->assessment_type === 2){ // if assessment_type is 2 then it is a test
                 $tests->push($assessment);
             }
         }
 
+        $submissionAssessments = collect(); // stores assignments that were submitted
+        //loop through submissions and add related assessments to $submissionAssessments
         foreach($submissions as $submission){
             $submissionAssessments->push($submission->assessment);
         }
 
-        $footerData = $this->getFooterData();
+        $footerData = $this->getFooterData();  // get data for footer
 
         $data = [
-            'user' => Auth::user(),
+            'user' => Auth::user()->sanitize(),
           'assignments' => $assignments,
           'courses' => $courses,
             'footerData' => $footerData
@@ -110,7 +112,8 @@ class StudentsController extends Controller {
      * loops through assessments and submissions and builds a list of assessments that havent been submitted by this user
      */
 
-    public function checkSubmittedAssessments($assessments, $submissions){
+    public function checkSubmittedAssessments($assessments, $submissions)
+    {
         $newAssessments = collect();
         foreach($assessments as $assessment){
             $conf = false;
@@ -133,7 +136,8 @@ class StudentsController extends Controller {
         return $assessments;
     }
 
-    public function tests(){
+    public function tests()
+    {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
@@ -149,7 +153,7 @@ class StudentsController extends Controller {
         $footerData = $this->getFooterData();
 
         $data = [
-            'user' => Auth::user(),
+            'user' => Auth::user()->sanitize(),
             'tests' => $tests,
             'courses' => $courses,
             'footerData' => $footerData
@@ -159,7 +163,8 @@ class StudentsController extends Controller {
         dd($data);
 
     }
-    public function submissions(){
+    public function submissions()
+    {
 
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
@@ -191,7 +196,8 @@ class StudentsController extends Controller {
     }
 
 
-    public function getFooterData(){
+    public function getFooterData()
+    {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = collect();
@@ -210,7 +216,8 @@ class StudentsController extends Controller {
     }
 
 
-    public function uploadAssignment($assessment_id){
+    public function uploadAssignment($assessment_id)
+    {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
@@ -235,10 +242,11 @@ class StudentsController extends Controller {
             }
         }
 
-
+        //check if assessment is found
         if($conf!=true){
             return "ASSIGNMENT NOT FOUND FOR THIS USER. Possible duplicate submission.";
         }
+        //check assessment is a test
         if($currentAssessment->assessment_type !=1){
             return "YOU ARE ATTEMPTING TO UPLOAD A TEST. ONLY ASSIGNMENTS CAN BE UPLOADED.";
         }
@@ -246,7 +254,7 @@ class StudentsController extends Controller {
 
 
         $data = [
-            'user' => Auth::user(),
+            'user' => Auth::user()->sanitize(),
             'assessment' => $currentAssessment,
         ];
 
@@ -278,11 +286,10 @@ class StudentsController extends Controller {
             $submission = new Submission;
             $submission->file_path = $filePath . "submission";
             $submission->time = date('Y-m-d H:i:s');
-            $submission->accepted = true;
+            $submission->accepted = false;
             $submission->submission_type = 2;
             $submission->assessment_id = Request::input('assessment_id');
             $submission->save();
-
 
             // create an entry in the user_submissions table
 
