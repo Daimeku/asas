@@ -1,7 +1,5 @@
 # oastas
-
 an assignment submission and test monitorng system.
-
 
 ##how to setup project
 1. Clone the repo
