@@ -101,6 +101,6 @@
 
     <script src="/js/essentials/jquery-2.1.3.min.js"></script>
     <script src="/js/essentials/bootstrap.min.js"></script>
-    <script src="/js/others/calendar.js"></script>
+     @yield('scripts')
 
 </html>
