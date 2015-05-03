@@ -12,62 +12,68 @@
 
  	<div class="row">
 		<!-- col -->
-		<div class="card-container col-lg-4 col-sm-6 col-sm-12">
-		    <div class="card">
-		        <div class="front bg-greensea">
-		            <!-- row -->
-		            <div class="row">
-		                <!-- col -->
-		                <div class="col-xs-4"> <i class="fa fa-users fa-4x"></i> </div>
-		                <!-- /col -->
-		                <!-- col -->
-		                <div class="col-xs-8">
-		                    <p class="text-elg text-strong mb-0">4</p> <span class="topic">Assignments Due</span> </div>
-		                <!-- /col -->
-		            </div>
-		            <!-- /row -->
-		        </div>		        
-		    </div>
-		</div>
+        <a href="{{{route('students/assignments') }}}">
+            <div class="card-container col-lg-4 col-sm-6 col-sm-12">
+                <div class="card">
+                    <div class="front bg-greensea">
+                        <!-- row -->
+                        <div class="row">
+                            <!-- col -->
+                            <div class="col-xs-4"> <i class="fa fa-users fa-4x"></i> </div>
+                            <!-- /col -->
+                            <!-- col -->
+                            <div class="col-xs-8">
+                                <p class="text-elg text-strong mb-0">{{count($assignments)}}</p> <span class="topic">Assignments Due</span> </div>
+                            <!-- /col -->
+                        </div>
+                        <!-- /row -->
+                    </div>
+                </div>
+            </div>
+        </a>
 		<!-- /col -->
 		<!-- col -->
-		<div class="card-container col-lg-4 col-sm-6 col-sm-12">
-		    <div class="card">
-		        <div class="front bg-lightred">
-		            <!-- row -->
-		            <div class="row">
-		                <!-- col -->
-		                <div class="col-xs-4"> <i class="fa fa-clock-o fa-4x"></i> </div>
-		                <!-- /col -->
-		                <!-- col -->
-		                <div class="col-xs-8">
-		                    <p class="text-elg text-strong mb-0">2</p> <span class="topic">Upcoming Tests</span> </div>
-		                <!-- /col -->
-		            </div>
-		            <!-- /row -->
-		        </div>
+        <a href="{{{route('students/tests') }}}">
+            <div class="card-container col-lg-4 col-sm-6 col-sm-12">
+                <div class="card">
+                    <div class="front bg-lightred">
+                        <!-- row -->
+                        <div class="row">
+                            <!-- col -->
+                            <div class="col-xs-4"> <i class="fa fa-clock-o fa-4x"></i> </div>
+                            <!-- /col -->
+                            <!-- col -->
+                            <div class="col-xs-8">
+                                <p class="text-elg text-strong mb-0">{{count($tests)}}</p> <span class="topic">Upcoming Tests</span> </div>
+                            <!-- /col -->
+                        </div>
+                        <!-- /row -->
+                    </div>
 
-		    </div>
-		</div>
+                </div>
+            </div>
+        </a>
 		<!-- /col -->
 		<!-- col -->
-		<div class="card-container col-lg-4 col-sm-6 col-sm-12">
-		    <div class="card">
-		        <div class="front bg-slategray">
-		            <!-- row -->
-		            <div class="row">
-		                <!-- col -->
-		                <div class="col-xs-4"> <i class="fa fa-eye fa-4x"></i> </div>
-		                <!-- /col -->
-		                <!-- col -->
-		                <div class="col-xs-8">
-		                    <p class="text-elg text-strong mb-0">5</p> <span>Submissions in 30 days</span> </div>
-		                <!-- /col -->
-		            </div>
-		            <!-- /row -->
-		        </div>
-		    </div>
-		</div>
+        <a href="{{{route('students/submissions') }}}">
+            <div class="card-container col-lg-4 col-sm-6 col-sm-12">
+                <div class="card">
+                    <div class="front bg-slategray">
+                        <!-- row -->
+                        <div class="row">
+                            <!-- col -->
+                            <div class="col-xs-4"> <i class="fa fa-eye fa-4x"></i> </div>
+                            <!-- /col -->
+                            <!-- col -->
+                            <div class="col-xs-8">
+                                <p class="text-elg text-strong mb-0">{{count($submissions)}}</p> <span>Recent Submissions </span> </div>
+                            <!-- /col -->
+                        </div>
+                        <!-- /row -->
+                    </div>
+                </div>
+            </div>
+        </a>
 <!-- /col -->
 </div>
 
@@ -75,29 +81,32 @@
 		<div id="notes">   
            <div class="row">                              
                   <div class="col-md-4">
-                    <h3>Assignment Due</h3>
+                    <h3>Assignments Due</h3>
                     <ul>
-                      <li><a href="#">Assign. #1</a></li>
-                      <li><a href="#">Assign. #2</a></li>
-                      <li><a href="#">Assign. #3</a></li>
-                      <li><a href="#">Assign. #4</a></li>
-                   </ul>                 
+                        @foreach($assignments as $assignment)
+                            <li><a href="#">{{$assignment->title}}</a></li>
+                        @endforeach
+
+                   </ul>
                   </div>
                   <div class="col-md-4">
                     <h3>Upcoming Tests</h3>
                       <ul>
-                        <li><a href="#">Test 1</a></li>
-                        <li><a href="#">Test 2</a></li>
+                          @foreach($tests as $test)
+                          <li><a href="#">{{$test->title}}</a></li>
+
+                          @endforeach
                     </ul>       
                   </div>
                   <div class="col-md-4">
-                  <h3>Past Submissions</h3>
+                  <h3>Recent Submissions</h3>
                     <ul>
-                      <li><a href="#">Assign. #1</a></li>
-                      <li><a href="#">Assign. #2</a></li>
-                      <li><a href="#">Assign. #3</a></li>
-                      <li><a href="#">Assign. #4</a></li>
-                      <li><a href="#">Assign. #5</a></li>
+                        @foreach($submissions as $submission)
+                            <?php $assessment = $submission->assessment ?>
+                            <li><a href="#">{{$assessment->title}}</a></li>
+
+                        @endforeach
+
                    </ul>               
                 </div>         
           </div>

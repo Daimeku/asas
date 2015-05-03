@@ -99,6 +99,8 @@ class CreateSystemTables extends Migration {
             $table->foreign('day_id')->references('id')->on('days');
             $table->time('start_time');
             $table->time('end_time');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->unsignedInteger('location_id');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->unsignedInteger('course_id');
@@ -130,6 +132,7 @@ class CreateSystemTables extends Migration {
             $table->foreign('submission_type')->references('id')->on('submission_types');
             $table->unsignedInteger('assessment_id');
             $table->foreign('assessment_id')->references('id')->on('assessments');
+            $table->decimal('grade');
             $table->timestamps();
         });
 

@@ -1,9 +1,12 @@
+
 @extends('lecturers.master')
 
 @section('head')
  <link rel="stylesheet" href="/css/students/assignment.css">
  <link rel="stylesheet" href="/css/jQueryUI/jquery-ui.min.css">
 @stop
+
+
 
 @if (count($errors) > 0)
 <div class="alert alert-danger">
@@ -16,6 +19,7 @@
 </div>
 @endif
 
+<<<<<<< HEAD
 @section('content')
 
   <div class="section-heading">
@@ -93,3 +97,4 @@
       }); 
 </script>
  @stop
+

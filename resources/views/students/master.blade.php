@@ -30,17 +30,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">ASAS</a>
+              <a class="navbar-brand" href="/">ASAS</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li><a href="#"><i class="fa fa-tasks"></i>     Assignments</a></li>
-                <li><a href="#"><i class="fa fa-upload"></i>     Submissions</a></li>
-                <li><a href="#"><i class="fa fa-file-text"></i>     Tests</a></li>              
+                <li><a href="{{{route('students/assignments') }}}"><i class="fa fa-tasks"></i>     Assignments</a></li>
+                <li><a href="{{{route('students/submissions') }}}"><i class="fa fa-upload"></i>     Submissions</a></li>
+                <li><a href="{{{route('students/tests') }}}"><i class="fa fa-file-text"></i>     Tests</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                 <li><a href="#">Sign Out</a></li>                          
+                 <li><a href="/auth/logout">Sign Out</a></li>
             </ul>
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
@@ -61,31 +61,22 @@
                   <div class="col-md-3">
                     <h4>My Courses<h4>
                     <ul>
-                      <li><a href="#">Course 1</a></li>
-                      <li><a href="#">Course 2</a></li>
-                      <li><a href="#">Course 3</a></li>
-                      <li><a href="#">Course 4</a></li>
+                        @for($i=0;$i<$footerData['courses']->count();$i++)
+                                <li><a href="#">{{$footerData['courses']->pull($i)->name}}</a></li>
+                        @endfor
+
                    </ul>                 
                   </div>
                   <div class="col-md-3">
-                    <h4>Past Tests <h4>
+                    <h4>Recent Submissions <h4>
                       <ul>
-                        <li><a href="#">Test 1</a></li>
-                        <li><a href="#">Test 2</a></li>
-                        <li><a href="#">Test 3</a></li>
-                        <li><a href="#">Test 4</a></li>
-                    </ul>       
+                          @for($i=0;$i<$footerData['assessments']->count();$i++)
+                                <li><a href="#">{{$footerData['assessments']->pull($i)->title}}</a></li>
+                          @endfor
+
+                      </ul>
                   </div>
-                  <div class="col-md-3">
-                  <h4>Recent Receipts<h4>
-                    <ul>
-                      <li><a href="#">Receipt 1</a></li>
-                      <li><a href="#">Receipt 2</a></li>
-                      <li><a href="#">Receipt 3</a></li>
-                      <li><a href="#">Receipt 4</a></li>
-                   </ul>
-                   </div>
-                </div>
+
             </div>          
       </div>
     </footer>

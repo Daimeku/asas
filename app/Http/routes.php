@@ -29,29 +29,86 @@ Route::get('login',[
     'uses' => 'Auth\AuthController@showLogin'
 ]);
 
-Route::post('login',[
-    'uses' => 'Auth\AuthController@login'
-]);
+/*
+ * STUDENT ROUTES
+ */
 
-
-Route::get('students/{id}/home', [
+Route::get('students/home', [
 	'as' => 'students/home',
 	'uses' => 'StudentsController@index'
 ]);
 
-Route::get('students/{id}/assignments', function(){
-    return view('students/assignments');
-});
+Route::get('students/assignments', [
+    'as' => 'students/assignments',
+    'uses' => 'StudentsController@assignments'
+]);
 
-Route::get('students/{id}/assessments/{assessment_id}/upload', [
+Route::get('students/tests',[
+    'as' => 'students/tests',
+    'uses' => 'StudentsController@tests'
+]);
+
+Route::get('students/assignments/{assessment_id}', [
+    'as' => 'students/assignment',
+    'uses' => 'StudentsController@assignment'
+]);
+
+
+Route::get('students/assessments/{assessment_id}/upload', [
     'as' => 'students/uploadAssignment',
     'uses' => 'StudentsController@uploadAssignment'
 ]);
 
-Route::post('students/{student_id}/assessments/{assessment_id}/upload',[
+Route::post('students/assessments/{assessment_id}/upload',[
     'as' => 'students/upload',
     'uses' => 'StudentsController@upload'
 ]);
-Route::get('courses',[
-    'uses'  => 'CoursesController@index'
+
+Route::get('students/submissions', [
+    'as' => 'students/submissions',
+    'uses' => 'studentsController@submissions'
+]);
+
+/*
+ * TEACHER ROUTES
+ */
+
+Route::get('teachers/home', [
+    'as' => 'teachers/home',
+    'uses' => 'TeachersController@index'
+]);
+
+Route::get('teachers/assignments', [
+    'as' => 'teachers/assignments',
+    'uses' => 'TeachersController@assignments'
+]);
+
+Route::get('teachers/uploadAssignment',[
+    'as' => 'teachers/uploadAssignment',
+    'uses' => 'TeachersController@uploadAssignment'
+]);
+
+Route::post('teachers/createAssignment',[
+    'as' => 'teachers/create',
+    'uses' => 'TeachersController@createAssessment'
+]);
+
+Route::get('teachers/submissions',[
+    'as' => 'teachers/submissions',
+    'uses' => 'teachersController@submissions'
+]);
+
+Route::get('teachers/submissions/{submission_id}',[
+    'as' => 'teachers/submission',
+    'uses' => 'TeachersController@submission'
+]);
+
+Route::get('teachers/submissions/{submission_id}/edit',[
+    'as' => 'teachers/submission/editSubmission',
+    'uses' => 'TeachersController@editSubmission'
+]);
+
+Route::post('teachers/submissions/{submission_id}/edit',[
+    'as' => 'teachers/submission/edit',
+    'uses' => 'TeachersController@editSub'
 ]);

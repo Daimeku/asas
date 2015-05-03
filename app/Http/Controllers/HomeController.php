@@ -1,4 +1,5 @@
 <?php namespace App\Http\Controllers;
+use Auth;
 
 class HomeController extends Controller {
 
@@ -13,7 +14,7 @@ class HomeController extends Controller {
 	|
 	*/
 
-	/**
+	/*
 	 * Create a new controller instance.
 	 *
 	 * @return void
@@ -30,7 +31,19 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+        if(Auth::user()->user_type === 1){
+            return redirect()->route('teachers/home');
+        }
+
+        if(Auth::user()->user_type === 2)   // if user is a student then return them to student home
+        {
+            return redirect()->route('students/home');
+        }
+
+
+
+        //if user isnt either type display welcome page
+		return view('welcome');
 	}
 
 }
