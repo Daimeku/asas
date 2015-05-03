@@ -19,7 +19,6 @@
 </div>
 @endif
 
-<<<<<<< HEAD
 @section('content')
 
   <div class="section-heading">
@@ -79,6 +78,7 @@
 
         <div class="form-group text-center">
             <input type="submit" value="Create" class="form-control btn btn-lg btn-primary">
+
         </div>
              
         {!! Form::close() !!}
