@@ -97,3 +97,18 @@ Route::get('teachers/submissions',[
     'as' => 'teachers/submissions',
     'uses' => 'teachersController@submissions'
 ]);
+
+Route::get('teachers/submissions/{submission_id}',[
+    'as' => 'teachers/submission',
+    'uses' => 'TeachersController@submission'
+]);
+
+Route::get('teachers/submissions/{submission_id}/edit',[
+    'as' => 'teachers/submission/editSubmission',
+    'uses' => 'TeachersController@editSubmission'
+]);
+
+Route::post('teachers/submissions/{submission_id}/edit',[
+    'as' => 'teachers/submission/edit',
+    'uses' => 'TeachersController@editSub'
+]);

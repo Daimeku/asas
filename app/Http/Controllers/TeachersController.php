@@ -132,7 +132,7 @@ class TeachersController extends Controller {
      */
 
     public function findSubmissions(){
-        $this->findSubmission(1);
+
         // get list of assessments
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
@@ -175,6 +175,7 @@ class TeachersController extends Controller {
             'unaccepted' => $unacceptedSubmissions
         ];
 
+        dd($submissions);
         return $submissions;
     }
 
