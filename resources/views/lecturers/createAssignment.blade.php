@@ -43,7 +43,19 @@
         <div class="form-group">         
             <textarea id="description" name="description" type="text" placeholder="Enter the Assignment or Test Description here" value="{{{Input::old('description')}}}" class="form-control" rows="3"></textarea>
         </div>
-
+        
+         <!--Upload-->
+        <div class="form-group">
+             <div class= "row">
+                 <div class="col-md-8">                    
+                    <input id="uploadTxt" name="upload" type="text" placeholder="Upload Assginment" value="" class="form-control">   
+                 </div>
+                 <div class="col-md-4"> 
+                     <input id="btnUpload" type="button" value="Browse" class="btn btn-md btn-primary">        
+                 </div>
+             </div> 
+         </div>
+       
         <!-- Start Date -->        
         <div class="form-group">        
            <input id="start_date" name="start_date" type="text" placeholder="Click to Select Start Date" value = "{{{Input::old('start_date')}}}" class="form-control">
@@ -65,7 +77,7 @@
                 <label>
                     <input type="radio" id="rbTest" value="test"> Test
                 </label>
-             </div>           
+             </div>   
         </div>
 
         <!-- Course-->
@@ -78,7 +90,6 @@
 
         <div class="form-group text-center">
             <input type="submit" value="Create" class="form-control btn btn-lg btn-primary">
-
         </div>
              
         {!! Form::close() !!}
