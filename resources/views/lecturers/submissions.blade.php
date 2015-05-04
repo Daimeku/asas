@@ -38,7 +38,7 @@
                  <h4><em>Occurence:</em> UN1</h4>
               </div>
               <div class="col-md-6 pull-right">
-                 <h4 class="pull-right">Assignment Name</h4>
+                 <h4 class="pull-right"><strong>Assignment Name<strong></h4>
                  <h4 class=class="pull-right"><strong>Group Assesment:</strong> Yes</h4>
               </div>
             </div>
@@ -50,7 +50,7 @@
                     <td> Submission Date </td>
                     <td> Submission Date </td>
                     <td><a href="#"> Download All</a></td>
-                    <td>Grade</td>
+                    <td>Feedback</td>
               
                     <tr> 
                        <td>1104473</td>
@@ -58,11 +58,39 @@
                        <td>Jan. 4 2014</td>
                        <td>2:03pm</td>
                        <td><a href="#">Download</td>
-                       <td><a href="#">Grade</td>
+                       <td><a href="#" data-toggle="modal" data-target="#modalGradeAssessment">Give Feedback</td>
                     </tr>
-                </tbody>
+                 </tbody>
              </table>
          </div>
       <hr/>
-  </div>	 	 
+  </div>	
+  
+  
+  <!--Modal for to Feedback-->
+  <div id="modalGradeAssessment" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="exampleModalLabel">Feedback</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="control-label">Recipient: Romario Raffington, Ashani Kentish</label>
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="control-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Send Feedback</button>
+        </div>
+      </div>
+    </div>
+  </div>
  @stop
