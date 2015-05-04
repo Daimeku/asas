@@ -56,10 +56,64 @@ class TeachersController extends Controller {
         $data =[
             'courses' => $courses,
             'assignments' => $assignments,
+            'submissions' => $submissions,
             'tests' => $tests
         ];
+
         dd($data);
 	}
+
+    public function assignments(){
+
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+        $pastAssessments = Auth::user()->findPastAssessments($courses);
+
+        $assignments = collect();   // stores upcoming assignments
+        $pastAssignments = collect();
+
+        //loops through list of active assessments and separates tests from assignments
+
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $assignments->push($assessment);
+            }
+
+        }
+
+        foreach($pastAssessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $pastAssessments->push($assessment);
+            }
+
+        }
+
+        $data = [
+            'assignments' => $assignments,
+            'pastAssignments' => $pastAssignments
+        ];
+        dd($data);
+
+    }
+
+    public function assignment($assignment_id){
+        $assignment = Assessment::find($assignment_id);
+        if($assignment === null){
+            dd("Assignment not found");
+        }
+        if(!$this->checkCourseID($assignment->course_id)){
+            dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
+        }
+        $submissions = $assignment->submissions;
+
+        $data = [
+            'assignment' => $assignment,
+            'submissions' => $submissions
+        ];
+
+        dd($data);
+    }
 
 
     public function uploadAssignment(){

@@ -89,6 +89,11 @@ Route::get('teachers/assignments', [
     'uses' => 'TeachersController@assignments'
 ]);
 
+Route::get('teachers/assignments/{assessment_id}', [
+    'as' => 'teachers/assignment',
+    'uses' => 'TeachersController@assignment'
+]);
+
 Route::get('teachers/uploadAssignment',[
     'as' => 'teachers/uploadAssignment',
     'uses' => 'TeachersController@uploadAssignment'
