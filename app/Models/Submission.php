@@ -8,6 +8,8 @@ class Submission extends Model {
 
     protected $fillable = ['file_path', 'time', 'assessment_id'];
 
+
+
     public $userList; // stores list of userss related to this submission
 
     public function assessment(){
@@ -18,5 +20,6 @@ class Submission extends Model {
     public function users(){
         return $this->belongsToMany('App\Models\User', 'user_submissions')->select(['id','user_type','name','email','image_file_path']);
     }
+
 
 }

@@ -29,14 +29,14 @@
   <div class="main-content">
      <div class="container"> 
      
-      <form class="assignment-form form-horizontal">
+<!--      <form class="assignment-form form-horizontal">-->
         <!--<form class="form-horizontal" action="teachers/createAssignment" method="POST">-->
-        {!! Form::open(['route'=>'teachers/create', 'method' => 'POST']) !!}
+        {!! Form::open(['route'=>'teachers/create', 'method' => 'POST', 'class'=>'assignment-form form-horizontal']) !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         
         <!-- Assignment Name -->
         <div class="form-group">          
-           <input id="title" name="title" type="text" placeholder="Enter Assignment or Test name" value="{{{Input::old('title')}}}" class="form-control">      
+           <input id="title" name="title" type="text" placeholder="Enter Assignment or Test name" value="{{{Input::old('title')}}}" class="form-control">
        </div>
 
       <!-- Description -->         
@@ -82,7 +82,7 @@
         </div>
              
         {!! Form::close() !!}
-        </form>
+
      </div>
    </div>
  @stop

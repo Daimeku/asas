@@ -79,7 +79,6 @@ class TeachersController extends Controller {
      */
 
     public function createAssessment(){
-
         //create validator and check for correct user input
         $val = Validator::make(Request::all(),[
             'title' => 'Required',
@@ -93,6 +92,7 @@ class TeachersController extends Controller {
         ]);
         // if validation fails return to the previous page with the validator errors
         if($val->fails()){
+
             return redirect()->back()->withInput()->withErrors($val->errors()->all());
         }
 
@@ -117,12 +117,27 @@ class TeachersController extends Controller {
         dd($assessment);
 
         $data = [];
-        dd($data);
+        return "ASSESSMENT SUCCESSFULLY CREATED";
     }
 
     public function submissions(){
-        $this->findSubmissions();
+        $submissions = $this->findSubmissions();
 
+        $data = [
+            'submissions' => $submissions
+        ];
+        dd($data);
+    }
+
+    public function submission($submission_id){
+
+        $submission = $this->findSubmission($submission_id);
+
+        $data = [
+            'submission' => $submission
+        ];
+
+        dd($data);
     }
 
     /*
@@ -175,7 +190,6 @@ class TeachersController extends Controller {
             'unaccepted' => $unacceptedSubmissions
         ];
 
-        dd($submissions);
         return $submissions;
     }
 
@@ -186,12 +200,14 @@ class TeachersController extends Controller {
 
         $submission = Submission::find($id);
         if($submission === null){
-            return "ERROR SUBMISSION NOT FOUND";
+            $error = [ "ERROR SUBMISSION NOT FOUND"];
+            dd( "ERROR SUBMISSION NOT FOUND");
         }
 
         if (!$this->checkCourseID($submission->assessment->course->id)){
-            return "ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THAT COURSE";
+            dd("ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THAT COURSE'S SUBMISSIONS");
         }
+        $submission->userList = $submission->users;
         return $submission;
 
     }

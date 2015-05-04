@@ -28,11 +28,12 @@ class StudentsController extends Controller {
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $pastAssessments = Auth::user()->findPastAssessments($courses);
+        $submissions = Auth::user()->submissions()->with('assessment')->get();  //get all submissions, eager load assessments
+        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);
 
         $assignments = collect();   // stores upcoming assignments
         $tests = collect();         // stores upcoming tests
 
-        $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();  //get all submissions, eager load assessments
 
         //loops through list of assessments and separate tests from assignments
 
@@ -163,6 +164,40 @@ class StudentsController extends Controller {
         dd($data);
 
     }
+
+    public function assessment($assessment_id){
+
+        $assessment = Assessment::find($assessment_id);
+
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+
+        $submissions = Auth::user()->submissions()->with('assessment')->get();      // get submissions from user model
+//        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);        //remove assessments that are already submitted
+
+        if($assessment === null){
+            dd("ASSESSMENT NOT FOUND");
+        }
+
+        if(!$this->checkCourseID($assessment->course_id)){
+            dd("YOU DO NOT HAVE ACCESS TO THAT COURSE");
+        }
+
+        if(!($this->checkAssessmentBelongs($assessments,$assessment_id)) ){
+            return "ASSIGNMENT NOT ASSIGNED TO THIS USER";
+        }
+
+        $footerData = $this->getFooterData();
+        $data = [
+            'user' => Auth::user()->sanitize(),
+            'assessment' => $assessment,
+            'footerData' => $footerData
+        ];
+
+        return view('students/assessment', $data);
+    }
+
     public function submissions()
     {
 
@@ -195,6 +230,40 @@ class StudentsController extends Controller {
         return view('students/submissions', $data);
     }
 
+    public function submission($submission_id){
+        $submission = Submission::find($submission_id);
+        if($submission === null){
+            $error = [ "ERROR SUBMISSION NOT FOUND"];
+            dd( "ERROR SUBMISSION NOT FOUND");
+        }
+
+        if (!$this->checkCourseID($submission->assessment->course->id)){
+            dd("ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THAT COURSE");
+        }
+        if(!$this->checkUserHasSubmission($submission)){
+            dd("ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THIS SUBMISSION");
+        }
+        $submission->userList = $submission->users;
+        $footerData = $this->getFooterData();
+        $course = $submission->assessment->course;
+        $data = [
+            'submission' => $submission,
+            'course' => $course,
+            'assessment' => $submission->assessment,
+            'footerData' => $footerData
+        ];
+
+        return view('students/submission', $data);
+    }
+
+    public function checkUserHasSubmission($submission){
+        foreach($submission->users as $user){
+            if($user->id === Auth::user()->id){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public function getFooterData()
     {
@@ -218,6 +287,22 @@ class StudentsController extends Controller {
 
     public function uploadAssignment($assessment_id)
     {
+
+
+        $currentAssessment = $this->getCurrentAssessment($assessment_id);
+
+        $data = [
+            'user' => Auth::user()->sanitize(),
+            'assessment' => $currentAssessment
+        ];
+
+//        dd($data);
+        return view('students/upload', $data);
+
+    }
+
+    public function getCurrentAssessment($assessment_id){
+
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
@@ -251,15 +336,7 @@ class StudentsController extends Controller {
             return "YOU ARE ATTEMPTING TO UPLOAD A TEST. ONLY ASSIGNMENTS CAN BE UPLOADED.";
         }
 
-
-
-        $data = [
-            'user' => Auth::user()->sanitize(),
-            'assessment' => $currentAssessment,
-        ];
-
-        return view('students/upload', $data);
-
+        return $currentAssessment;
     }
 
     public function checkAssessmentBelongs($assessments, $assessment_id){
@@ -272,8 +349,10 @@ class StudentsController extends Controller {
         return $conf;
     }
 
-    public function upload(){
+    public function upload($assessment_id){
+
         $file = Request::file('assessment');
+        $assessment = $this->getCurrentAssessment($assessment_id);
 
         if($file->isValid()){
             echo $file->getClientOriginalName();
@@ -284,6 +363,8 @@ class StudentsController extends Controller {
 
             // create an entry in the submissions table
             $submission = new Submission;
+            $path = "/database/files/assessments/$assessment->id/submissions/";
+            dd($path);
             $submission->file_path = $filePath . "submission";
             $submission->time = date('Y-m-d H:i:s');
             $submission->accepted = false;
@@ -307,5 +388,23 @@ class StudentsController extends Controller {
 
     }
 
+    /**
+     * checks if the course_id matches a course the user has access to
+     */
+    public function checkCourseID($course_id)
+    {
+        $occurences = Auth::user()->occurences;
+        $conf = false;
+        foreach ($occurences as $occurence) {
+
+            if ($occurence->course_id === intval($course_id)) {
+
+                if ($occurence->end_date > date('Y-m-d H:i:s')) {
+                    $conf = true;
+                }
+            }
+        }
+        return $conf;
+    }
 
 }

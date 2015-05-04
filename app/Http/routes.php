@@ -48,9 +48,9 @@ Route::get('students/tests',[
     'uses' => 'StudentsController@tests'
 ]);
 
-Route::get('students/assignments/{assessment_id}', [
-    'as' => 'students/assignment',
-    'uses' => 'StudentsController@assignment'
+Route::get('students/assessments/{assessment_id}', [
+    'as' => 'students/assessment',
+    'uses' => 'StudentsController@assessment'
 ]);
 
 
@@ -69,6 +69,11 @@ Route::get('students/submissions', [
     'uses' => 'studentsController@submissions'
 ]);
 
+Route::get('students/submissions/{submission_id}', [
+    'as' => 'students/submission',
+    'uses' => 'studentsController@submission'
+]);
+
 /*
  * TEACHER ROUTES
  */
@@ -77,6 +82,7 @@ Route::get('teachers/home', [
     'as' => 'teachers/home',
     'uses' => 'TeachersController@index'
 ]);
+
 
 Route::get('teachers/assignments', [
     'as' => 'teachers/assignments',
