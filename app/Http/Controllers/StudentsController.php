@@ -373,7 +373,6 @@ class StudentsController extends Controller {
             $submission->save();
 
             // create an entry in the user_submissions table
-
             DB::table('user_submissions')->insert([
                'submission_id' => $submission->id,
                 'user_id' => Request::input('user_id')
@@ -385,6 +384,10 @@ class StudentsController extends Controller {
         }
 
 
+
+    }
+
+    public function download(){
 
     }
 
