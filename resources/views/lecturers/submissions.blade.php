@@ -8,7 +8,9 @@
  </div>
 
 <!--Ashani:  This view will show all the submissions for each module that the lecturer teaches-->
-  <div class="main-content">     
+  <div class="main-content">   
+    
+  <!--Search Bar-->
   <div class="container">
        <div class="input-group">
           <div class="input-group-btn search-panel">
@@ -30,14 +32,14 @@
    </div>
       
      <div class="container"> 
-        <div class="main-content">    
-           <div class="row">
-              <div class="col-md-8"> 
+          <div class="row">
+              <div class="col-md-6"> 
                  <h2>Course Name</h2>          
                  <h4><em>Occurence:</em> UN1</h4>
               </div>
-              <div class="col-md-4 pull-right">
+              <div class="col-md-6 pull-right">
                  <h4 class="pull-right">Assignment Name</h4>
+                 <h4 class=class="pull-right"><strong>Group Assesment:</strong> Yes</h4>
               </div>
             </div>
             
@@ -62,6 +64,5 @@
              </table>
          </div>
       <hr/>
-  </div>	 
-</div>		 
+  </div>	 	 
  @stop
