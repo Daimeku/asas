@@ -102,7 +102,7 @@
 
 .section-heading{
   text-align: center; 
-  margin-bottom: 60px
+  margin-bottom: 40px;
 }
 
 .section-heading hr {
@@ -116,4 +116,12 @@
 
 #txtSearch{
   width: 30%;
+}
+
+.toggle-btn{
+  margin-bottom: 30px;
+}
+
+.btn-highlight{
+  border: rgb(249, 0, 0)  1px solid;
 }

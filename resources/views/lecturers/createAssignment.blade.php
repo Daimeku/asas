@@ -27,12 +27,30 @@
  </div>
 
   <div class="main-content">
-     <div class="container"> 
-     
-      <form class="assignment-form form-horizontal">
+     <div class="container">        
+
+
+      <form name="assignment_test" class="assignment-form form-horizontal">
         <!--<form class="form-horizontal" action="teachers/createAssignment" method="POST">-->
         {!! Form::open(['route'=>'teachers/create', 'method' => 'POST']) !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              
+        <div class="form-group toggle-btn">
+            <div class="row">
+               <div class="col-md-4">              
+               </div>
+               <div class="col-md-8 pull-right">
+                  <div class="row">
+                      <div class="col-md-7">
+                          <button type="button" id="btnAssignment" class="btn btn-primary pull-right btn-highlight"> Assignment</button>
+                       </div>
+                       <div class="col-md-5">
+                            <button type="button" id="btnTest" class="btn btn-primary"> Test </button>
+                       </div>
+                  </div>
+               </div> 
+             </div>               
+         </div>
         
         <!-- Assignment Name -->
         <div class="form-group">          
@@ -45,7 +63,7 @@
         </div>
         
          <!--Upload-->
-        <div class="form-group">
+        <div id="uploadAssignment" class="form-group">
              <div class= "row">
                  <div class="col-md-8">                    
                     <input id="uploadTxt" name="upload" type="text" placeholder="Upload Assginment" value="" class="form-control">   
@@ -55,7 +73,19 @@
                  </div>
              </div> 
          </div>
-       
+  
+        <!--Classroom + Time -->
+        <div id="testInfo" class="form-group hidden">
+             <div class= "row">
+                 <div class="col-md-7">                    
+                    <input id="txtTestVenue" name="upload" type="text" placeholder="Test Venue" value="" class="form-control">   
+                 </div>
+                 <div class="col-md-5"> 
+                    <input id="txtTestTime" name="upload" type="text" placeholder="Test Time" value="" class="form-control">    
+                 </div>
+             </div> 
+         </div>
+         
         <!-- Start Date -->        
         <div class="form-group">        
            <input id="start_date" name="start_date" type="text" placeholder="Click to Select Start Date" value = "{{{Input::old('start_date')}}}" class="form-control">
@@ -63,22 +93,10 @@
     
         <!-- End Date -->
         <div class="form-group">         
-                <input id="end_date" name="end_date" type="text" placeholder="Click to select date" value="{{{Input::old('end_date')}}}" class="form-control">               
+                <input id="end_date" name="end_date" type="text" placeholder="Click to Select due date" value="{{{Input::old('end_date')}}}" class="form-control">               
             </div>
         </div>
-    
-        <!-- Assignment Type-->
-        <div class="form-group">      
-            <!--<input id="assessment_type" name="assessment_type" type="text" placeholder="placeholder" value="{{{Input::old('assessment_type')}}}" class="input-xlarge"><--></-->
-            <div class="radio">
-                <label>
-                    <input type="radio"  id="rbAssignment" value="assignment" checked> Assignment &nbsp &nbsp
-                </label>
-                <label>
-                    <input type="radio" id="rbTest" value="test"> Test
-                </label>
-             </div>   
-        </div>
+
 
         <!-- Course-->
         <div class="form-group">
@@ -103,8 +121,27 @@
  
  <script>
      $(function() {
-        $("#start_date" ).datepicker();
+        $("#start_date").datepicker();
         $("#end_date" ).datepicker();
+        
+         $("#btnTest").click( function(){
+               $("#btnTest").addClass("btn-highlight");
+               $("#btnAssignment").removeClass("btn-highlight");
+               
+               $("#testInfo").removeClass("hidden");
+               $("#start_date").addClass("hidden");
+               $("#uploadAssignment").addClass("hidden");
+         });
+         
+          $("#btnAssignment").click( function(){
+               $("#btnTest").removeClass("btn-highlight");
+               $("#btnAssignment").addClass("btn-highlight");
+               
+               $("#testInfo").addClass("hidden");
+               $("#start_date").removeClass("hidden");
+               $("#uploadAssignment").removeClass("hidden");
+         });
+        
       }); 
 </script>
  @stop
