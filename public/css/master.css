@@ -68,7 +68,8 @@
 
 /*Footer*/
 #footer {
-  position: fixed;
+  clear:both;
+  position: relative;
   margin-top: 60px;
   padding-top: 15px;
   color: #fff;
