@@ -3,6 +3,9 @@
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+use App\Events\StudentEnteredTest;
+use App\Handlers\Events\SendEnteredTestReceipt;
+
 class EventServiceProvider extends ServiceProvider {
 
 	/**
@@ -14,6 +17,8 @@ class EventServiceProvider extends ServiceProvider {
 		'event.name' => [
 			'EventListener',
 		],
+
+        StudentEnteredTest::class => [ SendEnteredTestReceipt::class]
 	];
 
 	/**
