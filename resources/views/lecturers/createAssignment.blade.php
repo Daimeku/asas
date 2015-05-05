@@ -2,7 +2,7 @@
 @extends('lecturers.master')
 
 @section('head')
- <link rel="stylesheet" href="/css/students/assignment.css">
+ <link rel="stylesheet" href="/css/assignment.css">
  <link rel="stylesheet" href="/css/jQueryUI/jquery-ui.min.css">
 @stop
 
@@ -22,7 +22,7 @@
 @section('content')
 
   <div class="section-heading">
-   		<h1 id="heading">Create Assignment or Test </h1>
+   		<h1 id="heading">Create Assignment / Test </h1>
    		<hr/>
  </div>
 
@@ -35,21 +35,9 @@
         {!! Form::open(['route'=>'teachers/create', 'method' => 'POST']) !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
               
-        <div class="form-group toggle-btn">
-            <div class="row">
-               <div class="col-md-4">              
-               </div>
-               <div class="col-md-8 pull-right">
-                  <div class="row">
-                      <div class="col-md-7">
-                          <button type="button" id="btnAssignment" class="btn btn-primary pull-right btn-highlight"> Assignment</button>
-                       </div>
-                       <div class="col-md-5">
-                            <button type="button" id="btnTest" class="btn btn-primary"> Test </button>
-                       </div>
-                  </div>
-               </div> 
-             </div>               
+        <div class="form-group toggle-btn pull-right">           
+            <button type="button" id="btnAssignment" class="btn btn-primary  btn-highlight"> Assignment</button>
+            <button type="button" id="btnTest" class="btn btn-primary"> Test </button>      
          </div>
         
         <!-- Assignment Name -->
@@ -65,7 +53,7 @@
          <!--Upload-->
         <div id="uploadAssignment" class="form-group">
              <div class= "row">
-                 <div class="col-md-8">                    
+                 <div class="col-md-8 removeLeftPadding">                    
                     <input id="uploadTxt" name="upload" type="text" placeholder="Upload Assginment" value="" class="form-control">   
                  </div>
                  <div class="col-md-4"> 
@@ -77,7 +65,7 @@
         <!--Classroom + Time -->
         <div id="testInfo" class="form-group hidden">
              <div class= "row">
-                 <div class="col-md-7">                    
+                 <div class="col-md-7 removeLeftPadding">                    
                     <input id="txtTestVenue" name="upload" type="text" placeholder="Test Venue" value="" class="form-control">   
                  </div>
                  <div class="col-md-5"> 
@@ -93,8 +81,7 @@
     
         <!-- End Date -->
         <div class="form-group">         
-                <input id="end_date" name="end_date" type="text" placeholder="Click to Select due date" value="{{{Input::old('end_date')}}}" class="form-control">               
-            </div>
+              <input id="end_date" name="end_date" type="text" placeholder="Click to Select due date" value="{{{Input::old('end_date')}}}" class="form-control">               
         </div>
 
 
@@ -107,7 +94,7 @@
         </div>
 
         <div class="form-group text-center">
-            <input type="submit" value="Create" class="form-control btn btn-lg btn-primary">
+            <input type="submit" value="Create" class="btn btn-lg btn-primary mid btn-padding">
         </div>
              
         {!! Form::close() !!}

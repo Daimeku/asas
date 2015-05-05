@@ -1,0 +1,59 @@
+#heading{
+	font-size: 30px;
+}
+
+.main-content h2{
+	font-weight: 700;
+}
+
+.assignment-form{
+  width: 100%;
+  margin: auto;
+}
+
+.assignment-form .select{
+	margin-bottom: 40px;
+}
+
+@media (min-width: 768px){
+	.assignment-form{
+	  max-width: 50%; 
+	}
+}
+
+.assignment-form input, textarea{
+	margin-bottom: 10px;
+}
+
+
+.assignment-form .btn-primary{
+	padding-top: 6px;
+	background-color: #1B728E;
+}
+
+.assignment-form .btn-primary:hover{
+	background-color: #134e60;
+}
+
+/*Helper styles*/
+.mid{
+	width: 50%;
+}
+
+.btn-padding{
+	padding: 6px 10px;
+}
+
+.removeLeftPadding{
+	padding-left: 0px;
+}
+
+/*Upload*/
+#uploadTxt{
+	float:right;
+}
+
+#btnUpload{
+	float:left;
+	margin-top: 0px;
+}

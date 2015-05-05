@@ -1,7 +1,7 @@
 @extends('students.master')
 
 @section('head')
- <link rel="stylesheet" href="/css/students/assignment.css"> 
+ <link rel="stylesheet" href="/css/ssignment.css"> 
 @stop
 
 @section('content')

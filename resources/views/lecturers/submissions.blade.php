@@ -33,13 +33,13 @@
       
      <div class="container"> 
           <div class="row">
-              <div class="col-md-6"> 
+              <div class="col-md-8"> 
                  <h2>Course Name</h2>          
                  <h4><em>Occurence:</em> UN1</h4>
               </div>
-              <div class="col-md-6 pull-right">
-                 <h4 class="pull-right"><strong>Assignment Name<strong></h4>
-                 <h4 class=class="pull-right"><strong>Group Assesment:</strong> Yes</h4>
+              <div class="col-md-4">
+                 <h4><strong>Assignment Name<strong></h4>
+                 <h4><em>Group Assesment:</em> Yes</h4>
               </div>
             </div>
             

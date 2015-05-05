@@ -13,35 +13,62 @@
 
 .navbar-default .navbar-brand{
   color: #fff;
-  font-size: 35px
-
+  font-size: 35px;
 }
 
 .navbar-default .navbar-brand:hover{
-    color: #fff;    
+    color: #fff; 
 }
 
-.navbar-default .navbar-nav>li>a{
+.navbar-default .navbar-nav>li>a, .navbar-default .navbar-nav>li>a:focus{  
   color: #fff;
-
+  transition: all 0.5s;
 }
 
 .navbar-default .navbar-nav>li>a:hover{
-  color: #fff;
-}
+   color: #fff;
+   font-size: 13px;   
+ }
 
 .nav>li>a{
     padding: 15px 35px;  
 }
 
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+  color: #FFF;
+  background-color: #1B728E;
+}
+
+@media (max-width: 767px){
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a{
+  color: #FFF;
+  background-color: #1B728E;
+}
+
+}
+
 @media (min-width: 768px){
 .navbar {
   border-radius: 0px;
+   }
  }
+ 
+/*Navbar link caret*/
+.caret-up {
+    width: 0; 
+    height: 0; 
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-bottom: 4px solid;
+    
+    display: inline-block;
+    margin-left: 2px;
+    vertical-align: middle;
 }
 
 /*Footer*/
 #footer {
+  position: fixed;
   margin-top: 60px;
   padding-top: 15px;
   color: #fff;
@@ -72,7 +99,8 @@
 }
 
 .row{
- margin-top: 10px;
+   margin: auto;
+   margin-top: 10px;
 }
 
 #footer li{
@@ -91,7 +119,7 @@
   color: rgb(142, 206, 226); 
 }
 
-/*Student Content Page Heading Styles*/
+/*Content Page Heading Styles*/
 #heading{
   font-family: 'Open Sans', sans-serif;
     font-weight: 400;
@@ -102,7 +130,7 @@
 
 .section-heading{
   text-align: center; 
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .section-heading hr {
@@ -124,4 +152,31 @@
 
 .btn-highlight{
   border: rgb(249, 0, 0)  1px solid;
+}
+
+/*Center placeholders*/
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;  
+}
+
+:-ms-input-placeholder {  
+   text-align: center; 
+}
+
+input[type="text"]{
+	text-align: center;
+}
+
+/*Lecturer Submission View Style*/
+.table {
+  margin-bottom: 10px;
+  margin-top: 20px;
 }

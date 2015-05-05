@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-
 <html lang="en">
+    
     <head>
         <!-- metadata info. -->
         <meta charset="UTF-8">
@@ -30,31 +30,39 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">ASAS</a>
+              <a class="navbar-brand flip animated" href="#">ASAS</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                 <li class="dropdown">
                   <a href="#"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                    <i id="x" class="fa fa-tasks"></i>     Assignments
+                    <i class="animated fa fa-tasks"></i>     Assignments <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="#">Create Assignments</a></li>
 
-                    <li><a href="#">View Assignments</a></li>
+                    <li><a href="#">View Created Assignments</a></li>
                   </ul>
                 </li>
                 <li><a href="#"><i class="fa fa-upload"></i>     Submissions</a></li>
-                <li><a href="#"><i class="fa fa-file-text"></i>     Tests</a></li>
+                 <li class="dropdown">
+                   <a href="#"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                     <i class="fa fa-file-text"></i>     Tests <b class="caret"></b>
+                   </a>
+                   <ul class="dropdown-menu" role="menu">
+                       <li><a href="#">Create Tests</a></li>
+                       <li><a href="#">View Created Tests</a></li>
+                   </ul>
+                </li>        
               </ul>
+              
               <ul class="nav navbar-nav navbar-right">
                  <li><a href="/auth/logout">Sign Out</a></li>
             </ul>
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
        </nav>
-
 
         <div class="container">
            @yield('content')
@@ -86,12 +94,12 @@
                     </ul>
                   </div>
                   <div class="col-md-3">
-                  <h4>Recent Receipts<h4>
+                  <h4>Upcoming Tests<h4>
                     <ul>
-                      <li><a href="#">Receipt 1</a></li>
-                      <li><a href="#">Receipt 2</a></li>
-                      <li><a href="#">Receipt 3</a></li>
-                      <li><a href="#">Receipt 4</a></li>
+                        <li><a href="#">Test 1</a></li>
+                        <li><a href="#">Test 2</a></li>
+                        <li><a href="#">Test 3</a></li>
+                        <li><a href="#">Test 4</a></li>
                    </ul>
                    </div>
                 </div>
@@ -101,6 +109,7 @@
 
     <script src="/js/essentials/jquery-2.1.3.min.js"></script>
     <script src="/js/essentials/bootstrap.min.js"></script>
-     @yield('scripts')
-
+    <script src="/js/others/master.js"></script>
+    @yield('scripts')
+     
 </html>
