@@ -123,3 +123,29 @@ Route::post('teachers/submissions/{submission_id}/edit',[
     'as' => 'teachers/submission/edit',
     'uses' => 'TeachersController@editSub'
 ]);
+
+
+/*
+ * INVIGILATOR ROUTES
+ */
+
+Route::get('invigilators/home',[
+    'as' => 'invigilators/home',
+    'uses' => 'InvigilatorsController@index'
+]);
+
+
+Route::get('invigilators/tests/{assessment_id}',[
+    'as' => 'invigilators/test',
+    'uses' => 'InvigilatorsController@test'
+]);
+
+Route::get('invigilators/tests/{assessment_id}/studentEntry/{user_id}',[
+    'as' => 'invigilators/studentEntry',
+    'uses' => 'InvigilatorsController@studentEntry'
+]);
+
+Route::get('invigilators/student', [
+    'as' => 'findStudent',
+    'uses' => 'InvigilatorsController@findStudent'
+]);
