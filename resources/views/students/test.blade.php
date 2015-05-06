@@ -6,7 +6,7 @@
 
 @section('content')
 	<div class="section-heading">
-   		<h1 id="heading">Submissions</h1>
+   		<h1 id="heading">Tests</h1>
    		<hr/>
  	</div>
  	<div class="main-content">

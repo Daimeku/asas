@@ -51,7 +51,7 @@
                      <i class="fa fa-file-text"></i>     Tests <b class="caret"></b>
                    </a>
                    <ul class="dropdown-menu" role="menu">
-                       <li><a href="#">Create Tests</a></li>
+                       <li><a href="#">Create Test Instance</a></li>
                        <li><a href="#">View Created Tests</a></li>
                    </ul>
                 </li>        
