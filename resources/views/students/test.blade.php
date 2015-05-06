@@ -1,12 +1,12 @@
 @extends('students.master')
 
 @section('head')
- <link rel="stylesheet" href="/css/students/assignment.css">
+ <link rel="stylesheet" href="/css/assignment.css">
 @stop
 
 @section('content')
 	<div class="section-heading">
-   		<h1 id="heading">Submissions</h1>
+   		<h1 id="heading">Tests</h1>
    		<hr/>
  	</div>
  	<div class="main-content">
