@@ -66,7 +66,7 @@
                             <!-- /col -->
                             <!-- col -->
                             <div class="col-xs-8">
-                                <p class="text-elg text-strong mb-0">23</p> <span>Recent Submissions </span> </div>
+                                <p class="text-elg text-strong mb-0">23</p> <span>Recent Student Submissions </span> </div>
                             <!-- /col -->
                         </div>
                         <!-- /row -->
