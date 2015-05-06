@@ -124,7 +124,7 @@ class TeachersController extends Controller {
             'courses' => $courses
         ];
 
-        return view('lecturers/createAssignment');
+        return view('lecturers/createAssignment_test',$data);
 
 
     }
@@ -139,7 +139,7 @@ class TeachersController extends Controller {
             'description' => 'required|',
             'filepath' => '',
             'start_date' => 'date|required',
-            'end_date' => 'date|required',
+            'end_date' => 'date',
             'assessment_type' => 'required|numeric',
             'course_id' => 'required|numeric'
 
@@ -156,22 +156,36 @@ class TeachersController extends Controller {
         }
 
         $start_date = new Carbon(Request::input('start_date'));
-        $end_date = new Carbon(Request::input('end_date'));
+        $file = Request::file('assessment');
 
         $assessment = new Assessment;
 
         $assessment->title = Request::input('title');
         $assessment->description = Request::input('description');
-        $assessment->filepath = Request::input('filepath');
         $assessment->start_date = $start_date;
-        $assessment->end_date = $end_date;
         $assessment->assessment_type = Request::input('assessment_type');
         $assessment->course_id = Request::input('course_id');
+
+        if($assessment->assessment_type === 2){
+            $assessment->time = Request::input('time');
+        }else{
+            $end_date = new Carbon(Request::input('end_date'));
+            $assessment->end_date = $end_date;
+
+        }
         $assessment->save();
-        dd($assessment);
+
+        if($file->isValid()){
+            $filePath = "/database/files/assessments/$assessment->id";
+            $file->move($filePath,"assessment");
+        }
+
+        $assessment->filepath = $filePath;
+
+        $assessment->save();
 
         $data = [];
-        return "ASSESSMENT SUCCESSFULLY CREATED";
+        return redirect()->route('teachers/assignments');
     }
 
     public function submissions(){

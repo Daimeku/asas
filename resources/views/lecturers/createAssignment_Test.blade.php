@@ -8,16 +8,6 @@
 
 
 
-@if (count($errors) > 0)
-<div class="alert alert-danger">
-    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
 
 @section('content')
 
@@ -27,15 +17,27 @@
  </div>
 
   <div class="main-content">
-     <div class="container">        
+     <div class="container">
+         @if (count($errors) > 0)
+         <div class="alert alert-danger">
+             <strong>Whoops!</strong> There were some problems with your input.<br><br>
+             <ul>
+                 @foreach ($errors->all() as $error)
+                 <li>{{ $error }}</li>
+                 @endforeach
+             </ul>
+         </div>
+         @endif
 
 
-      <form name="assignment_test" class="assignment-form form-horizontal">
+
+         <!--      <form name="assignment_test" class="assignment-form form-horizontal">-->
         <!--<form class="form-horizontal" action="teachers/createAssignment" method="POST">-->
-        {!! Form::open(['route'=>'teachers/create', 'method' => 'POST']) !!}
+        {!! Form::open(['route'=>'teachers/create', 'method' => 'POST', 'files'=>true, 'class'=>"assignment-form form-horizontal",'name'=>"assignment_test" ]) !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+         <input type="hidden" name="assessment_type" value="1">
               
-        <div class="form-group toggle-btn pull-right">           
+        <div class="form-group toggle-btn pull-right">
             <button type="button" id="btnAssignment" class="btn btn-primary  btn-highlight"> Assignment</button>
             <button type="button" id="btnTest" class="btn btn-primary"> Test </button>      
          </div>
@@ -54,7 +56,8 @@
         <div id="uploadAssignment" class="form-group">
              <div class= "row">
                  <div class="col-md-8 removeLeftPadding">                    
-                    <input id="uploadTxt" name="upload" type="text" placeholder="Upload Assginment" value="" class="form-control">   
+<!--                    <input id="uploadTxt" name="upload" type="text" placeholder="Upload Assginment" value="" class="form-control">-->
+                     {!! Form::file('assessment',['class'=>"form-control"]) !!}
                  </div>
                  <div class="col-md-4"> 
                      <input id="btnUpload" type="button" value="Browse" class="btn btn-md btn-primary">        
@@ -89,7 +92,10 @@
         <div class="form-group">
             <!--<input id="course_id" name="course_id" type="text" placeholder="placeholder"  value="{{{Input::old('course_id')}}}" class="input-xlarge">-->
             <select id="course_id" name="course_id" value="{{{Input::old('assessment_type')}}}" class="form-control select">
-                <option>Select a Course</option>
+                <option>Select a course</option>
+                @foreach($courses as $course)
+                <option value="{{$course->id}}">{{$course->name}}</option>
+                @endforeach
             </select>             
         </div>
 
@@ -98,7 +104,7 @@
         </div>
              
         {!! Form::close() !!}
-        </form>
+
      </div>
    </div>
  @stop
@@ -112,20 +118,23 @@
         $("#end_date" ).datepicker();
         
          $("#btnTest").click( function(){
-               $("#btnTest").addClass("btn-highlight");
+             $("#assessment_type").val(2);
+
+             $("#btnTest").addClass("btn-highlight");
                $("#btnAssignment").removeClass("btn-highlight");
                
                $("#testInfo").removeClass("hidden");
-               $("#start_date").addClass("hidden");
+               $("#end_date").addClass("hidden");
                $("#uploadAssignment").addClass("hidden");
          });
          
           $("#btnAssignment").click( function(){
+              $("#assessment_type").val(1);
                $("#btnTest").removeClass("btn-highlight");
                $("#btnAssignment").addClass("btn-highlight");
                
                $("#testInfo").addClass("hidden");
-               $("#start_date").removeClass("hidden");
+               $("#end_date").removeClass("hidden");
                $("#uploadAssignment").removeClass("hidden");
          });
         

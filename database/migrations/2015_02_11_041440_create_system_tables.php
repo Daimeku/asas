@@ -115,6 +115,7 @@ class CreateSystemTables extends Migration {
             $table->string('filepath');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->time('time');
             $table->unsignedInteger('assessment_type');
             $table->foreign('assessment_type')->references('id')->on('assessment_types');
             $table->unsignedInteger('course_id');
