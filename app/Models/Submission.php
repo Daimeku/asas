@@ -8,6 +8,7 @@ class Submission extends Model {
 
     protected $fillable = ['file_path', 'time', 'assessment_id'];
 
+
     public $userList; // stores list of userss related to this submission
 
     public function assessment(){

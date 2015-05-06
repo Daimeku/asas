@@ -48,9 +48,9 @@ Route::get('students/tests',[
     'uses' => 'StudentsController@tests'
 ]);
 
-Route::get('students/assignments/{assessment_id}', [
-    'as' => 'students/assignment',
-    'uses' => 'StudentsController@assignment'
+Route::get('students/assessments/{assessment_id}', [
+    'as' => 'students/assessment',
+    'uses' => 'StudentsController@assessment'
 ]);
 
 
@@ -69,6 +69,11 @@ Route::get('students/submissions', [
     'uses' => 'studentsController@submissions'
 ]);
 
+Route::get('students/submissions/{submission_id}', [
+    'as' => 'students/submission',
+    'uses' => 'studentsController@submission'
+]);
+
 /*
  * TEACHER ROUTES
  */
@@ -78,9 +83,15 @@ Route::get('teachers/home', [
     'uses' => 'TeachersController@index'
 ]);
 
+
 Route::get('teachers/assignments', [
     'as' => 'teachers/assignments',
     'uses' => 'TeachersController@assignments'
+]);
+
+Route::get('teachers/assignments/{assessment_id}', [
+    'as' => 'teachers/assignment',
+    'uses' => 'TeachersController@assignment'
 ]);
 
 Route::get('teachers/uploadAssignment',[
@@ -111,4 +122,55 @@ Route::get('teachers/submissions/{submission_id}/edit',[
 Route::post('teachers/submissions/{submission_id}/edit',[
     'as' => 'teachers/submission/edit',
     'uses' => 'TeachersController@editSub'
+]);
+
+
+/*
+ * INVIGILATOR ROUTES
+ */
+
+Route::get('invigilators/home',[
+    'as' => 'invigilators/home',
+    'uses' => 'InvigilatorsController@index'
+]);
+
+
+Route::get('invigilators/tests/{assessment_id}',[
+    'as' => 'invigilators/test',
+    'uses' => 'InvigilatorsController@test'
+]);
+
+Route::get('invigilators/tests/{assessment_id}/studentEntry/{user_id}',[
+    'as' => 'invigilators/studentEntry',
+    'uses' => 'InvigilatorsController@studentEntry'
+]);
+
+Route::get('invigilators/tests/{assessment_id}/studentEntry',[
+    'as' => 'invigilators/studentEntryEmpty',
+    'uses' => 'InvigilatorsController@studentEntryEmpty'
+]);
+
+Route::get('invigilators/student', [
+    'as' => 'findStudent',
+    'uses' => 'InvigilatorsController@findStudent'
+]);
+
+Route::get('invigilators/tests/{assessment_id}/studentEntry/{user_id}/enterTest',[
+    'as' => 'invigilators/enterTest',
+    'uses' => 'InvigilatorsController@enterTest'
+]);
+
+Route::post('invigilators/tests/{assessment_id}/studentEntry/searchStudent',[
+    'as' => 'invigilators/searchStudent',
+    'uses' => 'InvigilatorsController@searchStudent'
+]);
+
+Route::get('invigilators/tests/{assessment_id}/paperCollection',[
+    'as' => 'invigilators/paperCollection',
+    'uses' => 'InvigilatorsController@paperCollection'
+]);
+
+Route::post('invigilators/tests/{assessment_id}/paperCollection/verifyStudent',[
+    'as' => 'invigilators/collectPaper',
+    'uses' => 'InvigilatorsController@collectPaper'
 ]);
