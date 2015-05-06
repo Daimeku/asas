@@ -145,7 +145,32 @@ Route::get('invigilators/tests/{assessment_id}/studentEntry/{user_id}',[
     'uses' => 'InvigilatorsController@studentEntry'
 ]);
 
+Route::get('invigilators/tests/{assessment_id}/studentEntry',[
+    'as' => 'invigilators/studentEntryEmpty',
+    'uses' => 'InvigilatorsController@studentEntryEmpty'
+]);
+
 Route::get('invigilators/student', [
     'as' => 'findStudent',
     'uses' => 'InvigilatorsController@findStudent'
+]);
+
+Route::get('invigilators/tests/{assessment_id}/studentEntry/{user_id}/enterTest',[
+    'as' => 'invigilators/enterTest',
+    'uses' => 'InvigilatorsController@enterTest'
+]);
+
+Route::post('invigilators/tests/{assessment_id}/studentEntry/searchStudent',[
+    'as' => 'invigilators/searchStudent',
+    'uses' => 'InvigilatorsController@searchStudent'
+]);
+
+Route::get('invigilators/tests/{assessment_id}/paperCollection',[
+    'as' => 'invigilators/paperCollection',
+    'uses' => 'InvigilatorsController@paperCollection'
+]);
+
+Route::post('invigilators/tests/{assessment_id}/paperCollection/verifyStudent',[
+    'as' => 'invigilators/collectPaper',
+    'uses' => 'InvigilatorsController@collectPaper'
 ]);

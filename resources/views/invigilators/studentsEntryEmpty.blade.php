@@ -81,28 +81,28 @@
 
 
                 {!! Form::open(['method'=>'POST','route'=>['invigilators/searchStudent',$test->id]]) !!}
-                        <table>
-                            <tr>
-                                <td><input type="text" name="student_id"/></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="submit" value="find student"/>
-                                </td>
-                            </tr>
-                        </table>
+                <table>
+                    <tr>
+                        <td><input type="text" name="student_id"/></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" value="find student"/>
+                        </td>
+                    </tr>
+                </table>
 
                 {!! Form::close() !!}
 
 
-                    <div>
+                <div>
 
-                        <button value="SCRIPT COLLECTION"  action="ScripCollection.html" target="_self" style="color:BLACK; background-color:#D3D3D3;
+                    <button value="SCRIPT COLLECTION"  action="ScripCollection.html" target="_self" style="color:BLACK; background-color:#D3D3D3;
 
 					border: 2px solid #2cbffd;
 
 					padding: 2px 0px; width:150px;height:30px"/> SCRIPT COLLECTION</button>
-                    </div>
+                </div>
 
 
             </div>
@@ -111,39 +111,22 @@
         <td>
             <br>
             &nbsp; &nbsp; &nbsp; &nbsp;	&nbsp; &nbsp; &nbsp; &nbsp;
-            @if($error ===null)
-            <img src="{{$student->image_file_path}}" scrolling="no" width="255" height="227" align="middle" frameborder="1" style="border-color:black;"  marginheight=50" name="Changeable">
-            @endif
+            <img src="/img/footer.jpg" scrolling="no" width="255" height="227" align="middle" frameborder="1" style="border-color:black;"  marginheight=50" name="Changeable">
             <br><br>
             &nbsp; &nbsp; &nbsp; &nbsp;	&nbsp; &nbsp; &nbsp; &nbsp;	&nbsp; &nbsp; &nbsp;	&nbsp; &nbsp; &nbsp;	&nbsp; &nbsp;&nbsp; &nbsp;
 
-                @if($error === null)
-                <a href="{{{route('invigilators/enterTest',['test_id'=>$test->id, 'user_id'=>$student->id])}}}"   type="submit" value="SUBMIT"  align="center" style="color:BLACK; background-color:#D3D3D3;border: 2px solid #2cbffd;padding: 2px 5px; width:100px;height:30px"/>
-                submit </a>
-                @endif
-
 
             <div align="middle">
-                @if($error === null)
-                   <table style="padding-top:10px">
-                       <tr>
-                           <td><b>Student Name:</b></td>
-                           <td>{{$student->name}}</td>
-                       </tr>
-                       <tr>
-                           <td><b>Student ID:</b></td>
-                           <td>{{$student->id}}</td>
-                       </tr>
-                   </table>
-                    @elseif($error !=null)
-                    <table style="padding-top:10px">
-                        <tr>
-                            <td>Error</td>
-                        </tr>
-                        <tr>
-                            <td><b>{{$error->errorMessage}}</b></td>
-                        </tr>
-                    </table>
+
+                @if($error !=null)
+                <table style="padding-top:10px">
+                    <tr>
+                        <td>Error</td>
+                    </tr>
+                    <tr>
+                        <td><b>{{$error->errorMessage}}</b></td>
+                    </tr>
+                </table>
                 @endif
 
 

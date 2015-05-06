@@ -5,6 +5,8 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 use App\Events\StudentEnteredTest;
 use App\Handlers\Events\SendEnteredTestReceipt;
+use App\Handlers\Events\SendPaperCollectedReceipt;
+use App\Handlers\Events\PaperWasCollected;
 
 class EventServiceProvider extends ServiceProvider {
 
@@ -18,7 +20,9 @@ class EventServiceProvider extends ServiceProvider {
 			'EventListener',
 		],
 
-        StudentEnteredTest::class => [ SendEnteredTestReceipt::class]
+        StudentEnteredTest::class => [ SendEnteredTestReceipt::class],
+        PaperWasCollected::class => [ SendPaperCollectedReceipt::class]
+
 	];
 
 	/**
