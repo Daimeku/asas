@@ -66,7 +66,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'ashani@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/ashani.jpg'
+            'image_file_path' => '/files/ashani.jpg'
         ]);
 
         //3
@@ -75,7 +75,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'romario@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/ro.jpg'
+            'image_file_path' => '/files/ro.jpg'
         ]);
 
         //4
@@ -84,7 +84,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'shenique@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/shen.jpg'
+            'image_file_path' => '/files/shen.jpg'
         ]);
 
         //5
@@ -93,7 +93,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'shantel@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/shan.jpg'
+            'image_file_path' => '/files/shan.jpg'
         ]);
 
         //6
@@ -111,7 +111,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'andrew@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/andrew.jpg'
+            'image_file_path' => '/files/andrew.jpg'
         ]);
 
         //8
@@ -140,7 +140,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'bob@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/bob.jpg'
+            'image_file_path' => '/files/bob.jpg'
         ]);
 
                 //11
@@ -149,7 +149,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'bolt@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/bolt.jpg'
+            'image_file_path' => '/files/bolt.jpg'
         ]);
 
                 //12
@@ -158,7 +158,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'christopher@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/christopher.jpg'
+            'image_file_path' => '/files/christopher.jpg'
         ]);
 
                 //13
@@ -167,7 +167,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'lisa@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/lisa.jpg'
+            'image_file_path' => '/files/lisa.jpg'
         ]);
 
                 //14
@@ -176,7 +176,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'vcb@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/veronica.jpg'
+            'image_file_path' => '/files/veronica.jpg'
         ]);
 
                 //15
@@ -185,7 +185,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'gavin@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/gavs.jpg'
+            'image_file_path' => '/files/gavs.jpg'
         ]);
 
                 //16
@@ -194,7 +194,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'asafa@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/asafa.jpg'
+            'image_file_path' => '/files/asafa.jpg'
         ]);
 
                 //17
@@ -203,7 +203,7 @@ class UsersTableSeeder extends Seeder {
             'email' => 'pocketrocket@gmail.com',
             'password' => bcrypt('password'),
             'user_type' => 2,
-            'image_file_path' => '../files/shelly.jpg'
+            'image_file_path' => '/files/shelly.jpg'
         ]);
 
                 //18

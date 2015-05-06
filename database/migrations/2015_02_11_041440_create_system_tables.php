@@ -143,6 +143,7 @@ class CreateSystemTables extends Migration {
             $table->foreign('submission_id')->references('id')->on('submissions');
             $table->boolean('entered_test'); 
             $table->boolean('paper_collected');
+            $table->string('paper_id');
             $table->timestamps();
         });
 

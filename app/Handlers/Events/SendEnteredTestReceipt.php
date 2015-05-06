@@ -29,11 +29,18 @@ class SendEnteredTestReceipt {
 	 */
 	public function handle(StudentEnteredTest $event)
 	{
+        $student = User::find($event->student_id);
+        $submission = $student->submissions()->where('id',$event->submission_id)->first();
+        $data = [
+            'student' => $student->sanitize(),
+            'submission' => $submission
+        ];
 		//send email confirmation to student
-        Mail::send('emails/receipt',[], function($message){
+        Mail::send('emails/receipt',$data, function($message){
             $message->from('ASAS-TEST@gmail.com');
             $message->to('daimeku@gmail.com', 'Ashani kentish')->subject('testng email');
         });
 	}
+
 
 }
