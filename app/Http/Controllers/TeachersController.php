@@ -217,7 +217,7 @@ class TeachersController extends Controller {
         if($assessment->assessment_type == 2){
 //            $assessment->time = Request::input('time');
               $assessment->start_date->add(new \DateInterval(Request::input('time')));
-            dd($assessment->start_date);
+            //dd($assessment->start_date);
 //            dd(Request::input('time'));
               $assessment->end_date = $start_date;
 
