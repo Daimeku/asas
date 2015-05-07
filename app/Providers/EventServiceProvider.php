@@ -21,7 +21,10 @@ class EventServiceProvider extends ServiceProvider {
 		],
 
         StudentEnteredTest::class => [ SendEnteredTestReceipt::class],
-        PaperWasCollected::class => [ SendPaperCollectedReceipt::class]
+        'App\Events\PaperWasCollected' => [
+            'App\Handlers\Events\SendPaperCollectedReceipt'
+        ]
+//        PaperWasCollected::class => [ SendPaperCollectedReceipt::class]
 
 	];
 

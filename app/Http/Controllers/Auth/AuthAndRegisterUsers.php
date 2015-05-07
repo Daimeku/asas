@@ -59,7 +59,7 @@ trait AuthAndRegisterUsers {
 	 */
 	public function getLogin()
 	{
-		return view('auth.login');
+		return view('login');
 	}
 
 	/**

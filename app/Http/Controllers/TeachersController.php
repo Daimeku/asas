@@ -13,6 +13,9 @@ use App\Models\Course;
 use App\Models\Assessment;
 use App\Models\Occurence;
 use App\Models\Submission;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Response;
+use Symfony\Component\Finder\SplFileInfo;
 
 class TeachersController extends Controller {
 
@@ -36,8 +39,16 @@ class TeachersController extends Controller {
         $assignments = collect();   // stores upcoming assignments
         $tests = collect();         // stores upcoming tests
 
-        $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();  //get all submissions, eager load assessments
-
+//        $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();  //get all submissions, eager load assessments
+        $submissions = collect();
+        foreach($assessments as $assessment){
+            $subs = $assessment->submissions;
+            if($subs !=null){
+                foreach($subs as $submission){
+                    $submissions->push($submission);
+                }
+            }
+        }
         //loops through list of active assessments and separates tests from assignments
 
         foreach($assessments as $assessment){
@@ -49,9 +60,9 @@ class TeachersController extends Controller {
             }
         }
 
-        foreach($courses as $course){
-            echo json_encode($course->assessments, JSON_PRETTY_PRINT);
-        }
+//        foreach($courses as $course){
+//            echo json_encode($course->assessments, JSON_PRETTY_PRINT);
+//        }
 
         $data =[
             'courses' => $courses,
@@ -60,7 +71,7 @@ class TeachersController extends Controller {
             'tests' => $tests
         ];
 
-        dd($data);
+        return view('lecturers/overview',$data);
 	}
 
     public function assignments(){
@@ -97,18 +108,54 @@ class TeachersController extends Controller {
 
     }
 
-    public function assignment($assignment_id){
-        $assignment = Assessment::find($assignment_id);
-        if($assignment === null){
-            dd("Assignment not found");
+    public function tests(){
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+        $pastAssessments = Auth::user()->findPastAssessments($courses);
+
+        $assignments = collect();   // stores upcoming assignments
+        $tests = collect();         // stores upcoming tests
+
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $assignments->push($assessment);
+            }
+            else if($assessment->assessment_type === 2){
+                $tests->push($assessment);
+            }
         }
-        if(!$this->checkCourseID($assignment->course_id)){
+
+        foreach($pastAssessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $assignments->push($assessment);
+            }
+            else if($assessment->assessment_type === 2){
+                $tests->push($assessment);
+            }
+        }
+
+        $data =[
+            'tests' => $tests
+        ];
+//        dd($tests);
+
+
+        return view('lecturers/viewTests', $data);
+    }
+
+    public function assessment($assessment_id){
+        $assessment = Assessment::find($assessment_id);
+        if($assessment === null){
+            dd("assessment not found");
+        }
+        if(!$this->checkCourseID($assessment->course_id)){
             dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
         }
-        $submissions = $assignment->submissions;
+        $submissions = $assessment->submissions;
 
         $data = [
-            'assignment' => $assignment,
+            'assessment' => $assessment,
             'submissions' => $submissions
         ];
 
@@ -166,8 +213,14 @@ class TeachersController extends Controller {
         $assessment->assessment_type = Request::input('assessment_type');
         $assessment->course_id = Request::input('course_id');
 
-        if($assessment->assessment_type === 2){
-            $assessment->time = Request::input('time');
+//        dd($assessment->assessment_type);
+        if($assessment->assessment_type == 2){
+//            $assessment->time = Request::input('time');
+              $assessment->start_date->add(new \DateInterval(Request::input('time')));
+            dd($assessment->start_date);
+//            dd(Request::input('time'));
+              $assessment->end_date = $start_date;
+
         }else{
             $end_date = new Carbon(Request::input('end_date'));
             $assessment->end_date = $end_date;
@@ -175,12 +228,13 @@ class TeachersController extends Controller {
         }
         $assessment->save();
 
-        if($file->isValid()){
+        if(($file!=null) &&($file->isValid()) ){
             $filePath = "/database/files/assessments/$assessment->id";
             $file->move($filePath,"assessment");
+            $assessment->filepath = $filePath;
         }
 
-        $assessment->filepath = $filePath;
+
 
         $assessment->save();
 
@@ -194,7 +248,8 @@ class TeachersController extends Controller {
         $data = [
             'submissions' => $submissions
         ];
-        dd($data);
+//        dd($submissions);
+        return view('lecturers/submissions',$data);
     }
 
     public function submission($submission_id){
@@ -205,7 +260,7 @@ class TeachersController extends Controller {
             'submission' => $submission
         ];
 
-        dd($data);
+        return view('lecturers/submissions',$data);
     }
 
     /*
@@ -298,5 +353,32 @@ class TeachersController extends Controller {
         return $conf;
     }
 
+    public function download()
+    {
+        $filename = Request::input('filename');
+
+        // Check if file exists in app/storage/file folder
+//    $file_path = base_dir().'/file/'. $filename;
+        $file_path = public_path() . $filename;
+//        $file = Storage::disk('local')->get($file_path);
+//        dd($file);
+//        dd($file_path);
+        $file = new SplFileInfo($file_path, $file_path, 'subpath');
+        if (file_exists($file_path))
+        {
+//            return (new Response($file,200));
+
+            $fn = 'submission.txt';
+            // Send Download
+            return response()->download(($file), $fn, [
+                'Content-Length: '. filesize($file_path)
+            ]);
+        }
+        else
+        {
+            // Error
+            exit('Requested file does not exist on our server!');
+        }
+    }
 
 }
