@@ -88,10 +88,14 @@ Route::get('teachers/assignments', [
     'as' => 'teachers/assignments',
     'uses' => 'TeachersController@assignments'
 ]);
+Route::get('teachers/tests',[
+    'as' => 'teachers/tests',
+    'uses' => 'TeachersController@tests'
+]);
 
-Route::get('teachers/assignments/{assessment_id}', [
-    'as' => 'teachers/assignment',
-    'uses' => 'TeachersController@assignment'
+Route::get('teachers/assessments/{assessment_id}', [
+    'as' => 'teachers/assessment',
+    'uses' => 'TeachersController@assessment'
 ]);
 
 Route::get('teachers/uploadAssignment',[
@@ -99,7 +103,7 @@ Route::get('teachers/uploadAssignment',[
     'uses' => 'TeachersController@uploadAssignment'
 ]);
 
-Route::post('teachers/createAssignment',[
+Route::post('teachers/createAssessment',[
     'as' => 'teachers/create',
     'uses' => 'TeachersController@createAssessment'
 ]);
@@ -174,3 +178,10 @@ Route::post('invigilators/tests/{assessment_id}/paperCollection/verifyStudent',[
     'as' => 'invigilators/collectPaper',
     'uses' => 'InvigilatorsController@collectPaper'
 ]);
+
+// Download Route
+Route::get('download',[
+    'as' => 'download',
+    'uses' => 'TeachersController@download'
+]);
+

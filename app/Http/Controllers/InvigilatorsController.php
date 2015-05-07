@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Events\PaperWasCollected;
 use App\Events\StudentEnteredTest;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -56,14 +57,16 @@ class InvigilatorsController extends Controller {
 
 
         if($student->errorMessage === null){
-            $checkSubmission = $student->submissions()->where('assessment_id', $test->id)->first();
-            if($checkSubmission != null){
-                $error = new \stdClass();
-                $error->message = "STUDENT ALREADY ENTERED TEST";
-               $student = null;
-            }else{
-                $student = $student->sanitize();
-            }
+//            $checkSubmission = $student->submissions()->where('assessment_id', $test->id)->first();
+//            if($checkSubmission != null){
+//                dd($checkSubmission);
+//                $error = new \stdClass();
+//                $error->errorMessage = "STUDENT ALREADY ENTERED TEST";
+//               $student = null;
+//            }else{
+//                $student = $student->sanitize();
+//            }
+            $student = $student->sanitize();
         }
         else{
             $error = $student;
@@ -91,6 +94,8 @@ class InvigilatorsController extends Controller {
 
         $data = [
             'test' => $test,
+            'course'=> $test->course,
+            'message' => null
 
         ];
         return view('invigilators/paperCollection', $data);
@@ -98,6 +103,68 @@ class InvigilatorsController extends Controller {
     }
 
     public function collectPaper($assessment_id){
+
+        //get user id and paper_id from form input
+        $user_id = Request::input('user_id');
+        $paper_id = Request::input('paper_id');
+
+        //check if student is registered for test
+        $test = $this->findTest($assessment_id);
+
+        $student = $this->findStudent($user_id, $test->course->id);
+        if($student->errorMessage != null){
+            $message = $student->errorMessage;
+            $data = [
+                'test' => $test,
+                'course'=> $test->course,
+                'message' => $message
+
+            ];
+            return view('invigilators/paperCollection', $data);
+        }
+
+        //check if student entered the test
+        if($student->errorMessage === null){
+            $checkSubmission = $student->submissions()->where('assessment_id', $test->id)->first();
+            if($checkSubmission === null){
+                $message = "No record of student entry";
+                $data = [
+                    'test' => $test,
+                    'course'=> $test->course,
+                    'message' => $message
+
+                ];
+                return view('invigilators/paperCollection', $data);
+            }
+            else{
+                $user_submission = DB::table('user_submissions')->where('user_id',$student->id)->where('submission_id',$checkSubmission->id)->first();
+
+                if($user_submission->paper_collected == true){
+                    $message = "Student already submitted paper";
+                    $data = [
+                        'test' => $test,
+                        'course'=> $test->course,
+                        'message' => $message
+
+                    ];
+                    return view('invigilators/paperCollection', $data);
+                }
+            }
+        }
+
+        \Event::fire(new PaperWasCollected($student->id,$test->id,$paper_id));
+
+        //
+        $message = "paper successfully added";
+        $data = [
+            'test' => $test,
+            'course'=> $test->course,
+            'message' => $message
+
+        ];
+
+        return view('invigilators/paperCollection', $data);
+        dd($student);
 
     }
 
