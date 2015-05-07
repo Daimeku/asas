@@ -66,20 +66,15 @@
 <p>
 
 <h1 ID="head">SCRIPT COLLECTION</h1>
-<h2> OPERATING SYSTEM</h2>
+<h2> {{$course->name}}</h2>
 
 </p>
 
 <table  align="center">
     <tr>
-        <td>Date: October 6, 2015 </td>
+        <td>Date: {{ date('F d, Y',strtotime($test->start_date)) }}</td>
         <td> </td>
-        <td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Time: 5:00pm</td>
-    </tr>
-    <tr>
-        <td>Duration: 2 hours </td>
-        <td> </td>
-        <td>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Venue: 2b7 </td>
+        <td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Time: {{ date('H:i:s',strtotime($test->start_date)) }}</td>
     </tr>
 
     <tr>
@@ -97,7 +92,7 @@
 <div align="center">
     {!! Form::open(['method'=>'POST','route'=>['invigilators/collectPaper',$test->id]]) !!}
     <label>Student ID</label>
-    <input type="text" name="student_id"/>
+    <input type="text" name="user_id"/>
     <label>Paper ID</label>
     <input type="text" name="paper_id"/>
     {!! Form::submit('verify') !!}
@@ -127,6 +122,12 @@
 					padding: 2px 0px; width:150px;height:30px"/> END COLLECTION</button>
         </div>
     </form>
+
+    @if($message !=null)
+        <div>
+            <p><b>{{$message}}</b></p>
+        </div>
+    @endif
 
 </div>
 </p>

@@ -17,11 +17,11 @@
                         <h2>{{$group['course']->name}}</h2>
                         <h4><em>{{$group['assessment']->title}}</em></h4>
                     </div>
-                  <div class="col-md-4">
-                        <h4><strong>Submission Date:</strong>{{$group['submission']->time}} </h4>
-                        <h4><strong>Time:</strong> {{$group['submission']->time}}</h4>
-                  <h4 class="grade">Grade: </h4>
-                     </div>
+                      <div class="col-md-4">
+                            <h4><strong>Submission Date:</strong>{{$group['submission']->time}} </h4>
+                            <h4><strong>Time:</strong> {{$group['submission']->time}}</h4>
+                      <h4 class="grade">Grade: </h4>
+                   </div>
                 </div>
 
                 </div>

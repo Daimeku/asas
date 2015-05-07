@@ -12,7 +12,7 @@
 
  	<div class="row">
 		<!-- col -->
-        <a href="#">
+        <a href="{{ route('teachers/assignments') }}">
             <div class="card-container col-lg-4 col-sm-6 col-sm-12">
                 <div class="card">
                     <div class="front bg-greensea">
@@ -23,7 +23,7 @@
                             <!-- /col -->
                             <!-- col -->
                             <div class="col-xs-8">
-                                <p class="text-elg text-strong mb-0">4</p> <span class="topic">Assignments Issued</span> </div>
+                                <p class="text-elg text-strong mb-0">{{count($assignments)}}</p> <span class="topic">Assignments active</span> </div>
                             <!-- /col -->
                         </div>
                         <!-- /row -->
@@ -33,7 +33,7 @@
         </a>
 		<!-- /col -->
 		<!-- col -->
-        <a href="#">
+        <a href="{{ route('teachers/tests') }}">
             <div class="card-container col-lg-4 col-sm-6 col-sm-12">
                 <div class="card">
                     <div class="front bg-lightred">
@@ -44,7 +44,7 @@
                             <!-- /col -->
                             <!-- col -->
                             <div class="col-xs-8">
-                                <p class="text-elg text-strong mb-0">3</p> <span class="topic">Tests Created</span> </div>
+                                <p class="text-elg text-strong mb-0">{{count($tests)}}</p> <span class="topic">Upcoming tests</span> </div>
                             <!-- /col -->
                         </div>
                         <!-- /row -->
@@ -55,7 +55,7 @@
         </a>
 		<!-- /col -->
 		<!-- col -->
-        <a href="#">
+        <a href="{{ route('teachers/submissions') }}">
             <div class="card-container col-lg-4 col-sm-6 col-sm-12">
                 <div class="card">
                     <div class="front bg-slategray">
@@ -66,7 +66,7 @@
                             <!-- /col -->
                             <!-- col -->
                             <div class="col-xs-8">
-                                <p class="text-elg text-strong mb-0">23</p> <span>Recent Student Submissions </span> </div>
+                                <p class="text-elg text-strong mb-0">{{count($submissions)}}</p> <span>Recent Student Submissions </span> </div>
                             <!-- /col -->
                         </div>
                         <!-- /row -->
@@ -81,33 +81,28 @@
 		<div id="notes">   
            <div class="row">                              
                   <div class="col-md-4">
-                    <h3>Assignments Issued</h3>
+                    <h3>Active Assignments</h3>
                     <ul>
-                       <li><a href="#">Assignment #1</a></li>
-                       <li><a href="#">Assignment #2</a></li>
-                       <li><a href="#">Assignment #3</a></li>
-                       <li><a href="#">Assignment #4</a></li>
-                       <li><a href="#">Assignment #5</a></li>
+                        @foreach($assignments as $assignment)
+                            <li><a href="{{ route('teachers/assessment',['assessment_id'=>$assignment->id]) }}">{{$assignment->title}}</a></li>
+                        @endforeach
                    </ul>
                   </div>
                   <div class="col-md-4">
-                    <h3>Tests Created</h3>
+                    <h3>Upcoming Tests</h3>
                       <ul>
-                         <li><a href="#">Test #1</a></li>
-                         <li><a href="#">Test #2</a></li>
-                         <li><a href="#">Test #3</a></li>
-                         <li><a href="#">Test #4</a></li>
-                         <li><a href="#">Test #5</a></li>
+                          @foreach($tests as $test)
+                            <li><a href="{{ route('teachers/assessment',['assessment_id'=>$test->id]) }}">{{$test->title}}</a></li>
+                          @endforeach
                     </ul>       
                   </div>
                   <div class="col-md-4">
                   <h3>Recent Submissions by Students</h3>
                     <ul>
-                        <li><a href="#">Submission #1</a></li>
-                        <li><a href="#">Submission #2</a></li>
-                        <li><a href="#">Submission #3</a></li>
-                        <li><a href="#">Submission #4</a></li>
-                        <li><a href="#">Submission #5</a></li>
+                        @foreach($submissions as $submission)
+                            <li><a href="{{ route('teachers/submission',['submission_id'=>$submission->id]) }}">{{$submission->assessment->title}}</a></li>
+                        @endforeach
+
                    </ul>               
                 </div>         
           </div>

@@ -35,7 +35,7 @@
         <!--<form class="form-horizontal" action="teachers/createAssignment" method="POST">-->
         {!! Form::open(['route'=>'teachers/create', 'method' => 'POST', 'files'=>true, 'class'=>"assignment-form form-horizontal",'name'=>"assignment_test" ]) !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-         <input type="hidden" name="assessment_type" value="1">
+         <input type="hidden" name="assessment_type" id="assessment_type" value="">
               
         <div class="form-group toggle-btn pull-right">
             <button type="button" id="btnAssignment" class="btn btn-primary  btn-highlight"> Assignment</button>
@@ -72,7 +72,22 @@
                     <input id="txtTestVenue" name="upload" type="text" placeholder="Test Venue" value="" class="form-control">   
                  </div>
                  <div class="col-md-5"> 
-                    <input id="txtTestTime" name="upload" type="text" placeholder="Test Time" value="" class="form-control">    
+                    <select id="time" name="time" type="text" placeholder="Test Time" value="" class="form-control select">
+                        <option value="PT8H">8AM</option>
+                        <option value="PT9H">9AM</option>
+                        <option value="PT10H">10AM</option>
+                        <option value="PT11H">11AM</option>
+                        <option value="PT12H">12PM</option>
+                        <option value="PT13H">1PM</option>
+                        <option value="PT14H">2PM</option>
+                        <option value="PT15H">3PM</option>
+                        <option value="PT16H">4PM</option>
+                        <option value="PT17H">5PM</option>
+                        <option value="PT18H">6PM</option>
+                        <option value="PT19H">7PM</option>
+                        <option value="PT20H">8PM</option>
+                        <option value="PT21H">9PM</option>
+                    </select>
                  </div>
              </div> 
          </div>
@@ -112,13 +127,15 @@
  @section("scripts")
 <script src="/js/jQueryUI/jquery-ui.min.js"></script>
  
- <script>
+ <script type="text/javascript">
      $(function() {
         $("#start_date").datepicker();
         $("#end_date" ).datepicker();
         
          $("#btnTest").click( function(){
-             $("#assessment_type").val(2);
+             $("#assessment_type").val("2");
+             var atype = document.getElementById('assessment_type');
+             atype.setAttribute('value', "2");
 
              $("#btnTest").addClass("btn-highlight");
                $("#btnAssignment").removeClass("btn-highlight");
@@ -129,8 +146,11 @@
          });
          
           $("#btnAssignment").click( function(){
-              $("#assessment_type").val(1);
-               $("#btnTest").removeClass("btn-highlight");
+              $("#assessment_type").val("1");
+         var atype = document.getElementById('assessment_type');
+              atype.setAttribute('value', "1");
+
+              $("#btnTest").removeClass("btn-highlight");
                $("#btnAssignment").addClass("btn-highlight");
                
                $("#testInfo").addClass("hidden");

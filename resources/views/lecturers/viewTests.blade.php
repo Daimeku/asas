@@ -32,23 +32,26 @@
        </div>
         
        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                  <h2>Course Name</h2>
-                  <h4><em>Group: UN1 </em></h4>
-                  
-                   <div class="btn-group">
-        						<button type="button" class="btn btn-primary">Edit</button> 
-        						<button type="button" class="btn btn-danger">Delete</button>
-                   </div>
-                </div> 
-                
-                <div class="col-md-4">
-                  <h4><strong>Test Date:</strong> Friday, May 8, 2015</h4>
-                  <h4><strong>Classroom:</strong> LT-2B1</h4>
-                  <h4><strong>Test Time:</strong> 2 pm </h4>
+           @foreach($tests as $test)
+                <div class="row">
+                    <div class="col-md-8">
+                      <h2>{{$test->course->name}}</h2>
+                      <h4><em><b>test name:</b> {{$test->title}} </em></h4>
+
+                       <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                       </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <h4><strong>Test Date:</strong> {{ date('F d, Y',strtotime($test->start_date)) }}</h4>
+
+                      <h4><strong>Test Time:</strong> {{ date('H:i',strtotime($test->start_date)) }} </h4>
+                        <h4><strong>Description:</strong> {{$test->description}}</h4>
+                    </div>
                 </div>
-            </div>
+           @endforeach
         </div>
         
       <hr/>

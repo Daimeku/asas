@@ -30,7 +30,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand flip animated" href="#">ASAS</a>
+              <a class="navbar-brand flip animated" href="/">ASAS</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -40,19 +40,19 @@
                     <i class="animated fa fa-tasks"></i>     Assignments <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Create Assignments</a></li>
+                    <li><a href="{{ route('teachers/uploadAssignment') }}">Create Assignments</a></li>
 
-                    <li><a href="#">View Created Assignments</a></li>
+                    <li><a href="{{ route('teachers/assignments') }}">View Created Assignments</a></li>
                   </ul>
                 </li>
-                <li><a href="#"><i class="fa fa-upload"></i>     Submissions</a></li>
+                <li><a href="{{ route('teachers/submissions') }}"><i class="fa fa-upload"></i>     Submissions</a></li>
                  <li class="dropdown">
                    <a href="#"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                      <i class="fa fa-file-text"></i>     Tests <b class="caret"></b>
                    </a>
                    <ul class="dropdown-menu" role="menu">
-                       <li><a href="#">Create Test Instance</a></li>
-                       <li><a href="#">View Created Tests</a></li>
+                       <li><a href="{{ route('teachers/uploadAssignment') }}">Create Test Instance</a></li>
+                       <li><a href="{{ route('teachers/tests') }}">View Created Tests</a></li>
                    </ul>
                 </li>        
               </ul>

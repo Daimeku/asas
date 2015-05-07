@@ -32,34 +32,38 @@
    </div>
       
      <div class="container"> 
-          <div class="row">
-              <div class="col-md-8"> 
-                 <h2>Course Name</h2>          
-                 <h4><em>Occurence:</em> UN1</h4>
-              </div>
-              <div class="col-md-4">
-                 <h4><strong>Assignment Name<strong></h4>
-                 <h4><em>Group Assesment:</em> Yes</h4>
-              </div>
-            </div>
+
             
             <table class="table">
                <tbody class="striped">
-                    <td> ID Number </td>
-                    <td> Student Name </td>
-                    <td> Submission Date </td>
-                    <td> Submission Date </td>
+                    <td><b> ID Number</b> </td>
+                    <td> <b>Student Name</b> </td>
+                    <td> <b>Submission Date</b> </td>
+                    <td> <b>Course Name</b></td>
+                    <td> <b>Course Name</b></td>
                     <td><a href="#"> Download All</a></td>
-                    <td>Feedback</td>
-              
-                    <tr> 
-                       <td>1104473</td>
-                       <td>Romario Raffington</td>
-                       <td>Jan. 4 2014</td>
-                       <td>2:03pm</td>
-                       <td><a href="#">Download</td>
-                       <td><a href="#" data-toggle="modal" data-target="#modalGradeAssessment">Give Feedback</td>
-                    </tr>
+                    <td><b>Feedback</b></td>
+                    @foreach($submissions['unaccepted'] as $courseName => $courseSubmissions)
+                        @foreach($courseSubmissions as $submission)
+                            @foreach($submission->users as $student)
+                            <tr>
+
+                                <td>{{$student->id}}</td>
+                               <td>{{$student->name}}</td>
+                               <td>{{ date('F d, Y H:i',strtotime($submission->time)) }}</td>
+                               <td>{{$courseName}}</td>
+                               <td>{{$submission->assessment->title}}</td>
+                                <td>
+                                @if($submission->file_path !=null)
+                              <a href="{{ route('download', ['filename' => $submission->file_path]) }}">Download</a>
+                                @endif
+                                </td>
+                               <td><a href="#" data-toggle="modal" data-target="#modalGradeAssessment">Give Feedback</td>
+                            </tr>
+
+                            @endforeach
+                        @endforeach
+                    @endforeach
                  </tbody>
              </table>
          </div>
