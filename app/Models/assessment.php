@@ -1,12 +1,18 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use SoftDeletes;
+
 
 class Assessment extends Model {
+
+
+    protected $dates = ['deleted_at'];
 
 	protected $table = 'assessments';
 
     protected $fillable = ['title', 'description', 'filepath', 'start_date', 'end_date', 'course_id'];
+
 
     public function course(){
         return $this->belongsTo('App\Models\Course');
