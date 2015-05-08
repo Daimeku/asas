@@ -420,6 +420,7 @@ class StudentsController extends Controller {
         {
 //            return (new Response($file,200));
             $fn = basename($file->getRelativePath());
+            $fn = $fn . ".txt";
 
             // Send Download
             return response()->download(($file), $fn, [
