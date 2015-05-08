@@ -198,3 +198,8 @@ input[type="text"]{
 .uploadAssignmentContent{
   margin-top: 80px;
 }
+
+/*Error Page*/
+.err{
+  font-size: 26px;
+}
