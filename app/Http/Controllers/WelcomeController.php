@@ -29,7 +29,7 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view("lecturers.viewAssignments");
+		return view("lecturers.error_page");
 	}
 
 }
