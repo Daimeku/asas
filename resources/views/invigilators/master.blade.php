@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="/css/master.css">
         @yield('head')
 
-        <title>ASAS | Lecturer</title>
+        <title>ASAS | Invigilators</title>
     </head>
 
     <body>
@@ -37,54 +37,32 @@
               <ul class="nav navbar-nav">
                 <li class="dropdown">
                   <a href="#"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                    <i class="animated fa fa-leanpub"></i>&nbsp&nbsp Assignments <b class="caret"></b>
-                  </a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ route('teachers/uploadAssignment') }}">Create Assignments</a></li>
-
-                    <li><a href="{{ route('teachers/assignments') }}">View Assignments</a></li>
-                  </ul>
+                    <i class="animated fa fa-users"></i>&nbsp&nbsp     Examination Entry
+                  </a>                 
                 </li>              
                  <li class="dropdown">
                    <a href="#"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                     <i class="fa fa-file-zip-o"></i>&nbsp&nbsp Tests <b class="caret"></b>
-                   </a>
-                   <ul class="dropdown-menu" role="menu">
-                       <li><a href="{{ route('teachers/uploadAssignment') }}">Create Test Instance</a></li>
-                       <li><a href="{{ route('teachers/tests') }}">View Created Tests</a></li>
-                   </ul>
-                </li>        
-                <li><a href="{{ route('teachers/submissions') }}"><i class="fa fa-pencil-square-o"></i>&nbsp&nbsp Submissions</a></li>
-              </ul>
+                     <i class="fa fa-file-archive-o"></i>&nbsp&nbsp   Script Collection 
+                   </a>          
+                </li>      
+             </ul>
               
-              <ul class="nav navbar-nav navbar-right">                 
+              <ul class="nav navbar-nav navbar-right">
                  <li><a href="/auth/logout"> <i class="fa fa-sign-out"></i>&nbsp&nbsp Sign Out</a></li>
-            </ul>
+             </ul>
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
        </nav>
-
-        <div class="container">
-           @yield('content')
-        </div>
-
-
-    </body>
+      
+        @yield('content')     
+   </body>
+    
     <footer>
          <div id="footer">
            <div class="row">
-                <div class="col-md-3"><a href="#" id="brand">ASAS</a></div>
+                <div class="col-md-4"><a href="#" id="brand">ASAS</a></div>
                  <div class="hidden-sm hidden-xs">
-                  <div class="col-md-3">
-                    <h4>My Courses<h4>
-                    <ul>
-                      <li><a href="#">Course 1</a></li>
-                      <li><a href="#">Course 2</a></li>
-                      <li><a href="#">Course 3</a></li>
-                      <li><a href="#">Course 4</a></li>
-                   </ul>
-                  </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <h4>Past Tests <h4>
                       <ul>
                         <li><a href="#">Test 1</a></li>
@@ -93,7 +71,7 @@
                         <li><a href="#">Test 4</a></li>
                     </ul>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                   <h4>Upcoming Tests<h4>
                     <ul>
                         <li><a href="#">Test 1</a></li>
@@ -109,7 +87,6 @@
 
     <script src="/js/essentials/jquery-2.1.3.min.js"></script>
     <script src="/js/essentials/bootstrap.min.js"></script>
-    <script src="/js/others/master.js"></script>
     @yield('scripts')
      
 </html>

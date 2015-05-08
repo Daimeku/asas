@@ -1,4 +1,3 @@
-
 @extends('lecturers.master')
 
 @section('head')
@@ -22,7 +21,7 @@
 @section('content')
 
   <div class="section-heading">
-   		<h1 id="heading">Create Assignment or Test </h1>
+   		<h1>Create Assignment or Test </h1>
    		<hr/>
  </div>
 
