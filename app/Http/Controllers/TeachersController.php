@@ -101,11 +101,11 @@ class TeachersController extends Controller {
         }
 
         $data = [
-            'assignments' => $assignments,
-            'pastAssignments' => $pastAssignments
+            'assignments' => $assignments->reverse(),
+            'pastAssignments' => $pastAssignments->reverse()
         ];
-        dd($data);
-
+//        dd($data);
+        return view('lecturers/viewAssignments', $data);
     }
 
     public function tests(){
@@ -166,6 +166,7 @@ class TeachersController extends Controller {
     public function uploadAssignment(){
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
+//        dd($courses);
 
         $data = [
             'courses' => $courses
@@ -188,8 +189,8 @@ class TeachersController extends Controller {
             'start_date' => 'date|required',
             'end_date' => 'date',
             'assessment_type' => 'required|numeric',
-            'course_id' => 'required|numeric',
-            'filename' =>'sometimes|required'
+            'course_id' => 'required|numeric'
+
 
         ]);
         // if validation fails return to the previous page with the validator errors
@@ -248,7 +249,14 @@ class TeachersController extends Controller {
         $assessment->save();
 
         $data = [];
-        return redirect()->route('teachers/assignments');
+
+        if($assessment->assessment_type == 1){
+            return redirect()->route('teachers/assignments');
+        }
+        else{
+            return redirect()->route('teachers/tests');
+        }
+
     }
 
     public function submissions(){

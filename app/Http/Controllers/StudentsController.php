@@ -37,22 +37,21 @@ class StudentsController extends Controller {
 
 
         //loops through list of assessments and separate tests from assignments
-
+//        dd($assessments);
         foreach($assessments as $assessment){
-            if($assessment->assessment_type === 1){
+            if($assessment->assessment_type == 1){
                 $assignments->push($assessment);
             }
-            else if($assessment->assessment_type === 2){
+            else if($assessment->assessment_type == 2){
                 $tests->push($assessment);
             }
         }
-
         $footerData = $this->getFooterData();
 		$data = [
 
 			'user' => Auth::user()->sanitize(),	//returning user object
-            'assignments' => $assignments,
-            'tests' => $tests,
+            'assignments' => $assignments->reverse(),
+            'tests' => $tests->reverse(),
             'courses' => $courses,
             'pastAssessments' => $pastAssessments,
             'submissions' => $submissions,
@@ -102,7 +101,7 @@ class StudentsController extends Controller {
 
         $data = [
             'user' => Auth::user()->sanitize(),
-          'assignments' => $assignments,
+          'assignments' => $assignments->reverse(),
           'courses' => $courses,
             'footerData' => $footerData
         ];
@@ -112,23 +111,25 @@ class StudentsController extends Controller {
     }
     /*
      * loops through assessments and submissions and builds a list of assessments that havent been submitted by this user
+     * returns a list of unsubmitted assessments
      */
 
     public function checkSubmittedAssessments($assessments, $submissions)
     {
         $newAssessments = collect();
+
+        //foreach assessment, chck if any submissions match its course_id
+        //if submission matches then dont return that assessment
         foreach($assessments as $assessment){
-            $conf = false;
+            $conf = true;
+            // check if any submissions by this student exist for this assessment
             foreach($submissions as $submission){
                 if((intval($submission->assessment_id) === intval($assessment->id)) ){
                     $conf=false;
                     break;
-                }else{
-
-                    $conf = true;
                 }
             }
-
+            // if conf is true then the assessment can be added to the list
             if($conf === true){
                 $newAssessments->push($assessment);
             }
@@ -156,7 +157,7 @@ class StudentsController extends Controller {
 
         $data = [
             'user' => Auth::user()->sanitize(),
-            'tests' => $tests,
+            'tests' => $tests->reverse(),
             'courses' => $courses,
             'footerData' => $footerData
         ];

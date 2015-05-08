@@ -1,9 +1,12 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use SoftDeletes;
+
 
 class Submission extends Model {
 
+    protected $dates = ['deleted_at'];
 	protected $table = 'submissions';
 
     protected $fillable = ['file_path', 'time', 'assessment_id'];
