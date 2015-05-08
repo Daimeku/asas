@@ -55,7 +55,7 @@
                                <td>{{$submission->assessment->title}}</td>
                                 <td>
                                 @if($submission->file_path !=null)
-                              <a href="{{ route('download', ['filename' => $submission->file_path]) }}">Download</a>
+                              <a href="{{ route('teachers/download', ['filename' => $submission->file_path]) }}">Download</a>
                                 @endif
                                 </td>
                                <td><a href="#" data-toggle="modal" data-target="#modalGradeAssessment">Give Feedback</td>
