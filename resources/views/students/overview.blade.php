@@ -84,7 +84,7 @@
                     <h3>Assignments Due</h3>
                     <ul>
                         @foreach($assignments as $assignment)
-                            <li><a href="#">{{$assignment->title}}</a></li>
+                            <li><a href="{{{ route('students/assessment', ['assessment_id'=>$assignment->id]) }}}">{{$assignment->title}}</a></li>
                         @endforeach
 
                    </ul>
@@ -93,7 +93,7 @@
                     <h3>Upcoming Tests</h3>
                       <ul>
                           @foreach($tests as $test)
-                          <li><a href="#">{{$test->title}}</a></li>
+                          <li><a href="{{{ route('students/tests') }}}">{{$test->title}}</a></li>
 
                           @endforeach
                     </ul>       
@@ -103,7 +103,7 @@
                     <ul>
                         @foreach($submissions as $submission)
                             <?php $assessment = $submission->assessment ?>
-                            <li><a href="#">{{$assessment->title}}</a></li>
+                            <li><a href="{{{ route('students/submission',['submission_id'=>$submission->id]) }}}">{{$assessment->title}}</a></li>
 
                         @endforeach
 
