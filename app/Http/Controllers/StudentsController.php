@@ -9,6 +9,7 @@ use Auth;
 use DB;
 use App\Models\Course;
 use App\Models\Assessment;
+use Symfony\Component\Finder\SplFileInfo;
 
 class StudentsController extends Controller {
 
@@ -387,10 +388,6 @@ class StudentsController extends Controller {
 
     }
 
-    public function download(){
-
-    }
-
     /**
      * checks if the course_id matches a course the user has access to
      */
@@ -408,6 +405,31 @@ class StudentsController extends Controller {
             }
         }
         return $conf;
+    }
+
+    public function download()
+    {
+        $filename = Request::input('filename');
+
+        // Check if file exists in app/storage/file folder
+        $file_path = public_path() . $filename;
+
+        $file = new SplFileInfo($file_path, $file_path, 'subpath');
+        if (file_exists($file_path))
+        {
+//            return (new Response($file,200));
+            $fn = basename($file->getRelativePath());
+
+            // Send Download
+            return response()->download(($file), $fn, [
+                'Content-Length: '. filesize($file_path)
+            ]);
+        }
+        else
+        {
+            // Error
+            exit('Requested file does not exist on our server!');
+        }
     }
 
 }

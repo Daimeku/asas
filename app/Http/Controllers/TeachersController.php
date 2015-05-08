@@ -188,7 +188,8 @@ class TeachersController extends Controller {
             'start_date' => 'date|required',
             'end_date' => 'date',
             'assessment_type' => 'required|numeric',
-            'course_id' => 'required|numeric'
+            'course_id' => 'required|numeric',
+            'filename' =>'sometimes|required'
 
         ]);
         // if validation fails return to the previous page with the validator errors
@@ -202,10 +203,13 @@ class TeachersController extends Controller {
             return redirect()->back()->withErrors(['error', 'you do not currently have access to that course'])->withInput();
         }
 
-        $start_date = new Carbon(Request::input('start_date'));
-        $file = Request::file('assessment');
 
+
+        $start_date = new Carbon(Request::input('start_date'));
         $assessment = new Assessment;
+
+
+
 
         $assessment->title = Request::input('title');
         $assessment->description = Request::input('description');
@@ -213,27 +217,32 @@ class TeachersController extends Controller {
         $assessment->assessment_type = Request::input('assessment_type');
         $assessment->course_id = Request::input('course_id');
 
-//        dd($assessment->assessment_type);
+        //if assessment is a test then add the time to the date
         if($assessment->assessment_type == 2){
-//            $assessment->time = Request::input('time');
-              $assessment->start_date->add(new \DateInterval(Request::input('time')));
-//            dd($assessment->start_date);
-//            dd(Request::input('time'));
-              $assessment->end_date = $start_date;
+            $assessment->start_date = $assessment->start_date->addHours(Request::input('time'));
+            $assessment->end_date = $assessment->start_date;
 
-        }else{
+        }
+        else //if assessment is an assignment then get the end date from the user input
+        {
             $end_date = new Carbon(Request::input('end_date'));
             $assessment->end_date = $end_date;
 
         }
         $assessment->save();
+        if(Request::input('assessment_type') == 1){
+            $file = Request::file('assessment');
+            if( ($file !=null) ){
 
-        if(($file!=null) &&($file->isValid()) ){
-            $filePath = "/database/files/assessments/$assessment->id";
-            $file->move($filePath,"assessment");
-            $assessment->filepath = $filePath;
+                if($file->isValid()){
+                    $filename =Request::input('filename');
+                    $filePath = public_path() . ("\\files\\assessments\\$assessment->id");
+                    $file->move($filePath,$filename);
+                    $assessment->filepath = ("\\files\\assessments\\$assessment->id\\$filename");
+                }
+
+            }
         }
-
 
 
         $assessment->save();

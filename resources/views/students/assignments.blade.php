@@ -34,7 +34,8 @@
                 <div class="col-md-6">
                     <div class="button">
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-primary">Download</button>
+<!--                            <button type="button" class="btn btn-primary">Download</button>-->
+                            <a href="{{{ route('students/download',['filename'=>$assignment->filepath]) }}}" class="btn btn-primary">Download</a>
                             <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assignment->id]) }}}">upload </a>
                             <button type="button" class="btn btn-success">Send</button>
                             <button type="button" class="btn btn-warning">Add to Queue</button>

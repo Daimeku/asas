@@ -180,8 +180,13 @@ Route::post('invigilators/tests/{assessment_id}/paperCollection/verifyStudent',[
 ]);
 
 // Download Route
-Route::get('download',[
-    'as' => 'download',
+Route::get('teachers/download',[
+    'as' => 'teachers/download',
     'uses' => 'TeachersController@download'
+]);
+
+Route::get('students/download',[
+    'as' => 'students/download',
+    'uses' => 'StudentsController@download'
 ]);
 

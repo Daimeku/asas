@@ -53,16 +53,8 @@
         </div>
         
          <!--Upload-->
-        <div id="uploadAssignment" class="form-group">
-             <div class= "row">
-                 <div class="col-md-8 removeLeftPadding">                    
-<!--                    <input id="uploadTxt" name="upload" type="text" placeholder="Upload Assginment" value="" class="form-control">-->
-                     {!! Form::file('assessment',['class'=>"form-control"]) !!}
-                 </div>
-                 <div class="col-md-4"> 
-                     <input id="btnUpload" type="button" value="Browse" class="btn btn-md btn-primary">        
-                 </div>
-             </div> 
+        <div id="uploadAssignment" class="form-group">       
+             {!! Form::file('assessment') !!}
          </div>
   
         <!--Classroom + Time -->
