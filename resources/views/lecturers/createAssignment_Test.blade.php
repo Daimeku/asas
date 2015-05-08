@@ -112,7 +112,7 @@
         <div class="form-group">
             <!--<input id="course_id" name="course_id" type="text" placeholder="placeholder"  value="{{{Input::old('course_id')}}}" class="input-xlarge">-->
             <select id="course_id" name="course_id" value="{{{Input::old('assessment_type')}}}" class="form-control select">
-                <option>Select a course</option>
+                <option value="{{{Input::old('course_id')}}}">Select a course</option>
                 @foreach($courses as $course)
                 <option value="{{$course->id}}">{{$course->name}}</option>
                 @endforeach
