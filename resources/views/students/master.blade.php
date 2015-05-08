@@ -40,7 +40,7 @@
                 <li><a href="{{{route('students/submissions') }}}"><i class="fa fa-upload"></i>     Submissions</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                 <li><a href="/auth/logout">Sign Out</a></li>
+                 <li><a href="/auth/logout"> <i class="fa fa-sign-out"></i>   Sign Out</a></li>
             </ul>
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->

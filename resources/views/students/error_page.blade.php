@@ -2,13 +2,13 @@
 
 @section('content')
 	<div class="section-heading">
-   		<h1 id="heading">Oops! An error occured</h1>
+   		<h1 id="heading">Oops! An Error Occured</h1>
    		<hr/>
  	</div>
    
    <div class="main-content">	  
      <div class="row">
-        <div class="col-md-4 pull-left">
+        <div class="col-md-4 hidden-xs">
            <img src="/img/error.jpg" alt="Unfortunately an error occured">  
         </div>
        
