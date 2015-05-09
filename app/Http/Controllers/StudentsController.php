@@ -11,6 +11,7 @@ use App\Models\Course;
 use App\Models\Assessment;
 use Symfony\Component\Finder\SplFileInfo;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 
 class StudentsController extends Controller {
@@ -39,7 +40,6 @@ class StudentsController extends Controller {
 
 
         //loops through list of assessments and separate tests from assignments
-//        dd($assessments);
         foreach($assessments as $assessment){
             if($assessment->assessment_type == 1){
                 $assignments->push($assessment);
@@ -61,7 +61,6 @@ class StudentsController extends Controller {
 
 
 		];
-//        dd($data);
 		return view('students/overview', $data);
 	}
 
@@ -180,15 +179,15 @@ class StudentsController extends Controller {
 //        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);        //remove assessments that are already submitted
 
         if($assessment === null){
-            dd("ASSESSMENT NOT FOUND");
+            return redirect()->route('students/error')->with('error','Assessment not found');
         }
 
         if(!$this->checkCourseID($assessment->course_id)){
-            dd("YOU DO NOT HAVE ACCESS TO THAT COURSE");
+            return redirect()->route('students/error')->with('error','You do not have access to this course');
         }
 
         if(!($this->checkAssessmentBelongs($assessments,$assessment_id)) ){
-            return "ASSIGNMENT NOT ASSIGNED TO THIS USER";
+            return redirect()->route('students/error')->with('error','You do not have access to this assessment');
         }
 
         $footerData = $this->getFooterData();
@@ -237,15 +236,14 @@ class StudentsController extends Controller {
 
         $submission = Submission::find($submission_id);
         if($submission === null){
-            $error = [ "ERROR SUBMISSION NOT FOUND"];
-            dd( "ERROR SUBMISSION NOT FOUND");
+            return redirect()->route('students/error')->with('error','Submission not found');
         }
 
         if (!$this->checkCourseID($submission->assessment->course->id)){
-            dd("ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THAT COURSE");
+            return redirect()->route('students/error')->with('error','You do not have access to this course');
         }
         if(!$this->checkUserHasSubmission($submission)){
-            dd("ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THIS SUBMISSION");
+            return redirect()->route('students/error')->with('error','You do not have access to this submission');
         }
 
         $submission->userList = $submission->users;
@@ -314,7 +312,7 @@ class StudentsController extends Controller {
 
         //checks if the user is assigned to the current assessment
         if(!($this->checkAssessmentBelongs($assessments,$assessment_id)) ){
-            return "ASSIGNMENT NOT ASSIGNED TO THIS USER";
+            return redirect()->route('students/error')->with('error','You do not have access to this assessment');
         }
 
         $assessments = $this->checkSubmittedAssessments($assessments, $submissions);
@@ -333,11 +331,11 @@ class StudentsController extends Controller {
 
         //check if assessment is found
         if($conf!=true){
-            return "ASSIGNMENT NOT FOUND FOR THIS USER. Possible duplicate submission.";
+            return redirect()->route('students/error')->with('error','Assessment not found for this user. Possible duplicate submission');
         }
         //check assessment is a test
         if($currentAssessment->assessment_type !=1){
-            return "YOU ARE ATTEMPTING TO UPLOAD A TEST. ONLY ASSIGNMENTS CAN BE UPLOADED.";
+            return redirect()->route('students/error')->with('error','You are attempting to upload a test, only assignments may be uploaded');
         }
 
         return $currentAssessment;
@@ -406,7 +404,7 @@ class StudentsController extends Controller {
 
         }
         else{
-            return "FILE NOT VALID";
+            return redirect()->route('students/error')->with('error','Uploaded file not valid');
         }
 
         return redirect()->route('students/submissions')->with('success','successfully added submission');
@@ -454,8 +452,21 @@ class StudentsController extends Controller {
         else
         {
             // Error
-            exit('Requested file does not exist on our server!');
+            return redirect()->route('students/error')->with('error','Requested file not found');
         }
+    }
+
+    public function showError(){
+        $error = Session::get('error');
+
+        $footerData= $this->getFooterData();
+        $data = [
+            'error' => $error,
+            'footerData' => $footerData
+        ];
+
+        return view('students/error_page', $data);
+
     }
 
 }

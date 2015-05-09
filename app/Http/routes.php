@@ -28,6 +28,8 @@ Route::get('login',[
     'uses' => 'Auth\AuthController@showLogin'
 ]);
 
+
+
 /*
  * STUDENT ROUTES
  */
@@ -71,6 +73,16 @@ Route::get('students/submissions', [
 Route::get('students/submissions/{submission_id}', [
     'as' => 'students/submission',
     'uses' => 'studentsController@submission'
+]);
+
+Route::get('students/download',[
+    'as' => 'students/download',
+    'uses' => 'StudentsController@download'
+]);
+
+Route::get('students/error',[
+    'as' => 'students/error',
+    'uses' => 'StudentsController@showError'
 ]);
 
 /*
@@ -142,6 +154,15 @@ Route::post('teachers/submissions/{submission_id}/edit',[
     'uses' => 'TeachersController@editSub'
 ]);
 
+Route::get('teachers/download',[
+    'as' => 'teachers/download',
+    'uses' => 'TeachersController@download'
+]);
+
+Route::get('teachers/error',[
+    'as' => 'teachers/error',
+    'uses' => 'TeachersController@showError'
+]);
 
 /*
  * INVIGILATOR ROUTES
@@ -193,14 +214,10 @@ Route::post('invigilators/tests/{assessment_id}/paperCollection/verifyStudent',[
     'uses' => 'InvigilatorsController@collectPaper'
 ]);
 
-// Download Route
-Route::get('teachers/download',[
-    'as' => 'teachers/download',
-    'uses' => 'TeachersController@download'
+Route::get('invigilators/error',[
+    'as' => 'inviglators/error',
+    'uses' => 'InvigilatorsController@showError'
 ]);
 
-Route::get('students/download',[
-    'as' => 'students/download',
-    'uses' => 'StudentsController@download'
-]);
+
 

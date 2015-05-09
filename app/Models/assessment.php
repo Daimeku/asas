@@ -21,7 +21,7 @@ class Assessment extends Model {
     }
 
     public function submissions(){
-        return $this->hasMany('App\Models\Submission');
+        return $this->hasMany('App\Models\Submission', 'assessment_id','id');
     }
 
     public function getDates()

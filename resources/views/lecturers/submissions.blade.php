@@ -40,7 +40,7 @@
                     <td> <b>Student Name</b> </td>
                     <td> <b>Submission Date</b> </td>
                     <td> <b>Course Name</b></td>
-                    <td> <b>Course Name</b></td>
+                    <td> <b>Assessment Name</b></td>
                     <td><a href="#"> Download All</a></td>
                     <td><b>Feedback</b></td>
                     @foreach($submissions['unaccepted'] as $courseName => $courseSubmissions)

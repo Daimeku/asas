@@ -16,6 +16,7 @@ use App\Models\Submission;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
 use Symfony\Component\Finder\SplFileInfo;
+use Illuminate\Support\Facades\Session;
 
 class TeachersController extends Controller {
 
@@ -152,10 +153,10 @@ class TeachersController extends Controller {
     public function assessment($assessment_id){
         $assessment = Assessment::find($assessment_id);
         if($assessment === null){
-            dd("assessment not found");
+            return redirect()->route('teachers/error')->with('error','Assessment not found');
         }
         if(!$this->checkCourseID($assessment->course_id)){
-            dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
+            return redirect()->route('teachers/error')->with('error','You do not have access to this course');
         }
         $submissions = $assessment->submissions;
 
@@ -176,10 +177,10 @@ class TeachersController extends Controller {
 
         $assessment = Assessment::find($assessment_id);
         if($assessment === null){
-            dd("assessment not found");
+            return redirect()->route('teachers/error')->with('error','Assessment not found');
         }
         if(!$this->checkCourseID($assessment->course_id)){
-            dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
+            return redirect()->route('teachers/error')->with('error','You do not have access to this course');
         }
 
         $coursesArray = [];
@@ -219,10 +220,10 @@ class TeachersController extends Controller {
 
         $assessment = Assessment::find($assessment_id);
         if($assessment === null){
-            dd("assessment not found");
+            return redirect()->route('teachers/error')->with('error','Assessment not found');
         }
         if(!$this->checkCourseID($assessment->course_id)){
-            dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
+            return redirect()->route('teachers/error')->with('error','You do not have access to this course');
         }
 
         if(Request::input('assessment_type') == 1){
@@ -379,10 +380,11 @@ class TeachersController extends Controller {
 
         $assessment = Assessment::find($assessment_id);
         if($assessment === null){
-            dd("assessment not found");
+            return redirect()->route('teachers/error')->with('error','Assessment not found');
         }
         if(!$this->checkCourseID($assessment->course_id)){
-            dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
+            return redirect()->route('teachers/error')->with('error','You do not have access to this course');
+
         }
         //delete all submissions for this assessment
         foreach($assessment->submissions as $submission){
@@ -459,12 +461,11 @@ class TeachersController extends Controller {
 
         $submission = Submission::find($id);
         if($submission === null){
-            $error = [ "ERROR SUBMISSION NOT FOUND"];
-            dd( "ERROR SUBMISSION NOT FOUND");
+            return redirect()->route('teachers/error')->with('error','Submission not found');
         }
 
         if (!$this->checkCourseID($submission->assessment->course->id)){
-            dd("ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THAT COURSE'S SUBMISSIONS");
+            return redirect()->route('teachers/error')->with('error',"You do not have access to this course's submissions");
         }
         $submission->userList = $submission->users;
         return $submission;
@@ -531,18 +532,27 @@ class TeachersController extends Controller {
         $file = new SplFileInfo($file_path, $file_path, 'subpath');
         if (file_exists($file_path))
         {
-
             $fn = 'submission.txt';
-            // Send Download
             return response()->download(($file), $fn, [
                 'Content-Length: '. filesize($file_path)
             ]);
         }
         else
         {
-            // Error
-            exit('Requested file does not exist on our server!');
+            return redirect()->route('teachers/error')->with('error','Requested file not found');
         }
+    }
+
+    public function showError(){
+        $error = Session::get('error');
+        $footerData= $this->getFooterData();
+        $data = [
+            'error' => $error,
+            'footerData' => $footerData
+        ];
+
+        return view('lecturers/error_page', $data);
+
     }
 
 }

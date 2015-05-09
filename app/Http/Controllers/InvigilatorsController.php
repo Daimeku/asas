@@ -6,6 +6,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
+
 //use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Submission;

@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 use Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller {
 
@@ -45,5 +46,7 @@ class HomeController extends Controller {
         //if user isnt either type display welcome page
 		return view('welcome');
 	}
+
+
 
 }

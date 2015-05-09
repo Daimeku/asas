@@ -15,8 +15,7 @@
         <div class="col-md-offset-6 uploadAssignmentContent">
               <div class="animated bounceIn">            
                 <ul class="text-danger err">
-                  <li>Example of Error #1</li>
-                  <li>Example of Error #2</li>
+                    <li>{{$error}}</li>
                 </ul>
              </div>
         </div>
