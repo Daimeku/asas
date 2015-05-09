@@ -121,6 +121,8 @@ class CreateSystemTables extends Migration {
             $table->unsignedInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
             $table->timestamps();
+            $table->softDeletes();
+
         });
 
 
@@ -133,8 +135,10 @@ class CreateSystemTables extends Migration {
             $table->foreign('submission_type')->references('id')->on('submission_types');
             $table->unsignedInteger('assessment_id');
             $table->foreign('assessment_id')->references('id')->on('assessments');
-            $table->decimal('grade');
+            $table->string('paper_id');
             $table->timestamps();
+            $table->softDeletes();
+
         });
 
         Schema::create('user_submissions', function(Blueprint $table){

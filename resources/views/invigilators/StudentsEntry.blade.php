@@ -35,18 +35,20 @@
                    <i class="fa fa-exchange"></i>  Find Student                  
              </button>
              &nbsp &nbsp
-             <button type="submit" class="btn btn-success">
-                 <a href="{{{route('invigilators/enterTest',['test_id'=>$test->id, 'user_id'=>$student->id])}}}"
-                   <i class="fa fa-user-plus"></i> Add Student   
-                  </a>              
-             </button>
+             @if($error ===null)
+                 <button type="submit" class="btn btn-success">
+                     <a href="{{{route('invigilators/enterTest',['test_id'=>$test->id, 'user_id'=>$student->id])}}}"
+                       <i class="fa fa-user-plus"></i> Add Student
+                      </a>
+                 </button>
+             @endif
              &nbsp &nbsp
              <button type="submit" class="btn btn-warning">
                    <i class="fa fa-edit"></i> Collect Scripts                
              </button>
          </div>
      </div>  
-     {!! Form::close() !!}-->     
+     {!! Form::close() !!}
       
      @if($error === null)
         <div class="margin-t-50 center-block alert alert-success width-30">
@@ -54,7 +56,7 @@
         </div>
     @elseif($error != null)
          <div class="margin-t-50 center-block alert alert-success width-30">
-            <p><i class="fa fa-exclamation-circle">{{$error->errorMessage}}</strong></p>
+            <p><i class="fa fa-exclamation-circle">{{$error->errorMessage}}</i></p>
         </div>     
     @endif
 

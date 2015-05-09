@@ -35,7 +35,7 @@
         <!--<form class="form-horizontal" action="teachers/createAssignment" method="POST">-->
         {!! Form::open(['route'=>'teachers/create', 'method' => 'POST', 'files'=>true, 'class'=>"assignment-form form-horizontal",'name'=>"assignment_test" ]) !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-         <input type="hidden" name="assessment_type" id="assessment_type" value="">
+         <input type="hidden" name="assessment_type" id="assessment_type" value="1">
               
         <div class="form-group toggle-btn pull-right">
             <button type="button" id="btnAssignment" class="btn btn-primary  btn-highlight"> Assignment</button>
@@ -48,14 +48,27 @@
        </div>
 
       <!-- Description -->         
-        <div class="form-group">         
-            <textarea id="description" name="description" type="text" placeholder="Enter the Assignment or Test Description here" value="{{{Input::old('description')}}}" class="form-control" rows="3"></textarea>
+        <div class="form-group">
+            {!! Form::textarea('description', null, array('id'=>'description', 'class' => 'form-control', 'rows'=> 3, 'placeholder'=>"Enter the Assignment or Test Description here")) !!}
+
         </div>
         
          <!--Upload-->
-        <div id="uploadAssignment" class="form-group">       
-             {!! Form::file('assessment') !!}
-         </div>
+        <div id="uploadAssignment" class="form-group">
+            <div class= "row">
+                <div class="col-md-7 removeLeftPadding">
+                    <input id="txtFileName" name="filename" type="text" placeholder="assignment name" value="{{{Input::old('filename')}}}" class="form-control">
+
+
+                </div>
+
+                <div class="col-md-5  ">
+                    {!! Form::file('assessment') !!}
+
+                </div>
+
+            </div>
+        </div>
   
         <!--Classroom + Time -->
         <div id="testInfo" class="form-group hidden">
@@ -65,20 +78,20 @@
                  </div>
                  <div class="col-md-5"> 
                     <select id="time" name="time" type="text" placeholder="Test Time" value="" class="form-control select">
-                        <option value="PT8H">8AM</option>
-                        <option value="PT9H">9AM</option>
-                        <option value="PT10H">10AM</option>
-                        <option value="PT11H">11AM</option>
-                        <option value="PT12H">12PM</option>
-                        <option value="PT13H">1PM</option>
-                        <option value="PT14H">2PM</option>
-                        <option value="PT15H">3PM</option>
-                        <option value="PT16H">4PM</option>
-                        <option value="PT17H">5PM</option>
-                        <option value="PT18H">6PM</option>
-                        <option value="PT19H">7PM</option>
-                        <option value="PT20H">8PM</option>
-                        <option value="PT21H">9PM</option>
+                        <option value="8">8AM</option>
+                        <option value="9">9AM</option>
+                        <option value="10">10AM</option>
+                        <option value="11">11AM</option>
+                        <option value="12">12PM</option>
+                        <option value="13">1PM</option>
+                        <option value="14">2PM</option>
+                        <option value="15">3PM</option>
+                        <option value="16">4PM</option>
+                        <option value="17">5PM</option>
+                        <option value="18">6PM</option>
+                        <option value="19">7PM</option>
+                        <option value="20">8PM</option>
+                        <option value="21">9PM</option>
                     </select>
                  </div>
              </div> 
@@ -99,7 +112,7 @@
         <div class="form-group">
             <!--<input id="course_id" name="course_id" type="text" placeholder="placeholder"  value="{{{Input::old('course_id')}}}" class="input-xlarge">-->
             <select id="course_id" name="course_id" value="{{{Input::old('assessment_type')}}}" class="form-control select">
-                <option>Select a course</option>
+                <option value="{{{Input::old('course_id')}}}">Select a course</option>
                 @foreach($courses as $course)
                 <option value="{{$course->id}}">{{$course->name}}</option>
                 @endforeach

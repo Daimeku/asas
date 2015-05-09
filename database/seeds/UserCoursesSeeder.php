@@ -801,6 +801,30 @@ Class UserCoursesSeeder extends Seeder {
 
             ]
         );
+
+        DB::table('user_courses')->insert(
+            [
+                'user_id' =>1,
+                'occurence_id' =>9
+
+            ]
+        );
+        DB::table('user_courses')->insert(
+            [
+                'user_id' =>1,
+                'occurence_id' =>14
+
+            ]
+        );
+        DB::table('user_courses')->insert(
+            [
+                'user_id' =>1,
+                'occurence_id' =>11
+
+            ]
+        );
+
+
 		//1 ashani -------------------------------
 		DB::table('user_courses')->insert(
 			[

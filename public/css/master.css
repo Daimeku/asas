@@ -214,10 +214,6 @@ input[type="text"]{
   margin-bottom: 40px;
 }
 
-.uploadAssignmentContent{
-  margin-top: 80px;
-}
-
 /*Error Page*/
 .err{
   font-size: 26px;
@@ -225,8 +221,8 @@ input[type="text"]{
 
 @media (max-width: 767px){
   .err{
-    font-size: 24px;
-  }
+    font-size: 24px;    
+  }  
 }
 
 /*Margins*/
@@ -248,6 +244,13 @@ input[type="text"]{
 .width-50{
   width: 50%;
 }
+
+@media (max-width: 767px){
+  .width-50{
+    width: 100%;
+  }
+}
+
 .width-30{
   width: 30%;
 }
@@ -255,6 +258,18 @@ input[type="text"]{
 /*Helper Colours*/
 .text-grey{
   color: #ccc;
+}
+
+.fa-plus{
+ color:#8CC152; 
+ cursor: pointer;
+ cursor: hand;
+}
+
+.fa-minus{
+  color: #DA4453;
+   cursor: pointer;
+   cursor: hand;
 }
 
  /* --Button Colours-- */ 

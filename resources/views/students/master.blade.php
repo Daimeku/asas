@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="/css/icons/css/font-awesome.min.css">      
         <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">      
         <link rel="stylesheet" href="/css/master.css"> 
+       
         @yield('head') 
 
         <title>ASAS | Student</title>
@@ -38,18 +39,16 @@
                 <li><a href="{{{route('students/assignments') }}}"><i class="fa fa-leanpub"></i>&nbsp&nbsp Assignments</a></li>         
                 <li><a href="{{{route('students/tests') }}}"><i class="fa fa-file-o"></i>&nbsp&nbsp Tests</a></li>
                 <li><a href="{{{route('students/submissions') }}}"><i class="fa fa-folder-open-o"></i>&nbsp&nbsp Submissions</a></li>
+
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                 <li><a href="/auth/logout"> <i class="fa fa-sign-out"></i>   Sign Out</a></li>
+                 <li><a href="/auth/logout"> <i class="fa fa-sign-out"></i>&nbsp&nbsp Sign Out</a></li>
             </ul>
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
        </nav> 
 
-
-        <div class="container">
-           @yield('content')
-        </div>
+       @yield('content')     
 
 
     </body>
@@ -70,17 +69,20 @@
                   <div class="col-md-3">
                     <h4>Recent Submissions <h4>
                       <ul>
-                          @for($i=0;$i<$footerData['assessments']->count();$i++)
-                                <li><a href="#">{{$footerData['assessments']->pull($i)->title}}</a></li>
-                          @endfor
-
+                          @if(!$footerData['assessments']->isEmpty())
+                              @foreach($footerData['assessments'] as $assessment)
+                                    <li><a href="{{{ route('students/assessment',['assessment_id'=>$assessment->id]) }}}">{{$assessment->title}}</a></li>
+                              @endforeach
+                          @endif
                       </ul>
                   </div>
 
             </div>          
       </div>
-    </footer>
+    </footer> 
     
     <script src="/js/essentials/jquery-2.1.3.min.js"></script>
-    <script src="/js/essentials/bootstrap.min.js"></script>
+    <script src="/js/essentials/bootstrap.min.js"></script>   
+     @yield('scripts')
+
 </html>

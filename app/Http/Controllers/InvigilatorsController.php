@@ -66,9 +66,11 @@ class InvigilatorsController extends Controller {
 //            }else{
 //                $student = $student->sanitize();
 //            }
+
             $student = $student->sanitize();
         }
         else{
+//            dd("here");
             $error = $student;
 //            $student = new \stdClass();
 //            $error->message = "STUDENT NOT FOUND";

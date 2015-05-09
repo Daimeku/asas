@@ -63,12 +63,13 @@ class TeachersController extends Controller {
 //        foreach($courses as $course){
 //            echo json_encode($course->assessments, JSON_PRETTY_PRINT);
 //        }
-
+        $footerData = $this->getFooterData();
         $data =[
-            'courses' => $courses,
-            'assignments' => $assignments,
-            'submissions' => $submissions,
-            'tests' => $tests
+            'courses' => $courses->reverse(),
+            'assignments' => $assignments->reverse(),
+            'submissions' => $submissions->reverse(),
+            'tests' => $tests->reverse(),
+            'footerData' => $footerData
         ];
 
         return view('lecturers/overview',$data);
@@ -95,17 +96,20 @@ class TeachersController extends Controller {
 
         foreach($pastAssessments as $assessment){
             if($assessment->assessment_type === 1){
-                $pastAssessments->push($assessment);
+                $pastAssignments->push($assessment);
             }
 
         }
 
-        $data = [
-            'assignments' => $assignments,
-            'pastAssignments' => $pastAssignments
-        ];
-        dd($data);
+        $footerData = $this->getFooterData();
 
+        $data = [
+            'assignments' => $assignments->reverse(),
+            'pastAssignments' => $pastAssignments->reverse(),
+            'footerData' => $footerData
+        ];
+
+        return view('lecturers/viewAssignments', $data);
     }
 
     public function tests(){
@@ -134,9 +138,10 @@ class TeachersController extends Controller {
                 $tests->push($assessment);
             }
         }
-
+        $footerData= $this->getFooterData();
         $data =[
-            'tests' => $tests
+            'tests' => $tests,
+            'footerData' => $footerData
         ];
 //        dd($tests);
 
@@ -154,33 +159,48 @@ class TeachersController extends Controller {
         }
         $submissions = $assessment->submissions;
 
+        $footerData = $this->getFooterData();
         $data = [
             'assessment' => $assessment,
-            'submissions' => $submissions
+            'submissions' => $submissions,
+            'footerData' => $footerData
         ];
 
-        dd($data);
+        return view('lecturers/assessment', $data);
     }
 
+    public function editAssessment($assessment_id){
 
-    public function uploadAssignment(){
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
 
+        $assessment = Assessment::find($assessment_id);
+        if($assessment === null){
+            dd("assessment not found");
+        }
+        if(!$this->checkCourseID($assessment->course_id)){
+            dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
+        }
+
+        $coursesArray = [];
+        foreach($courses as $course){
+            $coursesArray[$course->id] = $course->name;
+        }
+
+        $footerData=$this->getFooterData();
         $data = [
-            'courses' => $courses
+          'assessment' => $assessment,
+          'courses' => $coursesArray,
+          'footerData' => $footerData
+
         ];
 
-        return view('lecturers/createAssignment_test',$data);
-
+        return view('lecturers/editAssessment', $data);
 
     }
-    /*
-     * create a new assignment
-     */
 
-    public function createAssessment(){
-        //create validator and check for correct user input
+    public function edit($assessment_id){
+
         $val = Validator::make(Request::all(),[
             'title' => 'Required',
             'description' => 'required|',
@@ -197,14 +217,89 @@ class TeachersController extends Controller {
             return redirect()->back()->withInput()->withErrors($val->errors()->all());
         }
 
+        $assessment = Assessment::find($assessment_id);
+        if($assessment === null){
+            dd("assessment not found");
+        }
+        if(!$this->checkCourseID($assessment->course_id)){
+            dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
+        }
+
+        if(Request::input('assessment_type') == 1){
+            $file = Request::file('assessment');
+            if( ($file !=null) ){
+
+                if($file->isValid()){
+                    $filename =Request::input('filename');
+                    if($filename == null){
+                        $filename = "submission.txt";
+                    }
+                    $filePath = public_path() . ("\\files\\assessments\\$assessment->id");
+                    $file->move($filePath,$filename);
+                    $assessment->filepath = ("\\files\\assessments\\$assessment->id\\$filename");
+                }
+
+            }
+        }
+        $assessment->title = Request::input('title');
+        $assessment->description = Request::input('description');
+        $assessment->start_date = Request::input('start_date');
+        $assessment->course_id = Request::input('course_id');
+
+        if($assessment->assessment_type == 1){
+            $assessment->end_date = Request::input('end_date');
+        }
+
+        $assessment->save();
+        return redirect()->back()->with('success', 'Assessment successfully updated');
+    }
+
+
+    public function uploadAssignment(){
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+
+        $footerData = $this->getFooterData();
+        $data = [
+            'courses' => $courses,
+            'footerData' => $footerData
+        ];
+
+        return view('lecturers/createAssignment_test',$data);
+
+
+    }
+
+    /*
+     * create a new assignment
+     */
+
+    public function createAssessment(){
+
+        //create validator and check for correct user input
+        $val = Validator::make(Request::all(),[
+            'title' => 'Required',
+            'description' => 'required|',
+            'filepath' => '',
+            'start_date' => 'date|required',
+            'end_date' => 'date',
+            'assessment_type' => 'required|numeric',
+            'course_id' => 'required|numeric'
+
+
+        ]);
+        // if validation fails return to the previous page with the validator errors
+        if($val->fails()){
+
+            return redirect()->back()->withInput()->withErrors($val->errors()->all());
+        }
+
         // check if teacher is assigned to a course with a matching course_id
         if(!$this->checkCourseID(Request::input('course_id')) ){
             return redirect()->back()->withErrors(['error', 'you do not currently have access to that course'])->withInput();
         }
 
         $start_date = new Carbon(Request::input('start_date'));
-        $file = Request::file('assessment');
-
         $assessment = new Assessment;
 
         $assessment->title = Request::input('title');
@@ -213,54 +308,85 @@ class TeachersController extends Controller {
         $assessment->assessment_type = Request::input('assessment_type');
         $assessment->course_id = Request::input('course_id');
 
-//        dd($assessment->assessment_type);
+        //if assessment is a test then add the time to the date
         if($assessment->assessment_type == 2){
-//            $assessment->time = Request::input('time');
-              $assessment->start_date->add(new \DateInterval(Request::input('time')));
-            //dd($assessment->start_date);
-//            dd(Request::input('time'));
-              $assessment->end_date = $start_date;
+            $assessment->start_date = $assessment->start_date->addHours(Request::input('time'));
+            $assessment->end_date = $assessment->start_date;
 
-        }else{
+        }
+        else //if assessment is an assignment then get the end date from the user input
+        {
             $end_date = new Carbon(Request::input('end_date'));
             $assessment->end_date = $end_date;
 
         }
         $assessment->save();
+        if(Request::input('assessment_type') == 1){
+            $file = Request::file('assessment');
+            if( ($file !=null) ){
 
-        if(($file!=null) &&($file->isValid()) ){
-            $filePath = "/database/files/assessments/$assessment->id";
-            $file->move($filePath,"assessment");
-            $assessment->filepath = $filePath;
+                if($file->isValid()){
+                    $filename =Request::input('filename');
+                    if($filename == null){
+                        $filename = "assessment.txt";
+                    }
+                    $filePath = public_path() . ("\\files\\assessments\\$assessment->id");
+                    $file->move($filePath,$filename);
+                    $assessment->filepath = ("\\files\\assessments\\$assessment->id\\$filename");
+                }
+
+            }
         }
-
-
 
         $assessment->save();
 
-        $data = [];
-        return redirect()->route('teachers/assignments');
+        if($assessment->assessment_type == 1){
+            return redirect()->route('teachers/assignments');
+        }
+        else{
+            return redirect()->route('teachers/tests');
+        }
+
     }
 
     public function submissions(){
-        $submissions = $this->findSubmissions();
 
+        $submissions = $this->findSubmissions();
+        $footerData = $this->getFooterData();
         $data = [
-            'submissions' => $submissions
+            'submissions' => $submissions,
+            'footerData' => $footerData
+
         ];
-//        dd($submissions);
+
         return view('lecturers/submissions',$data);
     }
 
     public function submission($submission_id){
 
         $submission = $this->findSubmission($submission_id);
+        $footerData = $this->getFooterData();
 
         $data = [
-            'submission' => $submission
+            'submission' => $submission,
+            'footerData' => $footerData
         ];
 
         return view('lecturers/submissions',$data);
+    }
+
+    public function deleteAssessment($assessment_id){
+
+        $assessment = Assessment::find($assessment_id);
+        if($assessment === null){
+            dd("assessment not found");
+        }
+        if(!$this->checkCourseID($assessment->course_id)){
+            dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
+        }
+        $assessment->delete();
+
+        return redirect()->route('teachers/assignments');
     }
 
     /*
@@ -275,6 +401,12 @@ class TeachersController extends Controller {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
+        $pastAssessments = Auth::user()->findPastAssessments($courses);
+
+        //add pastAssessments to assessments
+        if(!$pastAssessments->isEmpty()){
+            $assessments->merge($pastAssessments);
+        }
 
         $acceptedSubmissions = [];  // submissions that have already been accepted (accepted=true)
         $unacceptedSubmissions = []; // submissions that haven't been accepted (accepted=false)
@@ -353,20 +485,48 @@ class TeachersController extends Controller {
         return $conf;
     }
 
+    public function getFooterData()
+    {
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+        $submissions = Auth::user()->submissions()->with('assessment')->take(5)->get();
+
+        foreach($submissions as $submission){
+            $assessments->push($submission->assessment);
+        }
+
+        $assignments = collect();
+        $tests = collect();
+
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $assignments->push($assessment);
+            }
+            else if($assessment->assessment_type === 2){
+                $tests->push($assessment);
+            }
+        }
+
+        $footerData = [
+            'courses' => $courses->take(5),
+            'assignments' => $assignments->take(5),
+            'tests' => $tests->take(5)
+
+        ];
+//        dd($footerData['courses']->count());
+        return $footerData;
+    }
+
     public function download()
     {
         $filename = Request::input('filename');
 
-        // Check if file exists in app/storage/file folder
-//    $file_path = base_dir().'/file/'. $filename;
+
         $file_path = public_path() . $filename;
-//        $file = Storage::disk('local')->get($file_path);
-//        dd($file);
-//        dd($file_path);
         $file = new SplFileInfo($file_path, $file_path, 'subpath');
         if (file_exists($file_path))
         {
-//            return (new Response($file,200));
 
             $fn = 'submission.txt';
             // Send Download

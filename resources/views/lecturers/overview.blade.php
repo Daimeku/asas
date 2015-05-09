@@ -66,7 +66,7 @@
                             <!-- /col -->
                             <!-- col -->
                             <div class="col-xs-8">
-                                <p class="text-elg text-strong mb-0">{{count($submissions)}}</p> <span>Recent Student Submissions </span> </div>
+                                <p class="text-elg text-strong mb-0">{{count($submissions)}}</p> <span>Recent Submissions </span> </div>
                             <!-- /col -->
                         </div>
                         <!-- /row -->
@@ -100,7 +100,7 @@
                   <h3>Recent Submissions by Students</h3>
                     <ul>
                         @foreach($submissions as $submission)
-                            <li><a href="{{ route('teachers/submission',['submission_id'=>$submission->id]) }}">{{$submission->assessment->title}}</a></li>
+                            <li><a href="{{ route('teachers/submissions') }}">{{$submission->assessment->title}}</a></li>
                         @endforeach
 
                    </ul>               

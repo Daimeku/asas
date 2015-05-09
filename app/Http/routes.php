@@ -11,7 +11,6 @@
 |
 */
 
-//Route::get('/', 'WelcomeController@index');
 
 Route::get('/', 'HomeController@index');
 
@@ -98,6 +97,21 @@ Route::get('teachers/assessments/{assessment_id}', [
     'uses' => 'TeachersController@assessment'
 ]);
 
+Route::get('teachers/assessments/{assessment_id}/edit', [
+    'as' => 'teachers/assessment/edit',
+    'uses' => 'TeachersController@editAssessment'
+]);
+
+Route::post('teachers/assessments/{assessment_id}/edit', [
+    'as' => 'teachers/edit',
+    'uses' => 'TeachersController@edit'
+]);
+
+Route::get('teachers/assessments/{assessment_id}/delete', [
+    'as' => 'teachers/deleteAssessment',
+    'uses' => 'TeachersController@deleteAssessment'
+]);
+
 Route::get('teachers/uploadAssignment',[
     'as' => 'teachers/uploadAssignment',
     'uses' => 'TeachersController@uploadAssignment'
@@ -180,8 +194,13 @@ Route::post('invigilators/tests/{assessment_id}/paperCollection/verifyStudent',[
 ]);
 
 // Download Route
-Route::get('download',[
-    'as' => 'download',
+Route::get('teachers/download',[
+    'as' => 'teachers/download',
     'uses' => 'TeachersController@download'
+]);
+
+Route::get('students/download',[
+    'as' => 'students/download',
+    'uses' => 'StudentsController@download'
 ]);
 

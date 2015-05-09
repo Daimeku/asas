@@ -9,6 +9,9 @@ use Auth;
 use DB;
 use App\Models\Course;
 use App\Models\Assessment;
+use Symfony\Component\Finder\SplFileInfo;
+use Illuminate\Support\Facades\Validator;
+
 
 class StudentsController extends Controller {
 
@@ -36,24 +39,23 @@ class StudentsController extends Controller {
 
 
         //loops through list of assessments and separate tests from assignments
-
+//        dd($assessments);
         foreach($assessments as $assessment){
-            if($assessment->assessment_type === 1){
+            if($assessment->assessment_type == 1){
                 $assignments->push($assessment);
             }
-            else if($assessment->assessment_type === 2){
+            else if($assessment->assessment_type == 2){
                 $tests->push($assessment);
             }
         }
-
         $footerData = $this->getFooterData();
 		$data = [
 
 			'user' => Auth::user()->sanitize(),	//returning user object
-            'assignments' => $assignments,
-            'tests' => $tests,
+            'assignments' => $assignments->reverse(),
+            'tests' => $tests->reverse(),
             'courses' => $courses,
-            'pastAssessments' => $pastAssessments,
+            'pastAssessments' => $pastAssessments->reverse(),
             'submissions' => $submissions,
             'footerData' => $footerData
 
@@ -101,7 +103,7 @@ class StudentsController extends Controller {
 
         $data = [
             'user' => Auth::user()->sanitize(),
-          'assignments' => $assignments,
+          'assignments' => $assignments->reverse(),
           'courses' => $courses,
             'footerData' => $footerData
         ];
@@ -111,23 +113,25 @@ class StudentsController extends Controller {
     }
     /*
      * loops through assessments and submissions and builds a list of assessments that havent been submitted by this user
+     * returns a list of unsubmitted assessments
      */
 
     public function checkSubmittedAssessments($assessments, $submissions)
     {
         $newAssessments = collect();
+
+        //foreach assessment, chck if any submissions match its course_id
+        //if submission matches then dont return that assessment
         foreach($assessments as $assessment){
-            $conf = false;
+            $conf = true;
+            // check if any submissions by this student exist for this assessment
             foreach($submissions as $submission){
                 if((intval($submission->assessment_id) === intval($assessment->id)) ){
                     $conf=false;
                     break;
-                }else{
-
-                    $conf = true;
                 }
             }
-
+            // if conf is true then the assessment can be added to the list
             if($conf === true){
                 $newAssessments->push($assessment);
             }
@@ -155,13 +159,12 @@ class StudentsController extends Controller {
 
         $data = [
             'user' => Auth::user()->sanitize(),
-            'tests' => $tests,
+            'tests' => $tests->reverse(),
             'courses' => $courses,
             'footerData' => $footerData
         ];
 
-
-        dd($data);
+        return view('students/tests', $data);
 
     }
 
@@ -221,7 +224,7 @@ class StudentsController extends Controller {
         $footerData = $this->getFooterData();
 
         $data = [
-            'submissions' => $submissions,
+            'submissions' => $submissions->reverse(),
             'courses' => $courses,
             'submissionGroups' => $submissionGroups,
             'footerData' => $footerData
@@ -231,6 +234,7 @@ class StudentsController extends Controller {
     }
 
     public function submission($submission_id){
+
         $submission = Submission::find($submission_id);
         if($submission === null){
             $error = [ "ERROR SUBMISSION NOT FOUND"];
@@ -243,6 +247,7 @@ class StudentsController extends Controller {
         if(!$this->checkUserHasSubmission($submission)){
             dd("ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THIS SUBMISSION");
         }
+
         $submission->userList = $submission->users;
         $footerData = $this->getFooterData();
         $course = $submission->assessment->course;
@@ -270,7 +275,7 @@ class StudentsController extends Controller {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = collect();
-        $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
+        $submissions = Auth::user()->submissions()->with('assessment')->take(5)->get();
 
         foreach($submissions as $submission){
             $assessments->push($submission->assessment);
@@ -278,7 +283,7 @@ class StudentsController extends Controller {
 
         $footerData = [
             'courses' => $courses,
-            'assessments' => $assessments
+            'assessments' => $assessments->take(5)
         ];
 
         return $footerData;
@@ -290,14 +295,14 @@ class StudentsController extends Controller {
 
 
         $currentAssessment = $this->getCurrentAssessment($assessment_id);
-
+        $footerData = $this->getFooterData();
         $data = [
             'user' => Auth::user()->sanitize(),
-            'assessment' => $currentAssessment
+            'assessment' => $currentAssessment,
+            'footerData' => $footerData
         ];
 
-//        dd($data);
-        return view('students/upload', $data);
+        return view('students/uploadAssignments', $data);
 
     }
 
@@ -351,21 +356,36 @@ class StudentsController extends Controller {
 
     public function upload($assessment_id){
 
+        $val = Validator::make(Request::all(),[
+            'assessment' => 'Required',
+            'students' => 'Required'
+
+        ]);
+        // if validation fails return to the previous page with the validator errors
+        if($val->fails()){
+
+            return redirect()->back()->withInput()->withErrors($val->errors()->all());
+        }
+
+        $students = Request::input('students'); // get list of student ids,
+        array_unshift($students, Auth::user()->id); // add current student id to list of student ids
+//        dd($students);
         $file = Request::file('assessment');
+        $fileName = Request::input('fileName');
         $assessment = $this->getCurrentAssessment($assessment_id);
 
         if($file->isValid()){
-            echo $file->getClientOriginalName();
 
-
-            $filePath = base_path()."/database/files/submissions/";
-            $file->move($filePath,"submission");
-
+            $filePath = public_path().("\\files\\assessments\\$assessment->id\\submissions");
+            if($fileName == null){
+                $fileName = "submission";
+            }
+            $fileName = $fileName ."." .$file->getClientOriginalExtension();
+            $file->move($filePath,$fileName);
+            $path =("\\files\\assessments\\$assessment->id\\submissions\\$fileName");
             // create an entry in the submissions table
             $submission = new Submission;
-            $path = "/database/files/assessments/$assessment->id/submissions/";
-            dd($path);
-            $submission->file_path = $filePath . "submission";
+            $submission->file_path = $path;
             $submission->time = date('Y-m-d H:i:s');
             $submission->accepted = false;
             $submission->submission_type = 2;
@@ -373,21 +393,24 @@ class StudentsController extends Controller {
             $submission->save();
 
             // create an entry in the user_submissions table
-            DB::table('user_submissions')->insert([
-               'submission_id' => $submission->id,
-                'user_id' => Request::input('user_id')
-            ]);
+
+            foreach($students as $student_id){
+                if($student_id != null){
+                    DB::table('user_submissions')->insert([
+                        'submission_id' => $submission->id,
+                        'user_id' => $student_id
+                    ]);
+                }
+
+            }
+
 
         }
         else{
             return "FILE NOT VALID";
         }
 
-
-
-    }
-
-    public function download(){
+        return redirect()->route('students/submissions')->with('success','successfully added submission');
 
     }
 
@@ -408,6 +431,32 @@ class StudentsController extends Controller {
             }
         }
         return $conf;
+    }
+
+    public function download()
+    {
+        $filename = Request::input('filename');
+
+        // Check if file exists in app/storage/file folder
+        $file_path = public_path() . $filename;
+
+        $file = new SplFileInfo($file_path, $file_path, 'subpath');
+        if (file_exists($file_path))
+        {
+//            return (new Response($file,200));
+            $fn = basename($file->getRelativePath());
+            $fn = $fn . ".txt";
+
+            // Send Download
+            return response()->download(($file), $fn, [
+                'Content-Length: '. filesize($file_path)
+            ]);
+        }
+        else
+        {
+            // Error
+            exit('Requested file does not exist on our server!');
+        }
     }
 
 }
