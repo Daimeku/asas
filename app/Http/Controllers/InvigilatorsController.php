@@ -8,12 +8,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
-//use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Submission;
 use App\Models\Assessment;
 use DB;
-//use App\Events\Event;
 
 
 class InvigilatorsController extends Controller {
@@ -32,11 +30,11 @@ class InvigilatorsController extends Controller {
         }
         $tests = $tests->where('assessment_type',2); //->where('end_date', '>', date("Y-m-d"));
 
-
         $data = [
             'tests' => $tests,
         ];
-        dd($data);
+
+        return view('invigilators/schedule', $data);
 	}
 
     public function test($assessment_id){
@@ -175,6 +173,8 @@ class InvigilatorsController extends Controller {
     public function studentEntryEmpty($assessment_id){
         $error = null;
         $test = $this->findTest($assessment_id);
+        $occurrences = $test->course->occurrences; // build list of active tests
+        // build time as string and check current time against list of possible test times
         $course = $test->course;
 
         $data = [

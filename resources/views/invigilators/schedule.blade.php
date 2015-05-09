@@ -16,28 +16,24 @@
                 <th>Date of Test</th>
                 <th>Course</th>
                 <th>Venue</th>
-                <th>Lecturer</th>
                 <th>Start Time</th>
-                <th>Duration</th>
             </tr>
         </thead>            
         <tbody>
-            <tr>
-                <td>May 1, 2015</td>
-                <td>Data Structures</td>
-                <td>LT-2B1</td>
-                <td>Tyrone Edwards</td>
-                <td>3pm</td> 
-                <td>1 HR 30 Mins</td>    
-             </tr>
-             <tr>
-                <td>May 3, 2015</td>
-                <td>Data Structures</td>
-                <td>LT-2B1</td>
-                <td>Tyrone Edwards</td>
-                <td>3pm</td>
-                <td>1 HR 30 Mins</td>
-             </tr>  
+
+        @if(!$tests->isEmpty())
+            @foreach($tests as $test)
+                @foreach($test->course->occurrences as $occurrence)
+                    <tr>
+                        <td>{{ date('F d, Y',strtotime($test->time)) }}</td>
+                        <td>{{ $test->course->name }}</td>
+                        <td>{{ $occurrence->location->location }}</td>
+                        <td>{{ date('H:i',strtotime($test->time)) }}</td>
+                     </tr>
+                @endforeach
+            @endforeach
+        @endif
+
         </tbody>                            
      </table>
   </div>    	
