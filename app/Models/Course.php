@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Occurrence;
 
 class Course extends Model {
 
@@ -12,6 +13,10 @@ class Course extends Model {
 
     public function assessments(){
 
-        return $this->hasMany('App\Models\Assessment');
+        return $this->hasMany('App\Models\Assessment', 'course_id','id');
+    }
+
+    public function occurrences(){
+        return $this->hasMany('App\Models\Occurrence', 'course_id','id');
     }
 }

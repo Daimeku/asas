@@ -7,7 +7,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Collection;
-use App\Models\Occurence;
+use App\Models\Occurrence;
 use App\Models\Assessment;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
@@ -36,11 +36,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	protected $hidden = ['password', 'remember_token'];
 
     /*
-     * setting a many to many reltionship between users and occurences
+     * setting a many to many reltionship between users and occurrences
      */
 
-	 public function occurences(){
-	 	return $this->belongsToMany('App\Models\Occurence', 'user_courses','user_id','occurence_id');
+	 public function occurrences(){
+	 	return $this->belongsToMany('App\Models\Occurrence', 'user_courses','user_id','occurence_id');
 	 }
 
     public function submissions(){
@@ -48,15 +48,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /*
-     * accepts a list of occurences and returns the courses they belong to
+     * accepts a list of occurrences and returns the courses they belong to
      */
 
-    public function findCourses($occurences){
+    public function findCourses($occurrences){
         $courses = collect();
 
-        foreach($occurences as $occurence){
+        foreach($occurrences as $occurrence){
 
-            $course = Course::find($occurence->course_id);
+            $course = Course::find($occurrence->course_id);
             $courses->push($course);
 
         }
