@@ -55,7 +55,7 @@ class StudentsController extends Controller {
             'assignments' => $assignments->reverse(),
             'tests' => $tests->reverse(),
             'courses' => $courses,
-            'pastAssessments' => $pastAssessments,
+            'pastAssessments' => $pastAssessments->reverse(),
             'submissions' => $submissions,
             'footerData' => $footerData
 
@@ -224,7 +224,7 @@ class StudentsController extends Controller {
         $footerData = $this->getFooterData();
 
         $data = [
-            'submissions' => $submissions,
+            'submissions' => $submissions->reverse(),
             'courses' => $courses,
             'submissionGroups' => $submissionGroups,
             'footerData' => $footerData
