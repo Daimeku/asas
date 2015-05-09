@@ -63,12 +63,13 @@ class TeachersController extends Controller {
 //        foreach($courses as $course){
 //            echo json_encode($course->assessments, JSON_PRETTY_PRINT);
 //        }
-
+        $footerData = $this->getFooterData();
         $data =[
             'courses' => $courses,
             'assignments' => $assignments,
             'submissions' => $submissions,
-            'tests' => $tests
+            'tests' => $tests,
+            'footerData' => $footerData
         ];
 
         return view('lecturers/overview',$data);
@@ -100,9 +101,12 @@ class TeachersController extends Controller {
 
         }
 
+        $footerData = $this->getFooterData();
+
         $data = [
             'assignments' => $assignments->reverse(),
-            'pastAssignments' => $pastAssignments->reverse()
+            'pastAssignments' => $pastAssignments->reverse(),
+            'footerData' => $footerData
         ];
 
         return view('lecturers/viewAssignments', $data);
@@ -134,9 +138,10 @@ class TeachersController extends Controller {
                 $tests->push($assessment);
             }
         }
-
+        $footerData= $this->getFooterData();
         $data =[
-            'tests' => $tests
+            'tests' => $tests,
+            'footerData' => $footerData
         ];
 //        dd($tests);
 
@@ -154,9 +159,11 @@ class TeachersController extends Controller {
         }
         $submissions = $assessment->submissions;
 
+        $footerData = $this->getFooterData();
         $data = [
             'assessment' => $assessment,
-            'submissions' => $submissions
+            'submissions' => $submissions,
+            'footerData' => $footerData
         ];
 
         return view('lecturers/assessment', $data);
@@ -180,9 +187,11 @@ class TeachersController extends Controller {
             $coursesArray[$course->id] = $course->name;
         }
 
+        $footerData=$this->getFooterData();
         $data = [
           'assessment' => $assessment,
-          'courses' => $coursesArray
+          'courses' => $coursesArray,
+          'footerData' => $footerData
 
         ];
 
@@ -250,8 +259,10 @@ class TeachersController extends Controller {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
 
+        $footerData = $this->getFooterData();
         $data = [
-            'courses' => $courses
+            'courses' => $courses,
+            'footerData' => $footerData
         ];
 
         return view('lecturers/createAssignment_test',$data);
@@ -341,9 +352,11 @@ class TeachersController extends Controller {
     public function submissions(){
 
         $submissions = $this->findSubmissions();
-
+        $footerData = $this->getFooterData();
         $data = [
-            'submissions' => $submissions
+            'submissions' => $submissions,
+            'footerData' => $footerData
+
         ];
 
         return view('lecturers/submissions',$data);
@@ -352,9 +365,11 @@ class TeachersController extends Controller {
     public function submission($submission_id){
 
         $submission = $this->findSubmission($submission_id);
+        $footerData = $this->getFooterData();
 
         $data = [
-            'submission' => $submission
+            'submission' => $submission,
+            'footerData' => $footerData
         ];
 
         return view('lecturers/submissions',$data);
@@ -468,18 +483,32 @@ class TeachersController extends Controller {
     {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
-        $assessments = collect();
-        $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
+        $assessments = Auth::user()->findActiveAssessments($courses);
+        $submissions = Auth::user()->submissions()->with('assessment')->take(5)->get();
 
         foreach($submissions as $submission){
             $assessments->push($submission->assessment);
         }
 
-        $footerData = [
-            'courses' => $courses,
-            'assessments' => $assessments
-        ];
+        $assignments = collect();
+        $tests = collect();
 
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $assignments->push($assessment);
+            }
+            else if($assessment->assessment_type === 2){
+                $tests->push($assessment);
+            }
+        }
+
+        $footerData = [
+            'courses' => $courses->take(5),
+            'assignments' => $assignments->take(5),
+            'tests' => $tests->take(5)
+
+        ];
+//        dd($footerData['courses']->count());
         return $footerData;
     }
 

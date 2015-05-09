@@ -78,28 +78,35 @@
                   <div class="col-md-3">
                     <h4>My Courses<h4>
                     <ul>
-                      <li><a href="#">Course 1</a></li>
-                      <li><a href="#">Course 2</a></li>
-                      <li><a href="#">Course 3</a></li>
-                      <li><a href="#">Course 4</a></li>
+                        @if(!$footerData['courses']->isEmpty())
+                            @foreach($footerData['courses'] as $course)
+                                <li>{{$course->name}}</li>
+                            @endforeach
+                        @endif
+
                    </ul>
                   </div>
                   <div class="col-md-3">
-                    <h4>Past Tests <h4>
+                    <h4>Assignments <h4>
                       <ul>
-                        <li><a href="#">Test 1</a></li>
-                        <li><a href="#">Test 2</a></li>
-                        <li><a href="#">Test 3</a></li>
-                        <li><a href="#">Test 4</a></li>
+                          @if(!$footerData['assignments']->isEmpty())
+
+                              @foreach($footerData['assignments'] as $assignment)
+                                <li ><a href="{{{ route('teachers/assessment',['assessment_id'=>$assignment->id]) }}}">{{$assignment->title}}</a></li>
+                              @endforeach
+                          @endif
+
                     </ul>
                   </div>
                   <div class="col-md-3">
                   <h4>Upcoming Tests<h4>
                     <ul>
-                        <li><a href="#">Test 1</a></li>
-                        <li><a href="#">Test 2</a></li>
-                        <li><a href="#">Test 3</a></li>
-                        <li><a href="#">Test 4</a></li>
+                        @if(!$footerData['tests']->isEmpty())
+
+                            @foreach($footerData['tests'] as $test)
+                            <li "> <a href="{{{ route('teachers/assessment',['assessment_id'=>$test->id]) }}}">{{$test->title}}</a></li>
+                            @endforeach
+                        @endif
                    </ul>
                    </div>
                 </div>
