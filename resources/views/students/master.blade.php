@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="/css/icons/css/font-awesome.min.css">      
         <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">      
         <link rel="stylesheet" href="/css/master.css"> 
+       
         @yield('head') 
 
         <title>ASAS | Student</title>
@@ -75,8 +76,10 @@
 
             </div>          
       </div>
-    </footer>
+    </footer> 
     
     <script src="/js/essentials/jquery-2.1.3.min.js"></script>
-    <script src="/js/essentials/bootstrap.min.js"></script>
+    <script src="/js/essentials/bootstrap.min.js"></script>   
+     @yield('scripts')
+
 </html>

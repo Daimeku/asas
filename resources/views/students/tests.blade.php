@@ -23,10 +23,9 @@
 <!--              <h4><strong>Classroom:</strong> LT-2B1 </h4>-->
                 </div>
             </div>
-
-         </div>
-          <hr/>       
-          @endforeach
+       </div>
+        <hr/>       
+        @endforeach
           
      </div>
   
