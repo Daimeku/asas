@@ -10,6 +10,8 @@ use DB;
 use App\Models\Course;
 use App\Models\Assessment;
 use Symfony\Component\Finder\SplFileInfo;
+use Illuminate\Support\Facades\Validator;
+
 
 class StudentsController extends Controller {
 
@@ -162,8 +164,7 @@ class StudentsController extends Controller {
             'footerData' => $footerData
         ];
 
-
-        dd($data);
+        return view('students/tests', $data);
 
     }
 
@@ -292,14 +293,15 @@ class StudentsController extends Controller {
 
 
         $currentAssessment = $this->getCurrentAssessment($assessment_id);
-
+        $footerData = $this->getFooterData();
         $data = [
             'user' => Auth::user()->sanitize(),
-            'assessment' => $currentAssessment
+            'assessment' => $currentAssessment,
+            'footerData' => $footerData
         ];
 
 //        dd($data);
-        return view('students/upload', $data);
+        return view('students/uploadAssignments', $data);
 
     }
 
@@ -353,21 +355,32 @@ class StudentsController extends Controller {
 
     public function upload($assessment_id){
 
+        $val = Validator::make(Request::all(),[
+            'assessment' => 'Required',
+            'students' => 'Required'
+
+        ]);
+        // if validation fails return to the previous page with the validator errors
+        if($val->fails()){
+
+            return redirect()->back()->withInput()->withErrors($val->errors()->all());
+        }
+
+        $students = Request::input('students'); // get list of student ids,
+        array_unshift($students, Auth::user()->id); // add current student id to list of student ids
+//        dd($students);
         $file = Request::file('assessment');
+        $submissionName = Request::input('submissionName');
         $assessment = $this->getCurrentAssessment($assessment_id);
 
         if($file->isValid()){
-            echo $file->getClientOriginalName();
 
-
-            $filePath = base_path()."/database/files/submissions/";
+            $filePath = public_path().("\\files\\assessments\\$assessment->id\\submissions");
             $file->move($filePath,"submission");
 
             // create an entry in the submissions table
             $submission = new Submission;
-            $path = "/database/files/assessments/$assessment->id/submissions/";
-            dd($path);
-            $submission->file_path = $filePath . "submission";
+            $submission->file_path = $filePath . $submissionName;
             $submission->time = date('Y-m-d H:i:s');
             $submission->accepted = false;
             $submission->submission_type = 2;
@@ -375,17 +388,24 @@ class StudentsController extends Controller {
             $submission->save();
 
             // create an entry in the user_submissions table
-            DB::table('user_submissions')->insert([
-               'submission_id' => $submission->id,
-                'user_id' => Request::input('user_id')
-            ]);
+
+            foreach($students as $student_id){
+                if($student_id != null){
+                    DB::table('user_submissions')->insert([
+                        'submission_id' => $submission->id,
+                        'user_id' => $student_id
+                    ]);
+                }
+
+            }
+
 
         }
         else{
             return "FILE NOT VALID";
         }
 
-
+        return redirect()->route('students/submissions');
 
     }
 

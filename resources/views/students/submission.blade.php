@@ -17,9 +17,14 @@
             <h4><em>{{$assessment->title}}</em></h4>
         </div>
         <div class="col-md-4">
-            <h4><strong>Submission Date:</strong>{{$submission->time}} </h4>
-            <h4><strong>Time:</strong> {{$submission->time}}</h4>
-            <h4 class="grade">Grade: </h4>
+            <h4><strong>Submission Date:</strong> {{ date('F d, Y',strtotime($submission->time)) }} </h4>
+            <h4><strong>Time:</strong> {{ date('H:i',strtotime($submission->time)) }}</h4>
+            <h4 ><strong>Submitted by:</strong> </h4>
+            <ul>
+                @foreach($submission->users as $student)
+                    <li>{{$student->name}}</li>
+                @endforeach
+            </ul>
         </div>
     </div>
 

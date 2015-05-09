@@ -18,9 +18,8 @@
                         <h4><em>{{$group['assessment']->title}}</em></h4>
                     </div>
                       <div class="col-md-4">
-                            <h4><strong>Submission Date:</strong>{{$group['submission']->time}} </h4>
-                            <h4><strong>Time:</strong> {{$group['submission']->time}}</h4>
-                      <h4 class="grade">Grade: </h4>
+                            <h4><strong>Submission Date:</strong> {{ date('F d, Y',strtotime($group['submission']->time)) }} </h4>
+                            <h4><strong>Time:</strong> {{ date('H:i',strtotime($group['submission']->time)) }}</h4>
                    </div>
                 </div>
 
