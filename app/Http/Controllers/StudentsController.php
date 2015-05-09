@@ -28,8 +28,8 @@ class StudentsController extends Controller {
 	public function index()
     {
         $user = Auth::user();
-        $occurences = $user->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = $user->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $pastAssessments = Auth::user()->findPastAssessments($courses);
         $submissions = Auth::user()->submissions()->with('assessment')->get();  //get all submissions, eager load assessments
@@ -71,8 +71,8 @@ class StudentsController extends Controller {
     {
 
 //      load occurrences, courses and finally assessments
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
 
         $submissions = Auth::user()->submissions()->with('assessment')->get();      // get submissions from user model
@@ -142,8 +142,8 @@ class StudentsController extends Controller {
 
     public function tests()
     {
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $tests = collect();
 
@@ -171,8 +171,8 @@ class StudentsController extends Controller {
 
         $assessment = Assessment::find($assessment_id);
 
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
 
         $submissions = Auth::user()->submissions()->with('assessment')->get();      // get submissions from user model
@@ -203,8 +203,8 @@ class StudentsController extends Controller {
     public function submissions()
     {
 
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
 
         $submissionGroups = collect();
@@ -270,8 +270,8 @@ class StudentsController extends Controller {
 
     public function getFooterData()
     {
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = collect();
         $submissions = Auth::user()->submissions()->with('assessment')->get();
 //        dd($submissions);
@@ -305,8 +305,8 @@ class StudentsController extends Controller {
 
     public function getCurrentAssessment($assessment_id){
 
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $submissions = Auth::user()->submissions;
 
@@ -416,13 +416,13 @@ class StudentsController extends Controller {
      */
     public function checkCourseID($course_id)
     {
-        $occurences = Auth::user()->occurences;
+        $occurrences = Auth::user()->occurrences;
         $conf = false;
-        foreach ($occurences as $occurence) {
+        foreach ($occurrences as $occurrence) {
 
-            if ($occurence->course_id === intval($course_id)) {
+            if ($occurrence->course_id === intval($course_id)) {
 
-                if ($occurence->end_date > date('Y-m-d H:i:s')) {
+                if ($occurrence->end_date > date('Y-m-d H:i:s')) {
                     $conf = true;
                 }
             }
