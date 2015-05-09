@@ -51,10 +51,9 @@
                         <h4><strong>Description:</strong> {{$test->description}}</h4>
                     </div>
                 </div>
+                 <hr/>
            @endforeach
         </div>
         
-      <hr/>
-    
    </div>
  @stop
