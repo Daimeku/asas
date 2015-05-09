@@ -35,15 +35,20 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li class="dropdown">
-                  <a href="#"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                    <i class="animated fa fa-users"></i>&nbsp&nbsp     Examination Entry
-                  </a>                 
+                <li>
+                    <a href="#">
+                       <i class="animated fa fa-calendar-o"></i>&nbsp&nbsp     My Schedule
+                     </a>                 
                 </li>              
-                 <li class="dropdown">
-                   <a href="#"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                     <i class="fa fa-file-archive-o"></i>&nbsp&nbsp   Script Collection 
-                   </a>          
+                <li>
+                    <a href="#">
+                       <i class="animated fa fa-users"></i>&nbsp&nbsp      Examination Entry
+                     </a>                 
+                </li>              
+                <li>
+                    <a href="#">
+                      <i class="fa fa-file-archive-o"></i>&nbsp&nbsp   Script Collection 
+                    </a>          
                 </li>      
              </ul>
               
