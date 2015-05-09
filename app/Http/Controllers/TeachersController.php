@@ -384,6 +384,10 @@ class TeachersController extends Controller {
         if(!$this->checkCourseID($assessment->course_id)){
             dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
         }
+        //delete all submissions for this assessment
+        foreach($assessment->submissions as $submission){
+            $submission->delete();
+        }
         $assessment->delete();
 
         return redirect()->route('teachers/assignments');

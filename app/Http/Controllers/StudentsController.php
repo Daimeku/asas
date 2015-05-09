@@ -275,24 +275,23 @@ class StudentsController extends Controller {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = collect();
-        $submissions = Auth::user()->submissions()->with('assessment')->take(5)->get();
-
+        $submissions = Auth::user()->submissions()->with('assessment')->get();
+//        dd($submissions);
         foreach($submissions as $submission){
             $assessments->push($submission->assessment);
         }
 
         $footerData = [
             'courses' => $courses,
-            'assessments' => $assessments->take(5)
+            'assessments' => $assessments->take(5),
+            'submissions' => $submissions->reverse()->take(5)
         ];
-
         return $footerData;
     }
 
 
     public function uploadAssignment($assessment_id)
     {
-
 
         $currentAssessment = $this->getCurrentAssessment($assessment_id);
         $footerData = $this->getFooterData();

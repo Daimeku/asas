@@ -83,29 +83,35 @@
                   <div class="col-md-4">
                     <h3>Assignments Due</h3>
                     <ul>
-                        @foreach($assignments as $assignment)
-                            <li><a href="{{{ route('students/assessment', ['assessment_id'=>$assignment->id]) }}}">{{$assignment->title}}</a></li>
-                        @endforeach
+                        @if(!$assignments->isEmpty())
+                            @foreach($assignments as $assignment)
+                                <li><a href="{{{ route('students/assessment', ['assessment_id'=>$assignment->id]) }}}">{{$assignment->title}}</a></li>
+                            @endforeach
+                        @endif
 
                    </ul>
                   </div>
                   <div class="col-md-4">
                     <h3>Upcoming Tests</h3>
                       <ul>
-                          @foreach($tests as $test)
-                          <li><a href="{{{ route('students/tests') }}}">{{$test->title}}</a></li>
+                          @if(!$tests->isEmpty())
+                              @foreach($tests as $test)
+                              <li><a href="{{{ route('students/tests') }}}">{{$test->title}}</a></li>
 
-                          @endforeach
+                              @endforeach
+                          @endif
                     </ul>       
                   </div>
                   <div class="col-md-4">
                   <h3>Recent Submissions</h3>
                     <ul>
-                        @foreach($submissions as $submission)
-                            <?php $assessment = $submission->assessment ?>
-                            <li><a href="{{{ route('students/submission',['submission_id'=>$submission->id]) }}}">{{$assessment->title}}</a></li>
+                        @if(!$submissions->isEmpty())
+                            @foreach($submissions as $submission)
+                                <?php //if(!$submissions->isEmpty()){$assessment = $submission->assessment;} ?>
+                                <li><a href="{{{ route('students/submission',['submission_id'=>$submission->id]) }}}">{{$submission->title}}</a></li>
 
-                        @endforeach
+                            @endforeach
+                        @endif
 
                    </ul>               
                 </div>         

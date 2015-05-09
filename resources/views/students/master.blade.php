@@ -60,18 +60,19 @@
                   <div class="col-md-3">
                     <h4>My Courses<h4>
                     <ul>
-                        @for($i=0;$i<$footerData['courses']->count();$i++)
-                                <li><a href="#">{{$footerData['courses']->pull($i)->name}}</a></li>
-                        @endfor
-
+                        @if(!$footerData['courses']->isEmpty())
+                            @foreach($footerData['courses'] as $course)
+                                    <li><a href="#">{{$course->name}}</a></li>
+                            @endforeach
+                        @endif
                    </ul>                 
                   </div>
                   <div class="col-md-3">
                     <h4>Recent Submissions <h4>
                       <ul>
                           @if(!$footerData['assessments']->isEmpty())
-                              @foreach($footerData['assessments'] as $assessment)
-                                    <li><a href="{{{ route('students/assessment',['assessment_id'=>$assessment->id]) }}}">{{$assessment->title}}</a></li>
+                              @foreach($footerData['submissions'] as $submission)
+                                    <li><a href="{{{ route('students/submission',['submission_id'=>$submission->id]) }}}">{{$submission->assessment->title}}</a></li>
                               @endforeach
                           @endif
                       </ul>
