@@ -48,7 +48,7 @@
 
     @elseif($error != null)
          <div class="margin-t-50 center-block alert alert-success width-30">
-            <p><i class="fa fa-exclamation-circle">{{$error->errorMessage}}</strong></p>
+            <p><i class="fa fa-exclamation-circle"></i>{{$error->errorMessage}}</strong></p>
         </div>     
     @endif
 

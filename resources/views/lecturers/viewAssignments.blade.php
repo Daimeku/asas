@@ -6,7 +6,7 @@
 
 @section('content')
 	<div class="section-heading">
-   		<h1 id="heading">Assignments Created</h1>
+   		<h1 id="heading">Active Assignments</h1>
    		<hr/>
  	</div>
     @foreach($assignments as $assignment)
@@ -29,15 +29,14 @@
             <div class="col-md-6">
                 <div class="button pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success">Edit</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
+                        <a href="{{{ route('teachers/assessment/edit',['assessment_id'=>$assignment->id]) }}}"  class="btn btn-success">Edit</a>
+                        <a href="{{{ route('teachers/deleteAssessment', ['assessment_id'=>$assignment->id]) }}}" class="btn btn-danger">Delete</a>
                     </div>
                 </div>
             </div>
         </div>
         <hr/>
     </div>
-
 
     @endforeach
 
@@ -66,8 +65,7 @@
             <div class="col-md-6">
                 <div class="button pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success">Edit</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
+                        <a href="{{{ route('teachers/deleteAssessment', ['assessment_id'=>$assignment->id]) }}}" class="btn btn-danger">Delete</a>
                     </div>
                 </div>
             </div>
