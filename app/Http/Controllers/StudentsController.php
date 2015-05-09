@@ -275,7 +275,7 @@ class StudentsController extends Controller {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = collect();
-        $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
+        $submissions = Auth::user()->submissions()->with('assessment')->take(5)->get();
 
         foreach($submissions as $submission){
             $assessments->push($submission->assessment);
@@ -283,7 +283,7 @@ class StudentsController extends Controller {
 
         $footerData = [
             'courses' => $courses,
-            'assessments' => $assessments
+            'assessments' => $assessments->take(5)
         ];
 
         return $footerData;
@@ -371,17 +371,21 @@ class StudentsController extends Controller {
         array_unshift($students, Auth::user()->id); // add current student id to list of student ids
 //        dd($students);
         $file = Request::file('assessment');
-        $submissionName = Request::input('submissionName');
+        $fileName = Request::input('fileName');
         $assessment = $this->getCurrentAssessment($assessment_id);
 
         if($file->isValid()){
 
             $filePath = public_path().("\\files\\assessments\\$assessment->id\\submissions");
-            $file->move($filePath,"submission");
-
+            if($fileName == null){
+                $fileName = "submission";
+            }
+            $fileName = $fileName ."." .$file->getClientOriginalExtension();
+            $file->move($filePath,$fileName);
+            $path =("\\files\\assessments\\$assessment->id\\submissions\\$fileName");
             // create an entry in the submissions table
             $submission = new Submission;
-            $submission->file_path = $filePath . $submissionName;
+            $submission->file_path = $path;
             $submission->time = date('Y-m-d H:i:s');
             $submission->accepted = false;
             $submission->submission_type = 2;

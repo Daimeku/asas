@@ -65,10 +65,10 @@ class TeachersController extends Controller {
 //        }
         $footerData = $this->getFooterData();
         $data =[
-            'courses' => $courses,
-            'assignments' => $assignments,
-            'submissions' => $submissions,
-            'tests' => $tests,
+            'courses' => $courses->reverse(),
+            'assignments' => $assignments->reverse(),
+            'submissions' => $submissions->reverse(),
+            'tests' => $tests->reverse(),
             'footerData' => $footerData
         ];
 
@@ -518,7 +518,6 @@ class TeachersController extends Controller {
 
 
         $file_path = public_path() . $filename;
-
         $file = new SplFileInfo($file_path, $file_path, 'subpath');
         if (file_exists($file_path))
         {
