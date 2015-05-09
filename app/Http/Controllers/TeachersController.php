@@ -386,7 +386,7 @@ class TeachersController extends Controller {
         }
         $assessment->delete();
 
-        return redirect()->route('teachers/assessments');
+        return redirect()->route('teachers/assignments');
     }
 
     /*
@@ -401,6 +401,12 @@ class TeachersController extends Controller {
         $occurences = Auth::user()->occurences;
         $courses = Auth::user()->findCourses($occurences);
         $assessments = Auth::user()->findActiveAssessments($courses);
+        $pastAssessments = Auth::user()->findPastAssessments($courses);
+
+        //add pastAssessments to assessments
+        if(!$pastAssessments->isEmpty()){
+            $assessments->merge($pastAssessments);
+        }
 
         $acceptedSubmissions = [];  // submissions that have already been accepted (accepted=true)
         $unacceptedSubmissions = []; // submissions that haven't been accepted (accepted=false)

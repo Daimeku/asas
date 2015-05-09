@@ -100,7 +100,7 @@
                   <h3>Recent Submissions by Students</h3>
                     <ul>
                         @foreach($submissions as $submission)
-                            <li><a href="{{ route('teachers/submission',['submission_id'=>$submission->id]) }}">{{$submission->assessment->title}}</a></li>
+                            <li><a href="{{ route('teachers/submissions') }}">{{$submission->assessment->title}}</a></li>
                         @endforeach
 
                    </ul>               

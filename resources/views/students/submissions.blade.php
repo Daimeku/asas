@@ -6,6 +6,13 @@
 
 @section('content')
   <div class="container">
+
+      @if(Session::has('success'))
+      <div class="alert alert-success">
+          <strong>Success!</strong> {{ Session::get('success') }}<br><br>
+      </div>
+      @endif
+
         <div class="section-heading">
             <h1 id="heading">Submissions</h1>
             <hr/>

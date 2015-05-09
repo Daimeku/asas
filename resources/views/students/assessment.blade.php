@@ -30,16 +30,18 @@
                 {{$assessment->description}}
             </p>
         </div>
-        <div class="col-md-6">
-            <div class="button">
-                <div class="btn-group pull-right">
-                    <a href="{{{ route('students/download',['filename'=>$assessment->filepath]) }}}" class="btn btn-primary">Download</a>
-                    <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assessment->id]) }}}">Upload </a>
-                    <button type="button" class="btn btn-success">Send</button>
-                    <button type="button" class="btn btn-warning">Add to Queue</button>
+        @if($assessment->assessment_type == 1)
+            <div class="col-md-6">
+                <div class="button">
+                    <div class="btn-group pull-right">
+                        <a href="{{{ route('students/download',['filename'=>$assessment->filepath]) }}}" class="btn btn-primary">Download</a>
+                        <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assessment->id]) }}}">Upload </a>
+                        <button type="button" class="btn btn-success">Send</button>
+                        <button type="button" class="btn btn-warning">Add to Queue</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
     <hr/>
 </div>

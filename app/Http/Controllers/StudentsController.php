@@ -410,7 +410,7 @@ class StudentsController extends Controller {
             return "FILE NOT VALID";
         }
 
-        return redirect()->route('students/submissions');
+        return redirect()->route('students/submissions')->with('success','successfully added submission');
 
     }
 

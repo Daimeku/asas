@@ -67,10 +67,12 @@
                   </div>
                   <div class="col-md-3">
                     <h4>Recent Submissions <h4>
-                      <ul>                        
-                          @for($i=0;$i<$footerData['assessments']->count();$i++)
-                                <li><a href="#">{{$footerData['assessments']->pull($i)->title}}</a></li>
-                          @endfor                          
+                      <ul>
+                          @if(!$footerData['assessments']->isEmpty())
+                              @foreach($footerData['assessments'] as $assessment)
+                                    <li><a href="{{{ route('students/assessment',['assessment_id'=>$assessment->id]) }}}">{{$assessment->title}}</a></li>
+                              @endforeach
+                          @endif
                       </ul>
                   </div>
 
