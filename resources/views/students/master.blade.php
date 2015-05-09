@@ -38,7 +38,8 @@
               <ul class="nav navbar-nav">
                 <li><a href="{{{route('students/assignments') }}}"><i class="fa fa-leanpub"></i>&nbsp&nbsp Assignments</a></li>         
                 <li><a href="{{{route('students/tests') }}}"><i class="fa fa-file-o"></i>&nbsp&nbsp Tests</a></li>
-                <li><a href="{{{route('students/submissions') }}}"><i class="fa fa-file-zip-o"></i>&nbsp&nbsp Submissions</a></li>
+                <li><a href="{{{route('students/submissions') }}}"><i class="fa fa-folder-open-o"></i>&nbsp&nbsp Submissions</a></li>
+
               </ul>
               <ul class="nav navbar-nav navbar-right">
                  <li><a href="/auth/logout"> <i class="fa fa-sign-out"></i>&nbsp&nbsp Sign Out</a></li>

@@ -3,6 +3,24 @@
 @section('head')
  <link rel="stylesheet" href="/css/assignment.css">
 @stop
+ 
+    
+<!--   @if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <strong>Whoops!</strong> There were some problems with your input.<br/><br/>
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+   @endif-->
+
+  <div class="container">  
+     <div class="section-heading">
+  	 <h1>Upload Assignment</h1>
+  	 <hr/>
+     </div>
 
 
 @section('content')
@@ -56,6 +74,7 @@
                 {!! Form::submit('Upload',['class'=>'btn btn-lg btn-primary mid btn-padding']) !!}
             </div>
         {!! Form::close() !!}
+
      
   </div>
  @stop
@@ -64,6 +83,7 @@
 <script type="text/javascript">
   
      console.log("hi");
+
      var counter=0;
           
       $("#addButton").click( function (){
@@ -80,4 +100,5 @@
      });
 
 </script>
+
  @stop
