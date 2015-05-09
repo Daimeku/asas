@@ -1,10 +1,13 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 
 class Submission extends Model {
+
+    use SoftDeletes;
 
     protected $dates = ['deleted_at'];
 	protected $table = 'submissions';

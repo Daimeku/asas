@@ -234,6 +234,7 @@ class StudentsController extends Controller {
     }
 
     public function submission($submission_id){
+
         $submission = Submission::find($submission_id);
         if($submission === null){
             $error = [ "ERROR SUBMISSION NOT FOUND"];
@@ -246,6 +247,7 @@ class StudentsController extends Controller {
         if(!$this->checkUserHasSubmission($submission)){
             dd("ERROR YOU DO NOT CURRENTLY HAVE ACCESS TO THIS SUBMISSION");
         }
+
         $submission->userList = $submission->users;
         $footerData = $this->getFooterData();
         $course = $submission->assessment->course;
@@ -300,7 +302,6 @@ class StudentsController extends Controller {
             'footerData' => $footerData
         ];
 
-//        dd($data);
         return view('students/uploadAssignments', $data);
 
     }

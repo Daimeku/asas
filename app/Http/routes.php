@@ -98,6 +98,21 @@ Route::get('teachers/assessments/{assessment_id}', [
     'uses' => 'TeachersController@assessment'
 ]);
 
+Route::get('teachers/assessments/{assessment_id}/edit', [
+    'as' => 'teachers/assessment/edit',
+    'uses' => 'TeachersController@editAssessment'
+]);
+
+Route::post('teachers/assessments/{assessment_id}/edit', [
+    'as' => 'teachers/edit',
+    'uses' => 'TeachersController@edit'
+]);
+
+Route::get('teachers/assessments/{assessment_id}/delete', [
+    'as' => 'teachers/deleteAssessment',
+    'uses' => 'TeachersController@deleteAssessment'
+]);
+
 Route::get('teachers/uploadAssignment',[
     'as' => 'teachers/uploadAssignment',
     'uses' => 'TeachersController@uploadAssignment'

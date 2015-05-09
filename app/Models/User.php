@@ -97,7 +97,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
          */
 
         foreach($courses as $course){
-            $courseAssessments =  Assessment::where('course_id', $course->id)->where('end_date', '<', date("Y-m-d H:i:s"))->take(500)->get(); //->where('end_date', '>=', date("Y-m-d H:i:s"));
+            $courseAssessments =  Assessment::where('course_id', $course->id)->where('end_date', '<', date("Y-m-d H:i:s"))->get(); //->where('end_date', '>=', date("Y-m-d H:i:s"));
 
             if(! $courseAssessments->isEmpty()){
 
