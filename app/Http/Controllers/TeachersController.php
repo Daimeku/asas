@@ -95,7 +95,7 @@ class TeachersController extends Controller {
 
         foreach($pastAssessments as $assessment){
             if($assessment->assessment_type === 1){
-                $pastAssessments->push($assessment);
+                $pastAssignments->push($assessment);
             }
 
         }
@@ -104,7 +104,7 @@ class TeachersController extends Controller {
             'assignments' => $assignments->reverse(),
             'pastAssignments' => $pastAssignments->reverse()
         ];
-//        dd($data);
+
         return view('lecturers/viewAssignments', $data);
     }
 
@@ -288,8 +288,6 @@ class TeachersController extends Controller {
             return redirect()->back()->withErrors(['error', 'you do not currently have access to that course'])->withInput();
         }
 
-
-
         $start_date = new Carbon(Request::input('start_date'));
         $assessment = new Assessment;
 
@@ -318,6 +316,9 @@ class TeachersController extends Controller {
 
                 if($file->isValid()){
                     $filename =Request::input('filename');
+                    if($filename == null){
+                        $filename = "assessment.txt";
+                    }
                     $filePath = public_path() . ("\\files\\assessments\\$assessment->id");
                     $file->move($filePath,$filename);
                     $assessment->filepath = ("\\files\\assessments\\$assessment->id\\$filename");
@@ -360,8 +361,6 @@ class TeachersController extends Controller {
     }
 
     public function deleteAssessment($assessment_id){
-//        $id = Request::input('assessment_id');
-//        dd($id);
 
         $assessment = Assessment::find($assessment_id);
         if($assessment === null){
@@ -371,6 +370,8 @@ class TeachersController extends Controller {
             dd("YOU DO NOT HAVE ACCESS TO THIS COURSE");
         }
         $assessment->delete();
+
+        return redirect()->route('teachers/assessments');
     }
 
     /*
@@ -461,6 +462,25 @@ class TeachersController extends Controller {
             }
         }
         return $conf;
+    }
+
+    public function getFooterData()
+    {
+        $occurences = Auth::user()->occurences;
+        $courses = Auth::user()->findCourses($occurences);
+        $assessments = collect();
+        $submissions = Auth::user()->submissions()->with('assessment')->take(25)->get();
+
+        foreach($submissions as $submission){
+            $assessments->push($submission->assessment);
+        }
+
+        $footerData = [
+            'courses' => $courses,
+            'assessments' => $assessments
+        ];
+
+        return $footerData;
     }
 
     public function download()
