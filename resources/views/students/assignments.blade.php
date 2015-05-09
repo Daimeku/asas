@@ -5,12 +5,14 @@
 @stop
 
 @section('content')
+   <div class="container">
 	<div class="section-heading">
    		<h1 id="heading">Assignments</h1>
    		<hr/>
  	</div>
-@foreach($assignments as $assignment)
-    <a href="{{{ route('students/assessment',['assessment_id'=>$assignment->id]) }}}"
+     
+    @foreach($assignments as $assignment)
+    <a href="{{{ route('students/assessment',['assessment_id'=>$assignment->id]) }}}">
         <div class="main-content">
             <div class="row">
                 <div class="col-md-8">
@@ -34,9 +36,8 @@
                 <div class="col-md-6">
                     <div class="button">
                         <div class="btn-group pull-right">
-<!--                            <button type="button" class="btn btn-primary">Download</button>-->
                             <a href="{{{ route('students/download',['filename'=>$assignment->filepath]) }}}" class="btn btn-primary">Download</a>
-                            <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assignment->id]) }}}">upload </a>
+                            <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assignment->id]) }}}">Upload </a>
                             <button type="button" class="btn btn-success">Send</button>
                             <button type="button" class="btn btn-warning">Add to Queue</button>
                         </div>
@@ -45,6 +46,7 @@
             </div>
             <hr/>
         </div>
-    </a>
-@endforeach
+    </a> 
+    @endforeach
+ </div>
  @stop

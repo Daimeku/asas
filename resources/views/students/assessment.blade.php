@@ -10,7 +10,7 @@
     <hr/>
 </div>
 
-<div class="main-content">
+<div class="container">
     <div class="row">
         <div class="col-md-8">
             <?php $course = $assessment->course;?>
@@ -34,7 +34,7 @@
             <div class="button">
                 <div class="btn-group pull-right">
                     <a href="{{{ route('students/download',['filename'=>$assessment->filepath]) }}}" class="btn btn-primary">Download</a>
-                    <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assessment->id]) }}}">upload </a>
+                    <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assessment->id]) }}}">Upload </a>
                     <button type="button" class="btn btn-success">Send</button>
                     <button type="button" class="btn btn-warning">Add to Queue</button>
                 </div>

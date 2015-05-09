@@ -257,6 +257,14 @@ input[type="text"]{
   color: #ccc;
 }
 
+.fa-plus{
+  color:#8CC152; 
+}
+
+.fa-minus{
+  color: #DA4453;
+}
+
  /* --Button Colours-- */ 
 .btn-success{
   background-color: #8CC152;

@@ -17,15 +17,16 @@
     </ul>
 </div>
 @endif
+
   <div class="section-heading">
-   		<h1 id="heading">Upload Assignment</h1>
-   		<hr/>
+	<h1 id="heading">Upload Assignment</h1>
+	<hr/>
  </div>
 
   <div class="uploadAssignmentContent">
      <div class="container">       
 
-          {!! Form::open([ 'route'=>array('students/upload',$assessment->id ), 'method' => 'POST', 'files' => true, 'class'=>'assignment-form form-horizontal', 'name'=>'upload_assignment']) !!}
+         {!! Form::open([ 'route'=>array('students/upload',$assessment->id ), 'method' => 'POST', 'files' => true, 'class'=>'assignment-form form-horizontal', 'name'=>'upload_assignment']) !!}
          {!! Form::hidden('assessment_id', $assessment->id) !!}
          <!-- textarea for Student IDs and Names -->
         <div class="form-group">         
@@ -39,13 +40,19 @@
         
         <div class="form-group">     
             <input type="file" id="exampleInputFile" name="assessment">
-            <p class="help-block">Upload your assignment</p>
-      </div>
-
-         <div>
-             <input type="text" name="students[1]">
-             <input type="text" name="students[2]">
-         </div>
+<!--            <p class="help-block">Upload your assignment</p>-->
+       </div>
+       
+       <div class="pull-right">
+           <i class="fa fa-plus" class="col-green" data-toggle="tooltip" data-placement="left" title="Tooltip on left"></i> &nbsp&nbsp
+           <i class="fa fa-minus" class="col-red"></i>
+       </div>
+       
+         <form class="form-inline">
+             <div class="form-group">
+               <input type="text" name="students[1]" class="form-control width-30" placeholder="Enter a Student ID">
+              </div>   
+         </form>
         
         <div class="form-group text-center">
             <div class="btn btn-group">
@@ -53,7 +60,15 @@
                 <input type="submit" value="Send to Lecturer & Student Services" class="btn btn-warning">
             </div>
         </div>
-         {!! Form::close() !!}}
+         {!! Form::close() !!}
     </div>
  </div>
+ @stop
+ 
+ @section('scripts')
+ <scripts>
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
+ </scripts>
  @stop
