@@ -11,7 +11,7 @@ use DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Course;
 use App\Models\Assessment;
-use App\Models\Occurence;
+use App\Models\Occurrence;
 use App\Models\Submission;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
@@ -32,8 +32,8 @@ class TeachersController extends Controller {
 	public function index()
 	{
 		//
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $pastAssessments = Auth::user()->findPastAssessments($courses);
 
@@ -78,8 +78,8 @@ class TeachersController extends Controller {
 
     public function assignments(){
 
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $pastAssessments = Auth::user()->findPastAssessments($courses);
 
@@ -114,8 +114,8 @@ class TeachersController extends Controller {
     }
 
     public function tests(){
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $pastAssessments = Auth::user()->findPastAssessments($courses);
 
@@ -172,8 +172,8 @@ class TeachersController extends Controller {
 
     public function editAssessment($assessment_id){
 
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
 
         $assessment = Assessment::find($assessment_id);
         if($assessment === null){
@@ -257,8 +257,8 @@ class TeachersController extends Controller {
 
 
     public function uploadAssignment(){
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
 
         $footerData = $this->getFooterData();
         $data = [
@@ -404,8 +404,8 @@ class TeachersController extends Controller {
     public function findSubmissions(){
 
         // get list of assessments
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $pastAssessments = Auth::user()->findPastAssessments($courses);
 
@@ -476,13 +476,13 @@ class TeachersController extends Controller {
      */
     public function checkCourseID($course_id)
     {
-        $occurences = Auth::user()->occurences;
+        $occurrences = Auth::user()->occurrences;
         $conf = false;
-        foreach ($occurences as $occurence) {
+        foreach ($occurrences as $occurrence) {
 
-            if ($occurence->course_id === intval($course_id)) {
+            if ($occurrence->course_id === intval($course_id)) {
 
-                if ($occurence->end_date > date('Y-m-d H:i:s')) {
+                if ($occurrence->end_date > date('Y-m-d H:i:s')) {
                     $conf = true;
                 }
             }
@@ -492,8 +492,8 @@ class TeachersController extends Controller {
 
     public function getFooterData()
     {
-        $occurences = Auth::user()->occurences;
-        $courses = Auth::user()->findCourses($occurences);
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $submissions = Auth::user()->submissions()->with('assessment')->take(5)->get();
 
@@ -530,12 +530,20 @@ class TeachersController extends Controller {
 
         $file_path = public_path() . $filename;
         $file = new SplFileInfo($file_path, $file_path, 'subpath');
-        if (file_exists($file_path))
+//        $file= $file->openFile($file_path);
+//        dd($file);
+        if ( (file_exists($file_path) && (!is_dir($file_path)) ))
         {
             $fn = 'submission.txt';
-            return response()->download(($file), $fn, [
-                'Content-Length: '. filesize($file_path)
-            ]);
+            try{
+                return response()->download(($file), $fn, [
+                    'Content-Length: '. filesize($file)
+                ]);
+            }
+            catch(exception $ex){
+                dd("file error");
+            }
+
         }
         else
         {
