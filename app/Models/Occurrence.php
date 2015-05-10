@@ -12,4 +12,8 @@ class Occurrence extends Model {
     public function location(){
         return $this->belongsTo('App\Models\Location');
     }
+
+    public function day(){
+        return $this->belongsTo('App\Models\Day');
+    }
 }

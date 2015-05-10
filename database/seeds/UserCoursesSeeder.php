@@ -790,6 +790,19 @@ Class UserCoursesSeeder extends Seeder {
 			]
 		);
 
+        DB::table('occurences')->insert(
+            [
+                'code_id' => 1,
+                'activity_id' => 1,
+                'day_id' => 2,
+                'start_time' => '08:00:00',
+                'end_time' => '20:00:00',
+                'location_id' => 10,
+                'course_id' => 2,
+                'start_date' => '2015-1-23',
+                'end_date' => '2015-12-10'
+            ]
+        );
 		//'time'	=> date('D:H:i:s'),
 
 		//**************************Users and Occ************************************************************************

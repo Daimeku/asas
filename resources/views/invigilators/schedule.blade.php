@@ -13,6 +13,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Current Date</th>
                 <th>Date of Test</th>
                 <th>Course</th>
                 <th>Venue</th>
@@ -23,14 +24,19 @@
 
         @if(!$tests->isEmpty())
             @foreach($tests as $test)
-                @foreach($test->course->occurrences as $occurrence)
                     <tr>
-                        <td>{{ date('F d, Y',strtotime($test->time)) }}</td>
+                        <td>{{ date('F d, Y') }}</td>
+                        <td>{{ date('F d, Y',strtotime($test->start_date)) }}</td>
                         <td>{{ $test->course->name }}</td>
-                        <td>{{ $occurrence->location->location }}</td>
-                        <td>{{ date('H:i',strtotime($test->time)) }}</td>
+                        <td>{{ $test->course->occurrences->first()->location->location }}</td>
+                        <td>{{ date('H:i',strtotime($test->start_date)) }}</td>
+<!--                        $test->start_date->toDateTimeString()-->
+                        @if( date('Y-m-d H:i:s') >=  date('Y-m-d H:i:s',strtotime($test->start_date->toDateTimeString() )))
+                            <td>
+                                <a href="{{{ route('invigilators/studentEntryEmpty',['assessment_id'=>$test->id]) }}}">Go</a>
+                            </td>
+                        @endif
                      </tr>
-                @endforeach
             @endforeach
         @endif
 

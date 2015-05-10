@@ -215,7 +215,7 @@ Route::post('invigilators/tests/{assessment_id}/paperCollection/verifyStudent',[
 ]);
 
 Route::get('invigilators/error',[
-    'as' => 'inviglators/error',
+    'as' => 'invigilators/error',
     'uses' => 'InvigilatorsController@showError'
 ]);
 

@@ -7,21 +7,36 @@
        <h1>Script Collection</h1>
        <hr/>
     </div>
+
+     @if (Session::has('error'))
+     <div class="alert alert-danger">
+         <ul>
+             <li>{{ Session::get('error') }}</li>
+         </ul>
+     </div>
+     @endif
+
+     @if (Session::has('success'))
+     <div class="alert alert-success">
+         <ul>
+             <li>{{ Session::get('success') }}</li>
+         </ul>
+     </div>
+     @endif
+
     <div class="margin-b-80">
         <h3>
-          {{$course->name}} <small>Mr. Tyrone Edwards </small>
+          {{$course->name}}
        </h3>
        <p class="text-muted initialism">
           <strong>Date: </strong> {{ date('F d, Y',strtotime($test->start_date)) }}
           &nbsp &nbsp
           <strong>Start Time:</strong> {{ date('H:i:s',strtotime($test->start_date)) }}
           &nbsp &nbsp
-          <strong>End Time:</strong> 3pm
-       </p>            
+       </p>
     </div>
     
-    <form class="form-horizontal width-50 center-block margin-b-100">
-       {!! Form::open(['method'=>'POST','route'=>['invigilators/collectPaper',$test->id]]) !!}
+       {!! Form::open(['method'=>'POST','route'=>['invigilators/collectPaper',$test->id], 'class'=>'form-horizontal width-50 center-block margin-b-100']) !!}
         <div class="form-group margin-b-30"> 
             <input type="text" class="form-control" name="user_id" placeholder="Enter Student ID"/>
         </div>      
@@ -33,20 +48,14 @@
                <i class="fa fa-user-plus"></i>  Add Student                  
          </button> 
          &nbsp &nbsp
-         <button type="button" class="btn btn-danger">
+         <a href="/invigilators/home" type="button" class="btn btn-danger">
              <i class="fa fa-arrow-left"></i>    End Collection
-         </button> 
+         </a>
        </div>    
-    {!! Form::submit('verify') !!}
+
     {!! Form::close() !!}
-   </form> 
-    
- 
-   @if($message !=null)
-    <div class="center-block alert alert-success width-30 margin-t-50">
-        <p><i class="fa fa-info-circle"></i>&nbsp &nbsp {{$message}}</p>
-    </div>
-  @endif
+
+
   
  </div>
 @stop

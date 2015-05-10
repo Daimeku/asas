@@ -5,6 +5,7 @@ use App\Events\StudentEnteredTest;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -52,6 +53,12 @@ class InvigilatorsController extends Controller {
         $student = null;
         $test = $this->findTest($assessment_id);
         $course = $test->course;
+        $occurrences = $course->occurrences;
+
+//        if(!$this->checkOccurrenceTime($occurrences)){
+//            return redirect()->route('invigilators/error')->with('error','It is not time for this test');
+//        }
+
 
         $student = $this->findStudent($user_id,$course->id);
 
@@ -72,6 +79,7 @@ class InvigilatorsController extends Controller {
         else{
 //            dd("here");
             $error = $student;
+            return redirect()->route('invigilators/studentEntryEmpty',['assessment_id'=>$test->id])->with('error', $student->errorMessage);
 //            $student = new \stdClass();
 //            $error->message = "STUDENT NOT FOUND";
         }
@@ -80,6 +88,7 @@ class InvigilatorsController extends Controller {
             'test' => $test,
             'course' => $course,
             'student' => $student,
+            'occurrence' => $occurrences->first(),
             'error' => $error
         ];
 //         dd($data);
@@ -115,41 +124,23 @@ class InvigilatorsController extends Controller {
 
         $student = $this->findStudent($user_id, $test->course->id);
         if($student->errorMessage != null){
-            $message = $student->errorMessage;
-            $data = [
-                'test' => $test,
-                'course'=> $test->course,
-                'message' => $message
 
-            ];
-            return view('invigilators/paperCollection', $data);
+            return redirect()->back()->with('error',$student->errorMessage);
+
         }
 
         //check if student entered the test
         if($student->errorMessage === null){
             $checkSubmission = $student->submissions()->where('assessment_id', $test->id)->first();
             if($checkSubmission === null){
-                $message = "No record of student entry";
-                $data = [
-                    'test' => $test,
-                    'course'=> $test->course,
-                    'message' => $message
+                return redirect()->back()->with('error',"No record of student entry");
 
-                ];
-                return view('invigilators/paperCollection', $data);
             }
             else{
                 $user_submission = DB::table('user_submissions')->where('user_id',$student->id)->where('submission_id',$checkSubmission->id)->first();
 
                 if($user_submission->paper_collected == true){
-                    $message = "Student already submitted paper";
-                    $data = [
-                        'test' => $test,
-                        'course'=> $test->course,
-                        'message' => $message
-
-                    ];
-                    return view('invigilators/paperCollection', $data);
+                    return redirect()->back()->with('error',"Student already submitted paper");
                 }
             }
         }
@@ -161,11 +152,11 @@ class InvigilatorsController extends Controller {
         $data = [
             'test' => $test,
             'course'=> $test->course,
-            'message' => $message
+            'success' => $message
 
         ];
 
-        return view('invigilators/paperCollection', $data);
+        return redirect()->back()->with('success',$message);
         dd($student);
 
     }
@@ -174,6 +165,12 @@ class InvigilatorsController extends Controller {
         $error = null;
         $test = $this->findTest($assessment_id);
         $occurrences = $test->course->occurrences; // build list of active tests
+
+
+//        if(!$this->checkOccurrenceTime($occurrences)){
+//            return redirect()->route('invigilators/error')->with('error','It is not time for this test');
+//        }
+
         // build time as string and check current time against list of possible test times
         $course = $test->course;
 
@@ -181,6 +178,7 @@ class InvigilatorsController extends Controller {
             'test' => $test,
             'course' => $course,
             'student' => new \stdClass(),
+            'occurrence' => $occurrences->first(),
             'error' => $error
         ];
         return view('invigilators/studentsEntryEmpty', $data);
@@ -204,6 +202,29 @@ class InvigilatorsController extends Controller {
         return $test;
     }
 
+    public function checkOccurrenceTime($occurrences){
+        $conf=false;
+        $currentTime = date('Y-m-d H:i');
+//        dd($occurrences);
+        foreach($occurrences as $occurrence){
+            if( strcasecmp(substr($occurrence->day->day,0,3), date('D') ) === 0 ){
+//                $currentTime = date('H:i');
+//                dd($currentTime= strtotime('22:00'));
+//                dd($currentTime);
+                $startTime = date('Y-m-d H:i',strtotime($occurrence->start_time));
+                $endTime = date('Y-m-d H:i',strtotime($occurrence->end_time));
+
+                if( ($currentTime>= $startTime) && ($currentTime <= $endTime) ){
+                    $conf=true;
+                }
+
+            }
+
+        }
+
+        return $conf;
+    }
+
     public function findStudent($user_id, $course_id){
         $student = User::where('user_type',2)->where('id',$user_id)->first();
         if($student === null){
@@ -212,7 +233,7 @@ class InvigilatorsController extends Controller {
             return $student;
         }
 
-        $tempCourse = $student->occurences()->where('course_id',$course_id)->first();
+        $tempCourse = $student->occurrences()->where('course_id',$course_id)->first();
         if($tempCourse === null){
             $student = new \stdClass();
             $student->errorMessage = "STUDENT NOT REGISTERED FOR THIS COURSE";
@@ -232,11 +253,11 @@ class InvigilatorsController extends Controller {
         $test = $this->findTest($test_id);
         $student = $this->findStudent($user_id, $test->course->id);
         $checkSubmission = $student->submissions()->where('assessment_id', $test->id)->first();
+
         if($checkSubmission != null){
-            dd("STUDENT ALREADY ENTERED TEST");
+            return redirect()->back()->with('error','student has already entered the test');
         }
 
-        \Event::fire(new StudentEnteredTest($student->id, $test->id));
         $submission = new Submission;
         $submission->time = date('Y-m-d H:i:s');
         $submission->accepted = false;
@@ -252,8 +273,20 @@ class InvigilatorsController extends Controller {
             'entered_test' => true
 
         ]);
+        \Event::fire(new StudentEnteredTest($student->id, $test->id));
 
-        return redirect()->route('invigilators/studentEntry',['assessment_id'=>$test->id, 'user_id'=>$student->id]);
+        return redirect()->route('invigilators/studentEntry',['assessment_id'=>$test->id,'user_id'=>$student->id])->with('success','student successfully added');
+
+    }
+
+    public function showError(){
+        $error = Session::get('error');
+
+        $data = [
+            'error' => $error,
+        ];
+
+        return view('invigilators/error_page', $data);
 
     }
 

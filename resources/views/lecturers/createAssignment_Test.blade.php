@@ -78,6 +78,7 @@
                  </div>
                  <div class="col-md-5"> 
                     <select id="time" name="time" type="text" placeholder="Test Time" value="" class="form-control select">
+
                         <option value="8">8AM</option>
                         <option value="9">9AM</option>
                         <option value="10">10AM</option>
