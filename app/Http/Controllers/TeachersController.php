@@ -141,7 +141,7 @@ class TeachersController extends Controller {
         }
         $footerData= $this->getFooterData();
         $data =[
-            'tests' => $tests,
+            'tests' => $tests->reverse(),
             'footerData' => $footerData
         ];
 //        dd($tests);
@@ -392,7 +392,7 @@ class TeachersController extends Controller {
         }
         $assessment->delete();
 
-        return redirect()->route('teachers/assignments');
+        return redirect()->back();
     }
 
     /*

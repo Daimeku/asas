@@ -39,8 +39,8 @@
                       <h4><em><b>test name:</b> {{$test->title}} </em></h4>
 
                        <div class="btn-group">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
+                           <a href="{{{ route('teachers/assessment/edit',['assessment_id'=>$test->id]) }}}"  class="btn btn-success">Edit</a>
+                           <a href="{{{ route('teachers/deleteAssessment', ['assessment_id'=>$test->id]) }}}" class="btn btn-danger">Delete</a>
                        </div>
                     </div>
 

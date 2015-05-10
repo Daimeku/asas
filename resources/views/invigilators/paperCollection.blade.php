@@ -43,7 +43,7 @@
         <div class="form-group margin-b-30"> 
             <input type="text" class="form-control" name="paper_id" placeholder="Enter ID Number on the TEST paper"/>
         </div>      
-        <div class="pull-right">
+        <div class="form-group">
            <button type="submit" class="btn btn-success">
                <i class="fa fa-user-plus"></i>  Add Student                  
          </button> 
