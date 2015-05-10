@@ -41,10 +41,14 @@ class HomeController extends Controller {
             return redirect()->route('students/home');
         }
 
+        if(Auth::user()->user_type === 4)   // if user is a student then return them to student home
+        {
+            return redirect()->route('invigilators/home');
+        }
 
 
         //if user isnt either type display welcome page
-		return view('welcome');
+		return view('errors/error')->with('error','Your user type was not found, try logging in again');
 	}
 
 

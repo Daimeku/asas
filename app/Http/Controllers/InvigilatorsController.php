@@ -17,6 +17,10 @@ use DB;
 
 class InvigilatorsController extends Controller {
 
+    public function __construct(){
+        $this->middleware("invigilator");
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -32,7 +36,7 @@ class InvigilatorsController extends Controller {
         $tests = $tests->where('assessment_type',2); //->where('end_date', '>', date("Y-m-d"));
 
         $data = [
-            'tests' => $tests,
+            'tests' => $tests->reverse(),
         ];
 
         return view('invigilators/schedule', $data);
