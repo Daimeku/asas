@@ -32,11 +32,17 @@
               </button>
               <a class="navbar-brand animated flip" href="/">ASAS</a>
             </div>
-            
+
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href="/auth/logout"> <i class="fa fa-sign-out"></i>&nbsp&nbsp Sign Out</a></li>
+                  </ul>
+              </div>
           </div><!-- /.container-fluid -->
        </nav>
-      
-        @yield('content')     
+
+
+        @yield('content')
    </body>
     
     <footer>

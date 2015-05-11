@@ -219,5 +219,23 @@ Route::get('invigilators/error',[
     'uses' => 'InvigilatorsController@showError'
 ]);
 
+/*
+ * Student services routes
+ */
+
+Route::get('studentServices/home',[
+    'as' =>'studentServices/home',
+    'uses' => 'StudentServicesController@index'
+]);
+
+Route::post('studentServices/searchStudentSubmission',[
+    'as' => 'studentServices/search',
+    'uses' => 'StudentServicesController@findStudentSubmission'
+]);
+
+Route::get('studentServices/acceptStudentSubmission',[
+    'as' => 'studentServices/accept',
+    'uses' => 'studentServicesController@acceptStudentSubmission'
+]);
 
 
