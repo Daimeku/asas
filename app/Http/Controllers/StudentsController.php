@@ -74,6 +74,8 @@ class StudentsController extends Controller {
         $occurrences = Auth::user()->occurrences;
         $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
+        $pastAssessments = Auth::user()->findPastAssessments($courses);
+
 
         $submissions = Auth::user()->submissions()->with('assessment')->get();      // get submissions from user model
         $assessments = $this->checkSubmittedAssessments($assessments, $submissions);        //remove assessments that are already submitted
@@ -82,6 +84,9 @@ class StudentsController extends Controller {
 
         $assignments = collect();   // stores assignments
         $tests = collect();         // stores tests
+        $pastAssignments = collect();
+
+
         //loop through assessments and separate assignments from tests
         foreach($assessments as $assessment){
             if($assessment->assessment_type === 1){ // if assessment type is 1 then it is an assignment
@@ -89,6 +94,12 @@ class StudentsController extends Controller {
             }
             else if($assessment->assessment_type === 2){ // if assessment_type is 2 then it is a test
                 $tests->push($assessment);
+            }
+        }
+
+        foreach($pastAssessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $pastAssignments->push($assessment);
             }
         }
 
@@ -103,6 +114,7 @@ class StudentsController extends Controller {
         $data = [
             'user' => Auth::user()->sanitize(),
           'assignments' => $assignments->reverse(),
+          'pastAssignments' => $pastAssignments->reverse(),
           'courses' => $courses,
             'footerData' => $footerData
         ];
@@ -174,6 +186,14 @@ class StudentsController extends Controller {
         $occurrences = Auth::user()->occurrences;
         $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
+        $pastAssessments = Auth::user()->findPastAssessments($courses);
+
+        //add past assessments to list
+        foreach($pastAssessments as $assessment){
+            $assessments->push($assessment);
+        }
+//        dd($pastAssessments);
+//        $assessments->merge($pastAssessments);
 
         $submissions = Auth::user()->submissions()->with('assessment')->get();      // get submissions from user model
 //        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);        //remove assessments that are already submitted

@@ -161,7 +161,6 @@ class InvigilatorsController extends Controller {
         ];
 
         return redirect()->back()->with('success',$message);
-        dd($student);
 
     }
 

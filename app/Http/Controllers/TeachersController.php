@@ -123,25 +123,21 @@ class TeachersController extends Controller {
         $tests = collect();         // stores upcoming tests
 
         foreach($assessments as $assessment){
-            if($assessment->assessment_type === 1){
-                $assignments->push($assessment);
-            }
-            else if($assessment->assessment_type === 2){
+          if($assessment->assessment_type === 2){
                 $tests->push($assessment);
-            }
+          }
         }
 
+        $pastTests = collect();
         foreach($pastAssessments as $assessment){
-            if($assessment->assessment_type === 1){
-                $assignments->push($assessment);
-            }
-            else if($assessment->assessment_type === 2){
-                $tests->push($assessment);
+           if($assessment->assessment_type === 2){
+                $pastTests->push($assessment);
             }
         }
         $footerData= $this->getFooterData();
         $data =[
             'tests' => $tests->reverse(),
+            'pastTests' => $pastTests->reverse(),
             'footerData' => $footerData
         ];
 //        dd($tests);

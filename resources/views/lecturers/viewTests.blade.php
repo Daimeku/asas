@@ -53,6 +53,33 @@
                 </div>
                  <hr/>
            @endforeach
+
+           @if(!$pastTests->isEmpty())
+           <div class="section-heading">
+               <h1 id="heading">Past Tests </h1>
+               <hr/>
+           </div>
+            @foreach($pastTests as $test)
+           <div class="row">
+               <div class="col-md-8">
+                   <h2>{{$test->course->name}}</h2>
+                   <h4><em><b>test name:</b> {{$test->title}} </em></h4>
+
+                   <div class="btn-group">
+                       <a href="{{{ route('teachers/deleteAssessment', ['assessment_id'=>$test->id]) }}}" class="btn btn-danger">Delete</a>
+                   </div>
+               </div>
+
+               <div class="col-md-4">
+                   <h4><strong>Test Date:</strong> {{ date('F d, Y',strtotime($test->start_date)) }}</h4>
+
+                   <h4><strong>Test Time:</strong> {{ date('H:i',strtotime($test->start_date)) }} </h4>
+                   <h4><strong>Description:</strong> {{$test->description}}</h4>
+               </div>
+           </div>
+           <hr/>
+            @endforeach
+           @endif
         </div>
         
    </div>

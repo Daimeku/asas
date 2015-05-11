@@ -41,6 +41,11 @@ class HomeController extends Controller {
             return redirect()->route('students/home');
         }
 
+        if(Auth::user()->user_type === 3)   // if user is student services then return them to studentServices
+        {
+            return redirect()->route('studentServices/home');
+        }
+
         if(Auth::user()->user_type === 4)   // if user is a student then return them to student home
         {
             return redirect()->route('invigilators/home');
