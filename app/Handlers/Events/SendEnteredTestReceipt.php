@@ -33,12 +33,13 @@ class SendEnteredTestReceipt {
         $submission = $student->submissions()->where('id',$event->submission_id)->first();
         $data = [
             'student' => $student->sanitize(),
-            'submission' => $submission
+            'submission' => $submission,
+            'assessment' => $submission->assessment
         ];
 		//send email confirmation to student
         Mail::send('emails/receipt',$data, function($message){
             $message->from('ASAS-TEST@gmail.com');
-            $message->to('daimeku@gmail.com', 'Ashani kentish')->subject('testng email');
+            $message->to('daimeku@gmail.com', 'Ashani kentish')->subject('Student entered test');
         });
 	}
 

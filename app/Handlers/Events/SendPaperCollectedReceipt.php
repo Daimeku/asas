@@ -38,7 +38,8 @@ class SendPaperCollectedReceipt {
 
         $data = [
             'student' => $student->sanitize(),
-            'submission' => $submission
+            'submission' => $submission,
+            'assessment' => $submission->assessment
         ];
 
         Mail::send('emails/receipt',$data, function($message){
