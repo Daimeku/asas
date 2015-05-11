@@ -243,9 +243,9 @@ class StudentsController extends Controller {
         $footerData = $this->getFooterData();
 
         $data = [
-            'submissions' => $submissions->reverse(),
+            'submissions' => $submissions,
             'courses' => $courses,
-            'submissionGroups' => $submissionGroups,
+            'submissionGroups' => $submissionGroups->reverse(),
             'footerData' => $footerData
         ];
 
@@ -320,6 +320,47 @@ class StudentsController extends Controller {
         ];
 
         return view('students/uploadAssignments', $data);
+
+    }
+
+    public function addToQueueView($assessment_id){
+        $currentAssessment = $this->getCurrentAssessment($assessment_id);
+        $footerData = $this->getFooterData();
+        $data = [
+            'user' => Auth::user()->sanitize(),
+            'assessment' => $currentAssessment,
+            'footerData' => $footerData
+        ];
+
+        return view('students/addToQueue', $data);
+
+    }
+
+    public function addToQueue($assessment_id){
+
+        $students = Request::input('students'); // get list of student ids,
+        array_unshift($students, Auth::user()->id); // add current student id to list of student ids
+
+        $submission = new Submission;
+        $submission->time = date('Y-m-d H:i:s');
+        $submission->accepted = false;
+        $submission->submission_type = 1;
+        $submission->assessment_id = $assessment_id;
+        $submission->save();
+
+        // create an entry in the user_submissions table
+
+        foreach($students as $student_id){
+            if($student_id != null){
+                DB::table('user_submissions')->insert([
+                    'submission_id' => $submission->id,
+                    'user_id' => $student_id
+                ]);
+            }
+
+        }
+
+        return redirect()->route('students/submissions')->with('success','Assignment added to queue');
 
     }
 

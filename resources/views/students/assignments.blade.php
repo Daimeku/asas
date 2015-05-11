@@ -10,6 +10,22 @@
    		<h1 id="heading">Assignments</h1>
    		<hr/>
  	</div>
+
+       @if (Session::has('error'))
+       <div class="alert alert-danger">
+           <ul>
+               <li>{{ Session::get('error') }}</li>
+           </ul>
+       </div>
+       @endif
+
+       @if (Session::has('success'))
+       <div class="alert alert-success">
+           <ul>
+               <li>{{ Session::get('success') }}</li>
+           </ul>
+       </div>
+       @endif
      
     @foreach($assignments as $assignment)
     <a href="{{{ route('students/assessment',['assessment_id'=>$assignment->id]) }}}">
@@ -38,7 +54,7 @@
                         <div class="btn-group pull-right">
                             <a href="{{{ route('students/download',['filename'=>$assignment->filepath]) }}}" class="btn btn-primary">Download</a>
                             <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assignment->id]) }}}">Upload </a>
-                            <button type="button" class="btn btn-warning">Add to Queue</button>
+                            <a href="{{{ route('students/addToQueueView',['assessment_id'=>$assignment->id]) }}}"  class="btn btn-warning">Add to Queue</a>
                         </div>
                     </div>
                 </div>
@@ -78,8 +94,9 @@
                        <div class="col-md-6">
                            <div class="button">
                                <div class="btn-group pull-right">
-                                   <a href="{{{ route('students/download',['filename'=>$assignment->filepath]) }}}" class="btn btn-primary">Download</a>
-
+                                    @if($assignment->filepath != null)
+                                        <a href="{{{ route('students/download',['filename'=>$assignment->filepath]) }}}" class="btn btn-primary">Download</a>
+                                    @endif
                                </div>
                            </div>
                        </div>

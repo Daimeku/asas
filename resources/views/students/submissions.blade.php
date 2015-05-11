@@ -29,6 +29,12 @@
                     <div class="col-md-4">
                         <h4><strong>Submission Date:</strong> {{ date('F d, Y',strtotime($group['submission']->time)) }} </h4>
                         <h4><strong>Time:</strong> {{ date('H:i',strtotime($group['submission']->time)) }}</h4>
+                        <h4><strong>ID:</strong>{{ $group['submission']->id }}</h4>
+                        @if($group['submission']->accepted == true)
+                        <h4><strong>Accepted</strong></h4>
+                        @else
+                        <h4><strong>Pending</strong></h4>
+                        @endif
                    </div>
                 </div>
 

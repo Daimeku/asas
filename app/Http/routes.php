@@ -65,6 +65,16 @@ Route::post('students/assessments/{assessment_id}/upload',[
     'uses' => 'StudentsController@upload'
 ]);
 
+Route::get('students/assessments/{assessment_id}/addToQueue',[
+    'as' => 'students/addToQueueView',
+    'uses' => 'StudentsController@addToQueueView'
+]);
+
+Route::post('students/assessments/{assessment_id}/submitHardcopy',[
+    'as' => 'students/addToQueue',
+    'uses' => 'StudentsController@addToQueue'
+]);
+
 Route::get('students/submissions', [
     'as' => 'students/submissions',
     'uses' => 'studentsController@submissions'
