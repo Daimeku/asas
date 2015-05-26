@@ -31,9 +31,12 @@ class UsersTableSeeder extends Seeder {
 		]);
 
         DB::table('submission_types')->insert([
-            ['type' => 'hard copy'],
-            ['type' => 'soft copy'],
-            ['type' => 'hard and soft copy']
+            ['type' => 'individual - hard copy'],
+            ['type' => 'individual - soft copy'],
+            ['type' => 'individual - hard and soft copy'],
+            ['type' => 'group - hard copy'],
+            ['type' => 'group - soft copy'],
+            ['type' => 'group - hard and soft copy']
         ]);
 
   //*********************Users***************************************************************************************************     
