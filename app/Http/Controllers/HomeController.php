@@ -1,4 +1,6 @@
 <?php namespace App\Http\Controllers;
+use Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller {
 
@@ -13,7 +15,7 @@ class HomeController extends Controller {
 	|
 	*/
 
-	/**
+	/*
 	 * Create a new controller instance.
 	 *
 	 * @return void
@@ -30,7 +32,30 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+        if(Auth::user()->user_type === 1){
+            return redirect()->route('teachers/home');
+        }
+
+        if(Auth::user()->user_type === 2)   // if user is a student then return them to student home
+        {
+            return redirect()->route('students/home');
+        }
+
+        if(Auth::user()->user_type === 3)   // if user is student services then return them to studentServices
+        {
+            return redirect()->route('studentServices/home');
+        }
+
+        if(Auth::user()->user_type === 4)   // if user is a student then return them to student home
+        {
+            return redirect()->route('invigilators/home');
+        }
+
+
+        //if user isnt either type display welcome page
+		return view('errors/error')->with('error','Your user type was not found, try logging in again');
 	}
+
+
 
 }
