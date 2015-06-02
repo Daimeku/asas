@@ -17,24 +17,30 @@ use DB;
 
 class InvigilatorsController extends Controller {
 
+    /*
+     * Check to ensure user is an invigilator using middleware
+     */
     public function __construct(){
         $this->middleware("invigilator");
     }
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
+	 * Display the home page for this invigilator
+	 * @return invigilators/schedule
 	 */
 	public function index()
 	{
+        //load all active tests in system
 		$tests = Assessment::where('end_date', '>', date("Y-m-d"))->with('course')->get();
-
+        //if tests are empty return
         if($tests === null){
-            dd("NO UPCOMING AVAILABLE");
+            return redirect()->route('invigilators/error')->with('error','No upcoming tests available');
         }
-        $tests = $tests->where('assessment_type',2); //->where('end_date', '>', date("Y-m-d"));
 
+        //load upcoming tests from DB
+        $tests = $tests->where('assessment_type',2);
+
+        //populate and return data array with view
         $data = [
             'tests' => $tests->reverse(),
         ];
@@ -42,6 +48,9 @@ class InvigilatorsController extends Controller {
         return view('invigilators/schedule', $data);
 	}
 
+    /*
+     * displays json form a single test
+     */
     public function test($assessment_id){
 
         $test = $this->findTest($assessment_id);
@@ -51,41 +60,35 @@ class InvigilatorsController extends Controller {
         dd($data);
     }
 
+    /*
+     * displays studentEntry  view where invigilators can enter students into a test
+     * Loads student based on id number and appropriate access to the course/test
+     */
     public function studentEntry($assessment_id, $user_id){
-//        dd($assessment_id);
+
         $error = null;
         $student = null;
+
+        //find the appropriate test, course & occurrences
         $test = $this->findTest($assessment_id);
         $course = $test->course;
         $occurrences = $course->occurrences;
 
+//        Check that test is currently underway or almost ready
 //        if(!$this->checkOccurrenceTime($occurrences)){
 //            return redirect()->route('invigilators/error')->with('error','It is not time for this test');
 //        }
 
-
+//        find the appropriate student
         $student = $this->findStudent($user_id,$course->id);
 
-
+        //if student has no input then santize model to return to user
         if($student->errorMessage === null){
-//            $checkSubmission = $student->submissions()->where('assessment_id', $test->id)->first();
-//            if($checkSubmission != null){
-//                dd($checkSubmission);
-//                $error = new \stdClass();
-//                $error->errorMessage = "STUDENT ALREADY ENTERED TEST";
-//               $student = null;
-//            }else{
-//                $student = $student->sanitize();
-//            }
-
             $student = $student->sanitize();
         }
         else{
-//            dd("here");
             $error = $student;
             return redirect()->route('invigilators/studentEntryEmpty',['assessment_id'=>$test->id])->with('error', $student->errorMessage);
-//            $student = new \stdClass();
-//            $error->message = "STUDENT NOT FOUND";
         }
 
         $data = [
@@ -95,11 +98,13 @@ class InvigilatorsController extends Controller {
             'occurrence' => $occurrences->first(),
             'error' => $error
         ];
-//         dd($data);
 
         return view('invigilators/studentsEntry', $data);
     }
 
+    /*
+     * Display page to collect papers
+     */
     public function paperCollection($assessment_id){
 
         $test = $this->findTest($assessment_id);
@@ -164,17 +169,14 @@ class InvigilatorsController extends Controller {
 
     }
 
+    /*
+     * Default student entry page
+     */
     public function studentEntryEmpty($assessment_id){
         $error = null;
         $test = $this->findTest($assessment_id);
         $occurrences = $test->course->occurrences; // build list of active tests
 
-
-//        if(!$this->checkOccurrenceTime($occurrences)){
-//            return redirect()->route('invigilators/error')->with('error','It is not time for this test');
-//        }
-
-        // build time as string and check current time against list of possible test times
         $course = $test->course;
 
         $data = [
@@ -185,19 +187,27 @@ class InvigilatorsController extends Controller {
             'error' => $error
         ];
         return view('invigilators/studentsEntryEmpty', $data);
-        // dd($data);
     }
 
+    /*
+     * Finds a particular test that is still active or upcoming
+     */
     public function findTest($assessment_id){
+
         $test = Assessment::find($assessment_id);
+
+        //if test isnt found
         if($test === null){
             dd("assessment not found");
         }
+
         $date = new Carbon(date('Y-m-d H:i:s'));
+        //if end date has passed
         if(!($test->end_date >= $date)){
             dd("Assessment end date passed");
         }
 
+        //if assessment is an assignment
         if($test->assessment_type != 2){
             dd("ASSESSMENT IS NOT A TEST");
         }
@@ -205,15 +215,17 @@ class InvigilatorsController extends Controller {
         return $test;
     }
 
+    /*
+     * ensures that occurrence time and current time match, so students arent entered into tests before start_time and after end_time
+     */
     public function checkOccurrenceTime($occurrences){
         $conf=false;
         $currentTime = date('Y-m-d H:i');
-//        dd($occurrences);
+
+        //foreach occurrence see if a time is associated with the current time
         foreach($occurrences as $occurrence){
             if( strcasecmp(substr($occurrence->day->day,0,3), date('D') ) === 0 ){
-//                $currentTime = date('H:i');
-//                dd($currentTime= strtotime('22:00'));
-//                dd($currentTime);
+
                 $startTime = date('Y-m-d H:i',strtotime($occurrence->start_time));
                 $endTime = date('Y-m-d H:i',strtotime($occurrence->end_time));
 
@@ -228,14 +240,24 @@ class InvigilatorsController extends Controller {
         return $conf;
     }
 
+    /*
+     * Finds a student and verifies that they are registered for a particular course
+     * accepts student id and course id
+     * returns the student or an error object
+     */
     public function findStudent($user_id, $course_id){
+
+        //get student from users table, that matches id
         $student = User::where('user_type',2)->where('id',$user_id)->first();
+
+        //if student isnt found create and return an error object
         if($student === null){
             $student = new \stdClass();
             $student->errorMessage = "STUDENT NOT FOUND";
             return $student;
         }
 
+        //find the course and check if student is registered for it
         $tempCourse = $student->occurrences()->where('course_id',$course_id)->first();
         if($tempCourse === null){
             $student = new \stdClass();
@@ -246,42 +268,56 @@ class InvigilatorsController extends Controller {
 
     }
 
+    //manage incoming search requests
     public function searchStudent($assessment_id){
         $student_id = Request::input('student_id');
 
         return redirect()->route('invigilators/studentEntry',['assessment_id'=>$assessment_id, 'user_id'=>$student_id]);
     }
 
+    /*
+     * Accepts a test and student id and enters the student into the test by
+     * creating a submission linked to that test and leaving it unnaccepted until the paper is collected
+     * returns a redirect with success or failure attached to session
+     */
     public function enterTest($test_id, $user_id){
         $test = $this->findTest($test_id);
         $student = $this->findStudent($user_id, $test->course->id);
         $checkSubmission = $student->submissions()->where('assessment_id', $test->id)->first();
 
+        //check if submission exists for this student and course already
         if($checkSubmission != null){
             return redirect()->back()->with('error','student has already entered the test');
         }
 
+        //create submission and assign properties
         $submission = new Submission;
         $submission->time = date('Y-m-d H:i:s');
         $submission->accepted = false;
         $submission->submission_type = 1;
         $submission->assessment_id = $test->id;
-//        dd($submission);
+
+        //save the submission
         $submission->save();
 
-//         create an entry in the user_submissions table
+//      create an entry in the user_submissions table
         DB::table('user_submissions')->insert([
             'submission_id' => $submission->id,
             'user_id' => $student->id,
             'entered_test' => true
 
         ]);
-        \Event::fire(new StudentEnteredTest($student->id, $test->id));
+
+        //fire the entered test event to log data and send email
+        \Event::fire(new StudentEnteredTest($student->id, $submission->id));
 
         return redirect()->route('invigilators/studentEntry',['assessment_id'=>$test->id,'user_id'=>$student->id])->with('success','student successfully added');
 
     }
 
+    /*
+     * Display errors from session data
+     */
     public function showError(){
         $error = Session::get('error');
 

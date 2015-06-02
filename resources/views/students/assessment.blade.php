@@ -35,7 +35,8 @@
             <div class="col-md-6">
                 <div class="button">
                     <div class="btn-group pull-right">
-                        <a href="{{{ route('students/download',['filename'=>$assessment->filepath]) }}}" class="btn btn-primary">Download</a>
+                            <a href="{{{ route('students/download',['filename'=>$assessment->filepath]) }}}" class="btn btn-primary">Download</a>
+
                         @if($assessment->accepted == true)
                         <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assessment->id]) }}}">Upload </a>
                         <button type="button" class="btn btn-success">Send</button>

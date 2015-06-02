@@ -22,12 +22,13 @@ class HomeController extends Controller {
 	 */
 	public function __construct()
 	{
+        //attach auth middleware to ensure login before accessing this controller
 		$this->middleware('auth');
 	}
 
 	/**
-	 * Show the application dashboard to the user.
-	 *
+	 * redirects the user to their personalized overview screen
+	 * compares user_type
 	 * @return Response
 	 */
 	public function index()
@@ -52,7 +53,7 @@ class HomeController extends Controller {
         }
 
 
-        //if user isnt either type display welcome page
+        //if user an appropriate type then display the error page
 		return view('errors/error')->with('error','Your user type was not found, try logging in again');
 	}
 

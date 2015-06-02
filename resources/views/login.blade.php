@@ -45,11 +45,7 @@
                         </form>
                     </div>                    
                 </div>
-               <div class="container">
-                    <div class="login-footer">
-                        <a href="#">Password Policy</a>                   
-                    </div>      
-                </div>             
+
                 @if (count($errors) > 0)
                     <div class="container">             
                        <div class=" animated bounceIn alert alert-danger">

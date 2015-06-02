@@ -20,18 +20,22 @@ use Illuminate\Support\Facades\Session;
 
 class TeachersController extends Controller {
 
+    /*
+     * attach teacher middleware to ensure only teachers get access to this controller
+     */
     public function __construct(){
         $this->middleware("teacher");
     }
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
+	 * Displays a personalized overview screen
+     * loads number of courses, assignments, tests and submissions
+	 * returns
+	 * @return teachers/overview view
 	 */
 	public function index()
 	{
-		//
+		//load occurrences, courses and assessments (active and past)
         $occurrences = Auth::user()->occurrences;
         $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
@@ -40,8 +44,10 @@ class TeachersController extends Controller {
         $assignments = collect();   // stores upcoming assignments
         $tests = collect();         // stores upcoming tests
 
-//        $submissions = Auth::user()->submissions()->with('assessment')->take(10)->get();  //get all submissions, eager load assessments
         $submissions = collect();
+
+        //loop through assessments and find all submissions for each assessment
+        //populate the submissions collection
         foreach($assessments as $assessment){
             $subs = $assessment->submissions;
             if($subs !=null){
@@ -50,8 +56,8 @@ class TeachersController extends Controller {
                 }
             }
         }
-        //loops through list of active assessments and separates tests from assignments
 
+        //loops through list of active assessments and separates tests from assignments
         foreach($assessments as $assessment){
             if($assessment->assessment_type === 1){
                 $assignments->push($assessment);
@@ -61,9 +67,7 @@ class TeachersController extends Controller {
             }
         }
 
-//        foreach($courses as $course){
-//            echo json_encode($course->assessments, JSON_PRETTY_PRINT);
-//        }
+
         $footerData = $this->getFooterData();
         $data =[
             'courses' => $courses->reverse(),
@@ -76,6 +80,11 @@ class TeachersController extends Controller {
         return view('lecturers/overview',$data);
 	}
 
+    /*
+     * Display a list of all assignments (active & inactive) for courses this
+     * teacher is registered for.
+     * loads
+     */
     public function assignments(){
 
         $occurrences = Auth::user()->occurrences;
@@ -87,7 +96,6 @@ class TeachersController extends Controller {
         $pastAssignments = collect();
 
         //loops through list of active assessments and separates tests from assignments
-
         foreach($assessments as $assessment){
             if($assessment->assessment_type === 1){
                 $assignments->push($assessment);
@@ -95,6 +103,7 @@ class TeachersController extends Controller {
 
         }
 
+        //loops through list of past assessments and find assignments only
         foreach($pastAssessments as $assessment){
             if($assessment->assessment_type === 1){
                 $pastAssignments->push($assessment);
@@ -113,7 +122,13 @@ class TeachersController extends Controller {
         return view('lecturers/viewAssignments', $data);
     }
 
+    /*
+     * Displays a list of tests (active & inactive) for courses
+     * this teacher is registered for
+     */
     public function tests(){
+
+        //load occurrences, courses and assessments
         $occurrences = Auth::user()->occurrences;
         $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
@@ -122,6 +137,7 @@ class TeachersController extends Controller {
         $assignments = collect();   // stores upcoming assignments
         $tests = collect();         // stores upcoming tests
 
+        //separate tests from assignments
         foreach($assessments as $assessment){
           if($assessment->assessment_type === 2){
                 $tests->push($assessment);
@@ -129,31 +145,42 @@ class TeachersController extends Controller {
         }
 
         $pastTests = collect();
+        //separate past tests from past assignments
         foreach($pastAssessments as $assessment){
            if($assessment->assessment_type === 2){
                 $pastTests->push($assessment);
             }
         }
+
         $footerData= $this->getFooterData();
         $data =[
             'tests' => $tests->reverse(),
             'pastTests' => $pastTests->reverse(),
             'footerData' => $footerData
         ];
-//        dd($tests);
-
 
         return view('lecturers/viewTests', $data);
     }
 
+    /*
+     * Display an individual assessment the teacher has access to based on id number
+     * loads an assessment
+     */
     public function assessment($assessment_id){
+
         $assessment = Assessment::find($assessment_id);
+
+        //if assessment isnt found redirect to error page
         if($assessment === null){
             return redirect()->route('teachers/error')->with('error','Assessment not found');
         }
+
+        //if assessment belongs to a course the user does not have access to redirect to error page
         if(!$this->checkCourseID($assessment->course_id)){
             return redirect()->route('teachers/error')->with('error','You do not have access to this course');
         }
+
+        //find all submissions for that assessment
         $submissions = $assessment->submissions;
 
         $footerData = $this->getFooterData();
@@ -166,20 +193,29 @@ class TeachersController extends Controller {
         return view('lecturers/assessment', $data);
     }
 
+    /*
+     * Displays form & allows teachers to make changes to assessments they have created
+     * an assessment cannot be changed if its due date has already occurred
+     * @return editAssessment view
+     */
     public function editAssessment($assessment_id){
 
+        //get occurrences, courses
         $occurrences = Auth::user()->occurrences;
         $courses = Auth::user()->findCourses($occurrences);
 
         $assessment = Assessment::find($assessment_id);
+        //if assessment isnt found redirect to error page
         if($assessment === null){
             return redirect()->route('teachers/error')->with('error','Assessment not found');
         }
+        //if teacher doesnt have access to the assessment redirect to error page
         if(!$this->checkCourseID($assessment->course_id)){
             return redirect()->route('teachers/error')->with('error','You do not have access to this course');
         }
 
         $coursesArray = [];
+        //load list of courses in case teacher wants to change assessment course
         foreach($courses as $course){
             $coursesArray[$course->id] = $course->name;
         }
@@ -196,8 +232,12 @@ class TeachersController extends Controller {
 
     }
 
+    /*
+     * POST of edit, actually applies the chages to the assessment
+     */
     public function edit($assessment_id){
 
+        //define validation rules to ensure assessment update follows protocol
         $val = Validator::make(Request::all(),[
             'title' => 'Required',
             'description' => 'required|',
@@ -208,19 +248,26 @@ class TeachersController extends Controller {
             'course_id' => 'required|numeric'
 
         ]);
+
         // if validation fails return to the previous page with the validator errors
         if($val->fails()){
-
             return redirect()->back()->withInput()->withErrors($val->errors()->all());
         }
 
         $assessment = Assessment::find($assessment_id);
+
+        //if assessment isnt found redirect to error page
         if($assessment === null){
             return redirect()->route('teachers/error')->with('error','Assessment not found');
         }
+        //if teacher does have access to the assessment redirect to error page
         if(!$this->checkCourseID($assessment->course_id)){
             return redirect()->route('teachers/error')->with('error','You do not have access to this course');
         }
+
+        //if the assessment type is 1 (meaning it is an assignment)
+        // check for and accept a file related to the assessment
+        //store the file in the related assessment submissions directory
 
         if(Request::input('assessment_type') == 1){
             $file = Request::file('assessment');
@@ -238,19 +285,33 @@ class TeachersController extends Controller {
 
             }
         }
+
+        //update assessment properties
         $assessment->title = Request::input('title');
         $assessment->description = Request::input('description');
         $assessment->start_date = Request::input('start_date');
         $assessment->course_id = Request::input('course_id');
 
+        //if assessment is an assignment set the end date
         if($assessment->assessment_type == 1){
             $assessment->end_date = Request::input('end_date');
         }
 
-        $assessment->save();
-        return redirect()->back()->with('success', 'Assessment successfully updated');
+        //apply the changes to the assessment in the DB
+        // if assessment update fails redirect to previous page with error, if it succeeds redirect back with success message
+        if($assessment->save()){
+            return redirect()->back()->with('success', 'Assessment successfully updated');
+        }
+        else
+        {
+            return redirect()->back()->withInput()->withErrors(['assessment unsuccessfully saved']);
+        }
+
     }
 
+    /*
+     * displays view that Allows user to upload an assignment when creating an assessment
+     */
 
     public function uploadAssignment(){
         $occurrences = Auth::user()->occurrences;
@@ -296,6 +357,7 @@ class TeachersController extends Controller {
             return redirect()->back()->withErrors(['error', 'you do not currently have access to that course'])->withInput();
         }
 
+        //create new assessment & date and assign properties
         $start_date = new Carbon(Request::input('start_date'));
         $assessment = new Assessment;
 
@@ -317,7 +379,10 @@ class TeachersController extends Controller {
             $assessment->end_date = $end_date;
 
         }
+
         $assessment->save();
+
+        //if assessment is an assignment then check for and accept a file upload
         if(Request::input('assessment_type') == 1){
             $file = Request::file('assessment');
             if( ($file !=null) ){
@@ -334,8 +399,9 @@ class TeachersController extends Controller {
 
             }
         }
-
-        $assessment->save();
+        if(! $assessment->save()){
+            return redirect()->route('teachers/error')->with('error','assessment not successfully saved');
+        }
 
         if($assessment->assessment_type == 1){
             return redirect()->route('teachers/assignments');
@@ -346,6 +412,9 @@ class TeachersController extends Controller {
 
     }
 
+    /*
+     * Displays a list of submissions for all courses & assignments the teacher has access to
+     */
     public function submissions(){
 
         $submissions = $this->findSubmissions();
@@ -359,6 +428,9 @@ class TeachersController extends Controller {
         return view('lecturers/submissions',$data);
     }
 
+    /*
+     * Displays a single submission the user has access to
+     */
     public function submission($submission_id){
 
         $submission = $this->findSubmission($submission_id);
@@ -372,6 +444,9 @@ class TeachersController extends Controller {
         return view('lecturers/submissions',$data);
     }
 
+    /*
+     * Deletes an assessment from the system (assessmet must not be past its due date)
+     */
     public function deleteAssessment($assessment_id){
 
         $assessment = Assessment::find($assessment_id);
@@ -456,22 +531,27 @@ class TeachersController extends Controller {
     public function findSubmission($id){
 
         $submission = Submission::find($id);
+        //if submission isnt found redirect to error page
         if($submission === null){
             return redirect()->route('teachers/error')->with('error','Submission not found');
         }
-
+        //if teacher doesnt have access to the course & assignment redirect to error page
         if (!$this->checkCourseID($submission->assessment->course->id)){
             return redirect()->route('teachers/error')->with('error',"You do not have access to this course's submissions");
         }
-        $submission->userList = $submission->users;
+        $submission->userList = $submission->users; // set list of users for easy access
         return $submission;
 
     }
+
     /**
      * checks if the course_id matches a course the teacher has access to
      */
     public function checkCourseID($course_id)
     {
+        //finds a list of occurrences the user is registered for and compares
+        //them to the course_id passed to this function
+        //if one of them matches return true, else return false
         $occurrences = Auth::user()->occurrences;
         $conf = false;
         foreach ($occurrences as $occurrence) {
@@ -486,13 +566,18 @@ class TeachersController extends Controller {
         return $conf;
     }
 
+    /*
+     * loads data required for populating lists in the footer for teacher pages
+     */
     public function getFooterData()
     {
+        //load occurrences, courses, assessments and submissions
         $occurrences = Auth::user()->occurrences;
         $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
         $submissions = Auth::user()->submissions()->with('assessment')->take(5)->get();
 
+        //create recent submissions list using assignment names
         foreach($submissions as $submission){
             $assessments->push($submission->assessment);
         }
@@ -500,6 +585,7 @@ class TeachersController extends Controller {
         $assignments = collect();
         $tests = collect();
 
+        //separate tests and assignments
         foreach($assessments as $assessment){
             if($assessment->assessment_type === 1){
                 $assignments->push($assessment);
@@ -508,26 +594,31 @@ class TeachersController extends Controller {
                 $tests->push($assessment);
             }
         }
-
+        //create footerData array and return it
         $footerData = [
             'courses' => $courses->take(5),
             'assignments' => $assignments->take(5),
             'tests' => $tests->take(5)
 
         ];
-//        dd($footerData['courses']->count());
         return $footerData;
     }
 
+    /*
+     * Accepts a filename from request input and downloads that file from the appropriate directory
+     * returns error page if file isnt found
+     */
     public function download()
     {
+        //get filename from input
         $filename = Request::input('filename');
-
-
+        //create filepath for retrieval
         $file_path = public_path() . $filename;
+
+        //create fileInfo model of class
         $file = new SplFileInfo($file_path, $file_path, 'subpath');
-//        $file= $file->openFile($file_path);
-//        dd($file);
+
+        //if the file exists in a properly structured directory then name the file and return it in a response
         if ( (file_exists($file_path) && (!is_dir($file_path)) ))
         {
             $fn = 'submission.txt';
@@ -537,7 +628,7 @@ class TeachersController extends Controller {
                 ]);
             }
             catch(exception $ex){
-                dd("file error");
+                return redirect('teachers/error')->with('error', 'Exception in file download');
             }
 
         }
@@ -547,6 +638,9 @@ class TeachersController extends Controller {
         }
     }
 
+    /*
+     * Displays the error page with an error sent to the session data
+     */
     public function showError(){
         $error = Session::get('error');
         $footerData= $this->getFooterData();
@@ -556,7 +650,6 @@ class TeachersController extends Controller {
         ];
 
         return view('lecturers/error_page', $data);
-
     }
 
 }

@@ -40,7 +40,7 @@
         @if( ! Session::has('error'))
         <img src="{{$student->image_file_path}}" scrolling="no" width="255" height="227" align="middle" style="border-color:black;"  marginheight="50" name="Changeable">
         @else
-        <img src="{{public_path.'male-silhouette.jpg'}}" scrolling="no" width="255" height="227" align="middle" style="border-color:black;"  marginheight="50" name="Changeable">
+        <img src="{{public_path().'male-silhouette.jpg'}}" scrolling="no" width="255" height="227" align="middle" style="border-color:black;"  marginheight="50" name="Changeable">
         @endif
     </div>
 

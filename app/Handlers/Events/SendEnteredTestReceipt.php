@@ -31,10 +31,14 @@ class SendEnteredTestReceipt {
 	{
         $student = User::find($event->student_id);
         $submission = $student->submissions()->where('id',$event->submission_id)->first();
+        $assessment= new \stdClass();
+        if($submission != null){
+            $assessment = $submission->assessment;
+        }
         $data = [
             'student' => $student->sanitize(),
             'submission' => $submission,
-            'assessment' => $submission->assessment
+            'assessment' => $assessment
         ];
 		//send email confirmation to student
         Mail::send('emails/receipt',$data, function($message){

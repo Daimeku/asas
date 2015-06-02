@@ -73,10 +73,11 @@
         <!--Classroom + Time -->
         <div id="testInfo" class="form-group hidden">
              <div class= "row">
-                 <div class="col-md-7 removeLeftPadding">                    
-                    <input id="txtTestVenue" name="upload" type="text" placeholder="Test Venue" value="" class="form-control">   
-                 </div>
-                 <div class="col-md-5"> 
+<!--                 <div class="col-md-7 removeLeftPadding">-->
+<!--<!--                     <input id="txtTestVenue" name="upload" type="text" placeholder="Test Venue" value="" class="form-control">-->
+<!--                     <label class="pull-right"><strong>Test time</strong></label>-->
+<!--                 </div>-->
+                 <div class=" ">
                     <select id="time" name="time" type="text" placeholder="Test Time" value="" class="form-control select">
 
                         <option value="8">8AM</option>
