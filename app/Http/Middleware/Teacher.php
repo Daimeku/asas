@@ -7,7 +7,7 @@ class Teacher {
 
 	/**
 	 * Handle an incoming request.
-	 *
+	 * check if user is a teacher and redirect if not
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure  $next
 	 * @return mixed

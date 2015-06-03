@@ -58,15 +58,8 @@ class TeachersController extends Controller {
         }
 
         //loops through list of active assessments and separates tests from assignments
-        foreach($assessments as $assessment){
-            if($assessment->assessment_type === 1){
-                $assignments->push($assessment);
-            }
-            else if($assessment->assessment_type === 2){
-                $tests->push($assessment);
-            }
-        }
-
+        $tests = $this->getTestsFromAssessments($assessments);
+        $assignments = $this->getAssignmentsFromAssessments($assessments);
 
         $footerData = $this->getFooterData();
         $data =[
@@ -92,24 +85,11 @@ class TeachersController extends Controller {
         $assessments = Auth::user()->findActiveAssessments($courses);
         $pastAssessments = Auth::user()->findPastAssessments($courses);
 
-        $assignments = collect();   // stores upcoming assignments
-        $pastAssignments = collect();
-
         //loops through list of active assessments and separates tests from assignments
-        foreach($assessments as $assessment){
-            if($assessment->assessment_type === 1){
-                $assignments->push($assessment);
-            }
-
-        }
+        $assignments = $this->getAssignmentsFromAssessments($assessments);
 
         //loops through list of past assessments and find assignments only
-        foreach($pastAssessments as $assessment){
-            if($assessment->assessment_type === 1){
-                $pastAssignments->push($assessment);
-            }
-
-        }
+        $pastAssignments = $this->getAssignmentsFromAssessments($pastAssessments);
 
         $footerData = $this->getFooterData();
 
@@ -134,23 +114,11 @@ class TeachersController extends Controller {
         $assessments = Auth::user()->findActiveAssessments($courses);
         $pastAssessments = Auth::user()->findPastAssessments($courses);
 
-        $assignments = collect();   // stores upcoming assignments
-        $tests = collect();         // stores upcoming tests
-
         //separate tests from assignments
-        foreach($assessments as $assessment){
-          if($assessment->assessment_type === 2){
-                $tests->push($assessment);
-          }
-        }
+        $tests = $this->getTestsFromAssessments($assessments);
 
-        $pastTests = collect();
         //separate past tests from past assignments
-        foreach($pastAssessments as $assessment){
-           if($assessment->assessment_type === 2){
-                $pastTests->push($assessment);
-            }
-        }
+        $pastTests = $this->getTestsFromAssessments($pastAssessments);
 
         $footerData= $this->getFooterData();
         $data =[
@@ -525,84 +493,7 @@ class TeachersController extends Controller {
         return $submissions;
     }
 
-    /*
-     * accepts an id and returns a single submission that belongs to a course the user has access to
-     */
-    public function findSubmission($id){
 
-        $submission = Submission::find($id);
-        //if submission isnt found redirect to error page
-        if($submission === null){
-            return redirect()->route('teachers/error')->with('error','Submission not found');
-        }
-        //if teacher doesnt have access to the course & assignment redirect to error page
-        if (!$this->checkCourseID($submission->assessment->course->id)){
-            return redirect()->route('teachers/error')->with('error',"You do not have access to this course's submissions");
-        }
-        $submission->userList = $submission->users; // set list of users for easy access
-        return $submission;
-
-    }
-
-    /**
-     * checks if the course_id matches a course the teacher has access to
-     */
-    public function checkCourseID($course_id)
-    {
-        //finds a list of occurrences the user is registered for and compares
-        //them to the course_id passed to this function
-        //if one of them matches return true, else return false
-        $occurrences = Auth::user()->occurrences;
-        $conf = false;
-        foreach ($occurrences as $occurrence) {
-
-            if ($occurrence->course_id === intval($course_id)) {
-
-                if ($occurrence->end_date > date('Y-m-d H:i:s')) {
-                    $conf = true;
-                }
-            }
-        }
-        return $conf;
-    }
-
-    /*
-     * loads data required for populating lists in the footer for teacher pages
-     */
-    public function getFooterData()
-    {
-        //load occurrences, courses, assessments and submissions
-        $occurrences = Auth::user()->occurrences;
-        $courses = Auth::user()->findCourses($occurrences);
-        $assessments = Auth::user()->findActiveAssessments($courses);
-        $submissions = Auth::user()->submissions()->with('assessment')->take(5)->get();
-
-        //create recent submissions list using assignment names
-        foreach($submissions as $submission){
-            $assessments->push($submission->assessment);
-        }
-
-        $assignments = collect();
-        $tests = collect();
-
-        //separate tests and assignments
-        foreach($assessments as $assessment){
-            if($assessment->assessment_type === 1){
-                $assignments->push($assessment);
-            }
-            else if($assessment->assessment_type === 2){
-                $tests->push($assessment);
-            }
-        }
-        //create footerData array and return it
-        $footerData = [
-            'courses' => $courses->take(5),
-            'assignments' => $assignments->take(5),
-            'tests' => $tests->take(5)
-
-        ];
-        return $footerData;
-    }
 
     /*
      * Accepts a filename from request input and downloads that file from the appropriate directory
@@ -652,4 +543,112 @@ class TeachersController extends Controller {
         return view('lecturers/error_page', $data);
     }
 
+    /*
+     * separates tests from assessments and returns tests
+     */
+    public function getTestsFromAssessments($assessments)
+    {
+        $tests=collect();
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type == 2){
+                $tests->push($assessment);
+            }
+        }
+        return $tests;
+    }
+
+    /*
+     * separate assignments from assessments and return assignments collection
+     */
+    public function getAssignmentsFromAssessments($assessments)
+    {
+        $assignments = collect();
+
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type == 1){
+                $assignments->push($assessment);
+            }
+        }
+
+        return $assignments;
+    }
+
+    /*
+    * loads data required for populating lists in the footer for teacher pages
+    */
+    public function getFooterData()
+    {
+        //load occurrences, courses, assessments and submissions
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+        $submissions = Auth::user()->submissions()->with('assessment')->take(5)->get();
+
+        //create recent submissions list using assignment names
+        foreach($submissions as $submission){
+            $assessments->push($submission->assessment);
+        }
+
+        $assignments = collect();
+        $tests = collect();
+
+        //separate tests and assignments
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type === 1){
+                $assignments->push($assessment);
+            }
+            else if($assessment->assessment_type === 2){
+                $tests->push($assessment);
+            }
+        }
+        //create footerData array and return it
+        $footerData = [
+            'courses' => $courses->take(5),
+            'assignments' => $assignments->take(5),
+            'tests' => $tests->take(5)
+
+        ];
+        return $footerData;
+    }
+
+    /**
+     * checks if the course_id matches a course the teacher has access to
+     */
+    public function checkCourseID($course_id)
+    {
+        //finds a list of occurrences the user is registered for and compares
+        //them to the course_id passed to this function
+        //if one of them matches return true, else return false
+        $occurrences = Auth::user()->occurrences;
+        $conf = false;
+        foreach ($occurrences as $occurrence) {
+
+            if ($occurrence->course_id === intval($course_id)) {
+
+                if ($occurrence->end_date > date('Y-m-d H:i:s')) {
+                    $conf = true;
+                }
+            }
+        }
+        return $conf;
+    }
+
+    /*
+    * accepts an id and returns a single submission that belongs to a course the user has access to
+    */
+    public function findSubmission($id){
+
+        $submission = Submission::find($id);
+        //if submission isnt found redirect to error page
+        if($submission === null){
+            return redirect()->route('teachers/error')->with('error','Submission not found');
+        }
+        //if teacher doesnt have access to the course & assignment redirect to error page
+        if (!$this->checkCourseID($submission->assessment->course->id)){
+            return redirect()->route('teachers/error')->with('error',"You do not have access to this course's submissions");
+        }
+        $submission->userList = $submission->users; // set list of users for easy access
+        return $submission;
+
+    }
 }

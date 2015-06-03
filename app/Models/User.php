@@ -87,6 +87,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     /*
      * finds all past assessments
+     * (where end_date has already passed)
      */
 
     public function findPastAssessments($courses){

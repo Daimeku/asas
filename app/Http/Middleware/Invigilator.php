@@ -7,7 +7,7 @@ class Invigilator {
 
 	/**
 	 * Handle an incoming request.
-	 *
+	 *check if user is an inviglator, if not redirect them to the homecontroller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure  $next
 	 * @return mixed

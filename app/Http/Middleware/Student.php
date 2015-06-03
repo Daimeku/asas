@@ -8,7 +8,7 @@ class Student {
 
 	/**
 	 * Handle an incoming request.
-	 *
+	 * check if user is a student and redirect if not
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure  $next
 	 * @return mixed

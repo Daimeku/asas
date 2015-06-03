@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="section-heading">
-	<h1 id="heading">Submissions </h1>
+	<h1 id="heading">Unaccepted Submissions </h1>
 	<hr/>
  </div>
 
@@ -12,23 +12,23 @@
     
   <!--Search Bar-->
   <div class="container">
-<!--       <div class="input-group">-->
-<!--          <div class="input-group-btn search-panel">-->
-<!--              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">-->
-<!--                 	<span id="search_concept">Filter by</span> <span class="caret"></span>-->
-<!--              </button>-->
-<!--              <ul class="dropdown-menu" role="menu">-->
-<!--                <li><a href="#">Module</a></li>-->
-<!--                <li><a href="#">Student ID</a></li>-->
-<!--                <li><a href="#">Assignment Name</a>-->
-<!--              </ul>-->
-<!--          </div>-->
+       <div class="input-group">
+          <div class="input-group-btn search-panel">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                 	<span id="search_concept">Filter by</span> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Module</a></li>
+                <li><a href="#">Student ID</a></li>
+                <li><a href="#">Assignment Name</a>
+              </ul>
+          </div>
           
-<!--          <input id="txtSearch" type="text" class="form-control" placeholder="Search">-->
-<!--          <span class="input-group-btn pull-left">-->
-<!--              <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>-->
-<!--          </span>-->
-<!--      </div>-->
+          <input id="txtSearch" type="text" class="form-control" placeholder="Search">
+          <span class="input-group-btn pull-left">
+              <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+          </span>
+      </div>
    </div>
       
      <div class="container"> 
@@ -68,6 +68,43 @@
              </table>
          </div>
       <hr/>
+
+      <div class="section-heading">
+          <h1 id="heading">Accepted Submissions </h1>
+          <hr/>
+      </div>
+      <table class="table">
+          <tbody class="striped">
+          <td><b> ID Number</b> </td>
+          <td> <b>Student Name</b> </td>
+          <td> <b>Submission Date</b> </td>
+          <td> <b>Course Name</b></td>
+          <td> <b>Assessment Name</b></td>
+          <td><a href="#"> Download All</a></td>
+          <!--                    <td><b>Feedback</b></td>-->
+          @foreach($submissions['accepted'] as $courseName => $courseSubmissions)
+              @foreach($courseSubmissions as $submission)
+                  @foreach($submission->users as $student)
+                      <tr>
+
+                          <td>{{$student->id}}</td>
+                          <td>{{$student->name}}</td>
+                          <td>{{ date('F d, Y H:i',strtotime($submission->time)) }}</td>
+                          <td>{{$courseName}}</td>
+                          <td>{{$submission->assessment->title}}</td>
+                          <td>
+                              @if($submission->file_path !=null)
+                              <a href="{{ route('teachers/download', ['filename' => $submission->file_path]) }}">Download</a>
+                              @endif
+                          </td>
+                          <!--                               <td><a href="#" data-toggle="modal" data-target="#modalGradeAssessment">Give Feedback</td>-->
+                      </tr>
+
+                  @endforeach
+              @endforeach
+          @endforeach
+          </tbody>
+      </table>
   </div>	
   
   

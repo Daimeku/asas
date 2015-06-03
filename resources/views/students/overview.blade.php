@@ -80,7 +80,7 @@
 <div class="container">   
 		<div id="notes">   
            <div class="row">                              
-                  <div class="col-md-4">
+                  <div class="col-md-4 text-center">
                     <h3>Assignments Due</h3>
                     <ul>
                         @if(!$assignments->isEmpty())
@@ -91,7 +91,7 @@
 
                    </ul>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 text-center">
                     <h3>Upcoming Tests</h3>
                       <ul>
                           @if(!$tests->isEmpty())
@@ -102,13 +102,13 @@
                           @endif
                     </ul>       
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 text-center">
                   <h3>Recent Submissions</h3>
                     <ul>
                         @if(!$submissions->isEmpty())
                             @foreach($submissions as $submission)
-                                <?php //if(!$submissions->isEmpty()){$assessment = $submission->assessment;} ?>
-                                <li><a href="{{{ route('students/submission',['submission_id'=>$submission->id]) }}}">{{$submission->title}}</a></li>
+                                <?php $assessment = $submission->assessment ?>
+                                <li><a href="{{{ route('students/submission',['submission_id'=>$submission->id]) }}}">{{$assessment->title}}</a></li>
 
                             @endforeach
                         @endif

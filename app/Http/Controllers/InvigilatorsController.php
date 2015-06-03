@@ -131,19 +131,21 @@ class InvigilatorsController extends Controller {
         //check if student is registered for test
         $test = $this->findTest($assessment_id);
 
+        //find the appropriate student
         $student = $this->findStudent($user_id, $test->course->id);
+
+        //if student isnt found redirect with error
         if($student->errorMessage != null){
-
             return redirect()->back()->with('error',$student->errorMessage);
-
         }
 
         //check if student entered the test
         if($student->errorMessage === null){
+            //check if a submission exists for this test from this student already
             $checkSubmission = $student->submissions()->where('assessment_id', $test->id)->first();
+            //if submission doesnt exist student hasnt entered the test
             if($checkSubmission === null){
                 return redirect()->back()->with('error',"No record of student entry");
-
             }
             else{
                 $user_submission = DB::table('user_submissions')->where('user_id',$student->id)->where('submission_id',$checkSubmission->id)->first();
@@ -154,10 +156,12 @@ class InvigilatorsController extends Controller {
             }
         }
 
+        //fire paper collected event to send emails
         \Event::fire(new PaperWasCollected($student->id,$test->id,$paper_id));
 
-        //
+        //add success message
         $message = "paper successfully added";
+
         $data = [
             'test' => $test,
             'course'=> $test->course,
@@ -166,7 +170,6 @@ class InvigilatorsController extends Controller {
         ];
 
         return redirect()->back()->with('success',$message);
-
     }
 
     /*
@@ -224,17 +227,17 @@ class InvigilatorsController extends Controller {
 
         //foreach occurrence see if a time is associated with the current time
         foreach($occurrences as $occurrence){
+            //compare the currrent day of the week to the occurence day
             if( strcasecmp(substr($occurrence->day->day,0,3), date('D') ) === 0 ){
 
                 $startTime = date('Y-m-d H:i',strtotime($occurrence->start_time));
                 $endTime = date('Y-m-d H:i',strtotime($occurrence->end_time));
 
+                //if current time is between test start & end time then set conf to true
                 if( ($currentTime>= $startTime) && ($currentTime <= $endTime) ){
                     $conf=true;
                 }
-
             }
-
         }
 
         return $conf;

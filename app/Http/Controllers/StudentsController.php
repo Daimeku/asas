@@ -44,14 +44,8 @@ class StudentsController extends Controller {
 
 
         //loops through list of assessments and separate tests from assignments
-        foreach($assessments as $assessment){
-            if($assessment->assessment_type == 1){
-                $assignments->push($assessment);
-            }
-            else if($assessment->assessment_type == 2){
-                $tests->push($assessment);
-            }
-        }
+        $assignments = $this->getAssignmentsFromAssessments($assessments);
+        $tests = $this->getTestsFromAssessments($assessments);
 
         //load footer and populate data array
         $footerData = $this->getFooterData();
@@ -85,38 +79,21 @@ class StudentsController extends Controller {
 
         // get submissions from user model
         $submissions = Auth::user()->submissions()->with('assessment')->get();
+
         //remove assessments that are already submitted
         $assessments = $this->checkSubmittedAssessments($assessments, $submissions);
 
-
-        $assignments = collect();   // stores assignments
-        $tests = collect();         // stores tests
-        $pastAssignments = collect();
-
-
         //loop through assessments and separate assignments from tests
-        foreach($assessments as $assessment){
-            if($assessment->assessment_type === 1){ // if assessment type is 1 then it is an assignment
-                $assignments->push($assessment);
-            }
-            else if($assessment->assessment_type === 2){ // if assessment_type is 2 then it is a test
-                $tests->push($assessment);
-            }
-        }
+        $assignments = $this->getAssignmentsFromAssessments($assessments);
 
         //separate past assignments from past test
-        foreach($pastAssessments as $assessment){
-            if($assessment->assessment_type === 1){
-                $pastAssignments->push($assessment);
-            }
-        }
+        $pastAssignments = $this->getAssignmentsFromAssessments($pastAssessments);
 
-        $submissionAssessments = collect(); // stores assignments that were submitted
-
+//        $submissionAssessments = collect(); // stores assignments that were submitted
         //loop through submissions and add related assessments to $submissionAssessments
-        foreach($submissions as $submission){
-            $submissionAssessments->push($submission->assessment);
-        }
+//        foreach($submissions as $submission){
+//            $submissionAssessments->push($submission->assessment);
+//        }
 
         $footerData = $this->getFooterData();  // get data for footer
 
@@ -173,14 +150,8 @@ class StudentsController extends Controller {
         $occurrences = Auth::user()->occurrences;
         $courses = Auth::user()->findCourses($occurrences);
         $assessments = Auth::user()->findActiveAssessments($courses);
-        $tests = collect();
 
-        foreach($assessments as $assessment){
-
-           if($assessment->assessment_type === 2){
-                $tests->push($assessment);
-            }
-        }
+        $tests = $this->getTestsFromAssessments($assessments);
 
         $footerData = $this->getFooterData();
 
@@ -215,8 +186,8 @@ class StudentsController extends Controller {
         }
 
         //add past assessments to list
-        foreach($pastAssessments as $assessment){
-            $assessments->push($assessment);
+        foreach($pastAssessments as $assessmentTemp){
+            $assessments->push($assessmentTemp);
         }
 
         //check that student has access to this course
@@ -316,44 +287,6 @@ class StudentsController extends Controller {
     }
 
     /*
-     * Compares list of users related to a submission to the current user
-     * ensures that the user has access to this specific submission
-     */
-    public function checkUserHasSubmission($submission){
-        foreach($submission->users as $user){
-            if($user->id === Auth::user()->id){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /*
-     * loads the data required for the students page footer
-     * returns array with footerData (courses, assessments, submissions)
-     */
-    public function getFooterData()
-    {
-        //load occurrences, courses and assessment to find submission
-        $occurrences = Auth::user()->occurrences;
-        $courses = Auth::user()->findCourses($occurrences);
-        $assessments = collect();
-        $submissions = Auth::user()->submissions()->with('assessment')->get();
-
-        //load submissions by assessment for readability
-        foreach($submissions as $submission){
-            $assessments->push($submission->assessment);
-        }
-
-        $footerData = [
-            'courses' => $courses,
-            'assessments' => $assessments->take(5),
-            'submissions' => $submissions->reverse()->take(5)
-        ];
-        return $footerData;
-    }
-
-    /*
      * Displays page for student to submit and upload an assignment
      */
     public function uploadAssignment($assessment_id)
@@ -425,61 +358,6 @@ class StudentsController extends Controller {
     }
 
     /*
-     * Gets the assessment by the ID passed to it and ensures student has access to it
-     * returns the assessment
-     */
-    public function getCurrentAssessment($assessment_id){
-
-        $occurrences = Auth::user()->occurrences;
-        $courses = Auth::user()->findCourses($occurrences);
-        $assessments = Auth::user()->findActiveAssessments($courses);
-        $submissions = Auth::user()->submissions;
-
-        //checks if the user is assigned to the current assessment
-        if(!($this->checkAssessmentBelongs($assessments,$assessment_id)) ){
-            return redirect()->route('students/error')->with('error','You do not have access to this assessment');
-        }
-
-        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);
-
-        //checks to make sure that the user has permission to upload the chocsen assessment
-        //scans list of assessments and finds one with an id matching the assessment_id param
-        $currentAssessment = null;
-        $conf = false;
-        foreach($assessments as $assessment){
-            if(intval($assessment_id) === $assessment->id){
-                $currentAssessment = $assessment;
-                $conf=true;
-                break;
-            }
-        }
-
-        //check if assessment is found
-        if($conf!=true){
-            return redirect()->route('students/error')->with('error','Assessment not found for this user. Possible duplicate submission');
-        }
-        //check assessment is a test
-        if($currentAssessment->assessment_type !=1){
-            return redirect()->route('students/error')->with('error','You are attempting to upload a test, only assignments may be uploaded');
-        }
-
-        return $currentAssessment;
-    }
-
-    /*
-     * checks to ensure that the student has access to the assessment
-     */
-    public function checkAssessmentBelongs($assessments, $assessment_id){
-        $conf = false;
-        foreach($assessments as $assessment){
-            if(intval($assessment_id) === $assessment->id){
-                $conf = true;
-            }
-        }
-        return $conf;
-    }
-
-    /*
      * facilitates student uploading of assignments
      * accepts a list of students if a group assignment and a file for the assignment
      */
@@ -545,24 +423,6 @@ class StudentsController extends Controller {
 
     }
 
-    /**
-     * checks if the course_id matches a course the user has access to
-     */
-    public function checkCourseID($course_id)
-    {
-        $occurrences = Auth::user()->occurrences;
-        $conf = false;
-        foreach ($occurrences as $occurrence) {
-
-            if ($occurrence->course_id === intval($course_id)) {
-
-                if ($occurrence->end_date > date('Y-m-d H:i:s')) {
-                    $conf = true;
-                }
-            }
-        }
-        return $conf;
-    }
 
     /*
      * Allows student to download an assignment file
@@ -609,4 +469,145 @@ class StudentsController extends Controller {
 
     }
 
+    /*
+   * loads the data required for the students page footer
+   * returns array with footerData (courses, assessments, submissions)
+   */
+    public function getFooterData()
+    {
+        //load occurrences, courses and assessment to find submission
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
+        $assessments = collect();
+        $submissions = Auth::user()->submissions()->with('assessment')->get();
+
+        //load submissions by assessment for readability
+        foreach($submissions as $submission){
+            $assessments->push($submission->assessment);
+        }
+
+        $footerData = [
+            'courses' => $courses,
+            'assessments' => $assessments->take(5),
+            'submissions' => $submissions->reverse()->take(5)
+        ];
+        return $footerData;
+    }
+
+    /*
+     * separates tests from assessments and returns tests
+     */
+    public function getTestsFromAssessments($assessments)
+    {
+        $tests=collect();
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type == 2){
+                $tests->push($assessment);
+            }
+        }
+        return $tests;
+    }
+
+    /*
+     * separate assignments from assessments and return assignments collection
+     */
+    public function getAssignmentsFromAssessments($assessments)
+    {
+        $assignments = collect();
+
+        foreach($assessments as $assessment){
+            if($assessment->assessment_type == 1){
+                $assignments->push($assessment);
+            }
+        }
+
+        return $assignments;
+    }
+
+    /*
+     * Compares list of users related to a submission to the current user
+     * ensures that the user has access to this specific submission
+     */
+    public function checkUserHasSubmission($submission){
+        foreach($submission->users as $user){
+            if($user->id === Auth::user()->id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+    * checks to ensure that the student has access to the assessment
+    */
+    public function checkAssessmentBelongs($assessments, $assessment_id){
+        $conf = false;
+        foreach($assessments as $assessment){
+            if(intval($assessment_id) === $assessment->id){
+                $conf = true;
+            }
+        }
+        return $conf;
+    }
+
+    /*
+     * Gets the assessment by the ID passed to it and ensures student has access to it
+     * returns the assessment
+     */
+    public function getCurrentAssessment($assessment_id){
+
+        $occurrences = Auth::user()->occurrences;
+        $courses = Auth::user()->findCourses($occurrences);
+        $assessments = Auth::user()->findActiveAssessments($courses);
+        $submissions = Auth::user()->submissions;
+
+        //checks if the user is assigned to the current assessment
+        if(!($this->checkAssessmentBelongs($assessments,$assessment_id)) ){
+            return redirect()->route('students/error')->with('error','You do not have access to this assessment');
+        }
+
+        $assessments = $this->checkSubmittedAssessments($assessments, $submissions);
+
+        //checks to make sure that the user has permission to upload the chocsen assessment
+        //scans list of assessments and finds one with an id matching the assessment_id param
+        $currentAssessment = null;
+        $conf = false;
+        foreach($assessments as $assessment){
+            if(intval($assessment_id) === $assessment->id){
+                $currentAssessment = $assessment;
+                $conf=true;
+                break;
+            }
+        }
+
+        //check if assessment is found
+        if($conf!=true){
+            return redirect()->route('students/error')->with('error','Assessment not found for this user. Possible duplicate submission');
+        }
+        //check assessment is a test
+        if($currentAssessment->assessment_type !=1){
+            return redirect()->route('students/error')->with('error','You are attempting to upload a test, only assignments may be uploaded');
+        }
+
+        return $currentAssessment;
+    }
+
+    /**
+     * checks if the course_id matches a course the user has access to
+     */
+    public function checkCourseID($course_id)
+    {
+        $occurrences = Auth::user()->occurrences;
+        $conf = false;
+        foreach ($occurrences as $occurrence) {
+
+            if ($occurrence->course_id === intval($course_id)) {
+
+                if ($occurrence->end_date > date('Y-m-d H:i:s')) {
+                    $conf = true;
+                }
+            }
+        }
+        return $conf;
+    }
 }
