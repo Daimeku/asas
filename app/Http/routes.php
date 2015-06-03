@@ -14,20 +14,18 @@
 
 Route::get('/', 'HomeController@index');
 
+/*
+ * Auth routes
+ */
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::get('test', function(){
-    return "test string";
-});
-
 Route::get('login',[
    'as' => 'login',
     'uses' => 'Auth\AuthController@showLogin'
 ]);
-
 
 
 /*
