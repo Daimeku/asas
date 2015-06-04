@@ -37,8 +37,8 @@
     <br><br>
     @if(Session::has('submission'))
     <div class="form-group">
-        <div class="form-group">
-            <table class="center table-bordered" >
+        <div class=" ">
+            <table class=" table table-bordered" >
                 <tr>
                     <td><b>Course</b></td>
                     <td>{{Session::get('submission')->assessment->course->name}} </td>

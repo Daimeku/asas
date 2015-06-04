@@ -37,10 +37,9 @@
                     <div class="btn-group pull-right">
                             <a href="{{{ route('students/download',['filename'=>$assessment->filepath]) }}}" class="btn btn-primary">Download</a>
 
-                        @if($assessment->accepted == true)
+                        @if( ($assessment->accepted == false) && ($assessment->assessment_type == 1))
                         <a class="btn btn-info" href="{{{ route('students/uploadAssignment',['assessment_id'=>$assessment->id]) }}}">Upload </a>
-                        <button type="button" class="btn btn-success">Send</button>
-                        <button type="button" class="btn btn-warning">Add to Queue</button>
+                        <a href="{{{ route('students/addToQueueView',['assessment_id'=>$assessment->id]) }}}"  class="btn btn-warning">Add to Queue</a>
                         @endif
                     </div>
                 </div>

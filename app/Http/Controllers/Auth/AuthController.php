@@ -45,6 +45,9 @@ class AuthController extends Controller {
         return view('login');
     }
 
+    /*
+     * logs a user in with id and password
+     */
     public function login($credentials)
     {
        // $validator = $this->registrar->validator($credentials); // get validator with credentials

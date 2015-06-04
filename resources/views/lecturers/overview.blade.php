@@ -80,7 +80,7 @@
 <div class="container">   
 		<div id="notes">   
            <div class="row">                              
-                  <div class="col-md-4">
+                  <div class="col-md-4 text-center">
                     <h3>Active Assignments</h3>
                     <ul>
                         @foreach($assignments as $assignment)
@@ -88,7 +88,7 @@
                         @endforeach
                    </ul>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 text-center">
                     <h3>Upcoming Tests</h3>
                       <ul>
                           @foreach($tests as $test)
@@ -96,7 +96,7 @@
                           @endforeach
                     </ul>       
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 text-center">
                   <h3>Recent Submissions by Students</h3>
                     <ul>
                         @foreach($submissions as $submission)
