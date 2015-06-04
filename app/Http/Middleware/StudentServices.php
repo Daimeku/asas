@@ -23,5 +23,4 @@ class StudentServices {
         return $next($request);
     }
 
-
 }
